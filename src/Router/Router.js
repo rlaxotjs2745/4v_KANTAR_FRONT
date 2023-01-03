@@ -4,6 +4,7 @@ import LayoutType2 from "../Layout/LayoutType2";
 import LayoutType1 from "../Layout/LayoutType1";
 import Home from "../Pages/Home";
 import Login from "../Pages/Login";
+import Profile from "../Pages/Profile";
 import Error from "../Pages/404";
 import PublickRoute from "./PublickRoute";
 import PrivateRoute from "./PrivateRoute";
@@ -18,7 +19,7 @@ const Routers = () => {
                 <Route path="/" element={<PrivateRoute><LayoutType1/></PrivateRoute>}>
                     {/*<Route path="*" element={<Error/>}/>*/}
                     <Route index element={<Home/>}/>
-                    {/*<Route path="/profile" element={<Profile/>} />*/}
+                    <Route path="/profile" element={<Profile/>} />
                 </Route>
                 {/* 로그인 되어 있으면 login 페이지가 아니라 /로 넘어가는 라우터 */}
                 <Route path="/" element={<PublickRoute><LayoutType1/></PublickRoute>}>

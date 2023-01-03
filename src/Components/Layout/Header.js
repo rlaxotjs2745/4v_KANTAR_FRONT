@@ -45,7 +45,7 @@ const Header = (props) => {
                 <div className="user_box select">
                     <button ><img src={process.env.PUBLIC_URL + '/assets/image/ico_profile.svg'}/></button>
                     <ul className="deps2">
-                       <li><Link to="/">계정관리</Link></li>
+                       <li><Link to="/profile">계정관리</Link></li>
                        <li><button>로그아웃</button></li>
                     </ul>
                 </div>

@@ -5,7 +5,7 @@ body {position: relative; height:100%;background:transparent;-webkit-font-smooth
 body:before {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); left:0; top:0;}
 body:after {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); right:0; top:0;}
 
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {margin:0; padding:0; letter-spacing: -0.3px}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {margin:0; padding:0; letter-spacing: 0.16px}
 body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family:'IBM Plex Sans', 'sans-serif'; }
 /*article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {display:block;}*/
 h1,h2,h3,h4,h5,h6 {font-weight:normal; font-size:100%}
@@ -116,3 +116,17 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 
 
 .page {padding:0px 16px; min-height: 100vh;}
+
+.profile_area {margin:0 auto; max-width: 450px;}
+.profile_area > .profile_box {margin-top:35px;}
+.profile_area > .btn_box {margin-top:23px; text-align: right;}
+.profile_area > .btn_box button {width:132px; height:40px; background: #0F62FE; color:#fff; font-size:14px; padding:0 16px; text-align: left;}
+.profile_box h3 {font-size:20px; line-height:26px; margin-bottom:20px;}
+.profile_box > p.user_id {font-size:14px; margin-top:4px;}
+.profile_box .input_box {display: flex; flex-direction: column;}
+.profile_box .input_box + .input_box {margin-top:10px;}
+.profile_box .input_box .tip {margin-top:4px; font-size:12px; color:#525252;}
+.profile_box .input_box input {width: 100%; height:40px; margin-top:8px; background: #f4f4f4; border:none; border-bottom:1px solid #8d8d8d; padding:0 46px 0 16px; font-size:14px; color:#161616;}
+.profile_box .input_box .input_btn {flex:1; position: relative; margin-top: 8px;}
+.profile_box .input_box .input_btn input {margin-top: 0;}
+.profile_box .input_box .input_btn button {position: absolute; height: 100%; padding:0 16px; right:0px;}
