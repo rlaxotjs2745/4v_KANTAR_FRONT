@@ -29,11 +29,12 @@ const Header = (props) => {
                 <div className="left">
                     <h1><Link to="/">KANTAR <b>[Studio]</b></Link></h1>
                     <ul className="gnb">
+                        {/*<li className="deps"><NavLink to="/" className={({ isActive }) => (isActive ? 'on' : '')}>Project</NavLink></li>*/}
                         <li className="deps"><NavLink to="/">Project</NavLink></li>
-                        <li className="deps"><NavLink to="/">Report</NavLink></li>
-                        <li className="deps"><NavLink to="/">Dictionary</NavLink></li>
-                        <li className="deps">
-                            <NavLink to="/">Admin</NavLink>
+                        <li className="deps"><NavLink to="/report">Report</NavLink></li>
+                        <li className="deps"><NavLink to="/dictionary">Dictionary</NavLink></li>
+                        <li className="deps select">
+                            <button>Admin</button>
                             <ul className="deps2">
                                 <li><NavLink to="/">멤버 관리</NavLink></li>
                                 <li><NavLink to="/">사용량 통계</NavLink></li>
@@ -41,11 +42,12 @@ const Header = (props) => {
                         </li>
                     </ul>
                 </div>
-                <div className="user__box">
-                   <ul>
+                <div className="user_box select">
+                    <button ><img src={process.env.PUBLIC_URL + '/assets/image/ico_profile.svg'}/></button>
+                    <ul className="deps2">
                        <li><Link to="/">계정관리</Link></li>
                        <li><button>로그아웃</button></li>
-                   </ul>
+                    </ul>
                 </div>
             </header>
         </>

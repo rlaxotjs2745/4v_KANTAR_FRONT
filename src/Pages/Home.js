@@ -1,8 +1,11 @@
+import {Link} from "react-router-dom";
 
 const Home = () => {
     return (
         <>
-            로그인 시 최초 진입 화면입니다.
+            <div className="page">
+                로그인 최초 진입 화면
+            </div>
         </>
     )
 }

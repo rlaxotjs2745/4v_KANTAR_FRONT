@@ -86,3 +86,33 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .login_box .btn_box {position: absolute; left:0; bottom:0; width: 100%; display: flex;}
 .login_box .btn_box button {height: 64px; flex:1;border:1px solid #0F62FE; display: flex; padding:15px 16px; color: #0F62FE; font-size:14px;}
 .login_box .btn_box button.co1 {background: #0F62FE; color: #fff;}
+
+/* 헤더 */
+
+.header {display: flex; justify-content: space-between; align-items: stretch; height: 48px; background: #161616;}
+.header .left {display: flex;}
+.header .left h1 a {position: relative; font-size:14px; color:#f4f4f4; width: 150px; display: block; padding:16px;}
+.header .left h1 a:after {content:''; display: block; width: 1px; height:24px; background: #393939; position: absolute; right:0; top:50%; transform: translateY(-50%);}
+
+.header .left .gnb {display: flex; padding-left:16px;}
+.header .left .gnb li {position: relative;}
+.header .left .gnb li a {position: relative; display: block; color:#c6c6c6; font-size:14px; padding:16px;}
+.header .left .gnb li button {position: relative; color:#c6c6c6; line-height: 0.9; font-size:14px; height: 48px; padding:17px 36px 16px 17px; background: url("../public/assets/image/ico_select_off.svg") no-repeat right 16px center;}
+.header .left .gnb li.select:hover button{background-color:#262626; background-image: url("../public/assets/image/ico_select_on.svg"); color:#fff;}
+
+.header .left .gnb > li > a:hover:after {content:''; position: absolute; display: block; width:100%; height:3px; background: #4589ff; bottom:2px; left:0;}
+.header .left .gnb > li > a.active:after {content:''; position: absolute; display: block; width:100%; height:3px; background: #4589ff; bottom:2px; left:0;}
+
+.header .deps2 {display: none; position: relative; left: -2px;}
+.header .select:hover > .deps2 {display: block;}
+.header .select > .deps2 a, .header .select > .deps2 button {width: 200px; height:48px; background: #262626; padding:14px 16px; color:#C6C6C6; display: block; text-align: left; font-size:14px;}
+.header .select > .deps2 a:hover {background:#353535; color:#fff;}
+.header .select > .deps2 button:hover  {background:#353535; color:#fff;}
+
+
+.header .user_box.select:hover {display: block; text-align: right;}
+.header .user_box > button {display: inline-block; align-items: center; justify-content: center; width: 48px; height:48px; }
+.header .user_box > ul {display: none;}
+
+
+.page {padding:0px 16px; min-height: 100vh;}
