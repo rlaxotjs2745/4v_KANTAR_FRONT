@@ -3123,6 +3123,15 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001426:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001441.tgz#987437b266260b640a23cd18fbddb509d7f69f3e"
   integrity sha512-OyxRR4Vof59I3yGWXws6i908EtGbMzVUi3ganaZQHmydk1iwDhRnvaPG2WaR0KcqrDFKrxVZHULT396LEPhXfg==
 
+carbon-components-react@^8.19.0:
+  version "8.19.0"
+  resolved "https://registry.yarnpkg.com/carbon-components-react/-/carbon-components-react-8.19.0.tgz#5774b51aebfdb629380d38aa12249580276ca11c"
+  integrity sha512-ev0ouquDkEan/HhyAfgzvo0njWDSDHm1iTFOPKBQ9ae5mU7SAz6H/hPTQkb+06RxvlJ/8w54nTKGHTOcq1fahg==
+  dependencies:
+    "@carbon/react" "^1.19.0"
+    "@carbon/styles" "^1.19.0"
+    "@carbon/telemetry" "0.1.0"
+
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz#db64066c6422eed2e08cc14b986ca43796dbc6d4"

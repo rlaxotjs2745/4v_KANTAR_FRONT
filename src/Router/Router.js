@@ -8,6 +8,8 @@ import Profile from "../Pages/Profile";
 import Error from "../Pages/404";
 import PublickRoute from "./PublickRoute";
 import PrivateRoute from "./PrivateRoute";
+import FileUpload from "../Pages/FileUpload";
+import Report from "../Pages/Report";
 
 
 const Routers = () => {
@@ -19,7 +21,11 @@ const Routers = () => {
                 <Route path="/" element={<PrivateRoute><LayoutType1/></PrivateRoute>}>
                     {/*<Route path="*" element={<Error/>}/>*/}
                     <Route index element={<Home/>}/>
+                    <Route path="/report" element={<Report/>} />
                     <Route path="/profile" element={<Profile/>} />
+                </Route>
+                <Route path="/" element={<PrivateRoute><LayoutType2/></PrivateRoute>}>
+                    <Route path="/fileupload" element={<FileUpload/>} />
                 </Route>
                 {/* 로그인 되어 있으면 login 페이지가 아니라 /로 넘어가는 라우터 */}
                 <Route path="/" element={<PublickRoute><LayoutType1/></PublickRoute>}>

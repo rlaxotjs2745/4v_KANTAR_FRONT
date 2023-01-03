@@ -1,16 +1,16 @@
 * {box-sizing: border-box;}
-#root {overflow: hidden;}
+#root {overflow: hidden; position: relative;}
 html {height:100%;overflow-y:scroll; -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%;}
-body {position: relative; height:100%;background:transparent;-webkit-font-smoothing:antialiased; -webkit-overflow-scrolling:touch;font-size:12px;color:#444;}
-body:before {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); left:0; top:0;}
-body:after {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); right:0; top:0;}
+body {height:100%;background:transparent;-webkit-font-smoothing:antialiased; -webkit-overflow-scrolling:touch;font-size:12px;color:#444;}
+#root:before {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); left:0; top:0;}
+#root:after {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); right:0; top:0;}
 
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {margin:0; padding:0; letter-spacing: 0.16px}
 body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family:'IBM Plex Sans', 'sans-serif'; }
 /*article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {display:block;}*/
 h1,h2,h3,h4,h5,h6 {font-weight:normal; font-size:100%}
 input, select, textarea, button, label {font-size:100%; vertical-align:middle;}
-select { color:#333; line-height:1.1; padding-left:5px; border:1px solid #8d8d8d;}
+select { color:#525252; line-height:1.1; padding-left:5px; border:1px solid #8d8d8d;}
 input {border:0;}
 input[type="text"],
 input[type="password"],
@@ -18,7 +18,7 @@ input[type="tel"], input[type="email"] {border:1px solid #8d8d8d;}
 fieldset, img, iframe {border:0 none}
 b, strong {font-weight:600}
 img {vertical-align:middle;border-style:none}
-textarea {width:100%;padding:10px;resize:none;border:1px solid #ccc;background:#f9f9f9;color:#666666;}
+textarea {width:100%;padding:10px;resize:none;border:1px solid #ccc;background:#f9f9f9;color:#525252;}
 em, address {font-style:normal}
 a {text-decoration:none; background-color:transparent; vertical-align:middle; -webkit-text-decoration-skip:objects; color:#2d2d2d; word-break: break-word}
 a:hover, a:active, a:focus {text-decoration:none}
@@ -100,8 +100,8 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .header .left .gnb li button {position: relative; color:#c6c6c6; line-height: 0.9; font-size:14px; height: 48px; padding:17px 36px 16px 17px; background: url("../public/assets/image/ico_select_off.svg") no-repeat right 16px center;}
 .header .left .gnb li.select:hover button{background-color:#262626; background-image: url("../public/assets/image/ico_select_on.svg"); color:#fff;}
 
-.header .left .gnb > li > a:hover:after {content:''; position: absolute; display: block; width:100%; height:3px; background: #4589ff; bottom:2px; left:0;}
-.header .left .gnb > li > a.active:after {content:''; position: absolute; display: block; width:100%; height:3px; background: #4589ff; bottom:2px; left:0;}
+.header .left .gnb > li > a:hover:after {content:''; position: absolute; display: block; width:100%; height:3px; background: #4589ff; bottom:-1px; left:0;}
+.header .left .gnb > li > a.active:after {content:''; position: absolute; display: block; width:100%; height:3px; background: #4589ff; bottom:-1px; left:0;}
 
 .header .deps2 {display: none; position: relative; left: -2px;}
 .header .select:hover > .deps2 {display: block;}
@@ -115,7 +115,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .header .user_box > ul {display: none;}
 
 
-.page {padding:0px 16px; min-height: 100vh;}
+.page {padding:40px 16px 100px; max-width: 1088px; margin:0 auto; min-height: 100vh;}
 
 .profile_area {margin:0 auto; max-width: 450px;}
 .profile_area > .profile_box {margin-top:35px;}
@@ -130,3 +130,60 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .profile_box .input_box .input_btn {flex:1; position: relative; margin-top: 8px;}
 .profile_box .input_box .input_btn input {margin-top: 0;}
 .profile_box .input_box .input_btn button {position: absolute; height: 100%; padding:0 16px; right:0px;}
+
+.title_section {display: flex; align-items: center; justify-content: space-between;}
+.title_section .title_box .title {font-size:20px; font-weight: 400; line-height:26px; color:#161616;}
+.title_section .title_box .info {font-size:14px; line-height:18px; color:#525252;}
+.title_section .btn_box a + a {margin-left:12px;}
+
+/* 버튼 */
+
+.cds--btn.upload {background:#0f62fe url('../public/assets/image/ico_btn_upload.svg') no-repeat right 16px center; font-size:14px; color: #fff;}
+.cds--btn.plus {background:#0f62fe url('../public/assets/image/ico_btn_plus.svg') no-repeat right 16px center; font-size:14px; color: #fff;}
+
+.table_area {margin-top:24px;}
+.table_area .table_option_box {position: relative; transition: 0.3s ease-in-out; z-index: -1; transform: translateY(0%); display: flex; align-items: center; justify-content: space-between; padding:0 16px; height: 32px; background:#0F62FE; color: #fff;}
+.table_area .table_option_box.hide {transform: translateY(100%);}
+.table_area .table_option_box .info {font-size:14px;}
+.table_area .table_option_box .right {display: flex;}
+.table_area .table_option_box .right button {font-size:14px; color:#fff; margin-left: 15px; display: flex; align-items: center;}
+.table_area .table_option_box .right .border_left {padding-left:16px; position: relative;}
+.table_area .table_option_box .right .border_left:before {content:''; display: inline-block; width: 1px; height:16px; background: #fff; position: absolute; top:50%; transform: translateY(-50%); left:0;}
+
+.table_area .table_option_box .right button img {margin-left:8px;}
+
+.table_type1 {width: 100%;}
+.table_type1 tr:hover td {background:#E5E5E5; }
+.table_type1 tr.selected td {background:#E5E5E5; }
+.table_type1 td, .table_type1 th {height:32px; background: #f4f4f4; text-align: left; vertical-align: middle; padding:0 10px;}
+.table_type1 td {font-size:14px; border-bottom:1px solid #e0e0e0}
+.table_type1 th {font-size:14px; color:#161616; font-weight: 600; background: #E0E0E0;}
+.table_type1 .co1 {color:#42BE65}
+.table_type1 .co2 {color:#0043CE}
+
+.table_pagination {background: #f4f4f4; height:50px; display: flex; align-items: center; justify-content: end;}
+.table_pagination .page_num {font-size:14px; color:#161616; margin-right:16px;}
+.table_pagination button {width:48px; height:50px; display: flex; align-items: center; justify-content: center; border-left:1px solid #e0e0e0}
+
+.table_type1 input[type="checkbox"] {width: 16px; height:16px; cursor: pointer;}
+
+.file_upload_area .head {position: fixed; top: 0; left:0; display: flex; align-items: center; height: 48px; width: 100%; background: #0F62FE; color: #fff; font-size:14px; border-bottom:1px solid #393939;}
+.file_upload_area .head button {width:48px; height:48px; display: flex; align-items: center; justify-content: center;}
+.file_upload_area .title_section {padding-top:40px;}
+.file_upload_area > .btn_box {margin-top:26px; display: flex; justify-content: end; align-items: center;}
+.file_upload_area > .btn_box a, .file_upload_area > .btn_box button {font-size:14px; color:#0f62fe; border:1px solid #0f62fe; width:105px; height:40px; padding:0 16px; display: flex; align-items: center;}
+.file_upload_area > .btn_box > * + * {margin-left:12px; width: 162px !important;}
+
+.dropzone {border:1px dashed #8d8d8d; width: 100%; height:200px; margin-top: 30px; text-align: left; font-size:14px; color:#0f62fe; padding:20px; cursor: pointer;}
+.dropzone.dragging {border:1px dashed #0f62fe;}
+
+.input_text_area {}
+.input_text_area .input_box {margin-top:20px;}
+.input_text_area .input_box label {margin-bottom:8px; font-size:12px; color:#525252; display: flex; align-items: center; justify-content: space-between;}
+.input_text_area .input_box label .required:after {content:'*'; color:#DA1E28; margin-left:4px;}
+.input_text_area input {height: 40px; padding:0 16px; font-size:14px; background: #f4f4f4; border:none; border-bottom:1px solid #8d8d8d; flex-basis: 100%; width: 100%;}
+.input_text_area textarea {height: 100px; padding:11px 16px; background: #f4f4f4; border:none; border-bottom:1px solid #8d8d8d; flex-basis: 100%; width: 100%;}
+.input_text_area .flex {display: flex;}
+.input_text_area .flex > div {flex-basis: 100%;}
+.input_text_area .flex > div + div {margin-left:27px;}
+.input_text_area .flex > div.fb30 {flex-basis: 30%;}
