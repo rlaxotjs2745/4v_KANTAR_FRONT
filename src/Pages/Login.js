@@ -1,6 +1,18 @@
 import * as React from 'react';
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
+
+    const navigate = useNavigate()
+
+    const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
+
+    const loginSubmit = () => {
+        setCookie('user_id', 'a@aa.aa');// 쿠키에 토큰 저장
+        navigate('/')
+    }
+
     return(
         <>
             <div className="login_area">
@@ -18,7 +30,7 @@ const Login = () => {
                             </div>
                             <div className="btn_box">
                                 <button>비밀번호 재설정 ></button>
-                                <button className="co1">로그인 ></button>
+                                <button onClick={loginSubmit} className="co1">로그인 ></button>
                             </div>
                         </div>
                     </form>

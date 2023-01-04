@@ -17,6 +17,7 @@ import DictionaryUpdate from "../Pages/DictionaryUpdate";
 import MemberManagement from "../Pages/MemberManagement";
 import MemberCreate from "../Pages/MemberCreate";
 import MemberUpdate from "../Pages/MemberUpdate";
+import UsageStatistics from "../Pages/UsageStatistics";
 
 
 const Routers = () => {
@@ -39,6 +40,8 @@ const Routers = () => {
                     <Route path="/member_management" element={<MemberManagement/>} />
                     <Route path="/member_create" element={<MemberCreate/>} />
                     <Route path="/member_update/:idx" element={<MemberUpdate/>} />
+
+                    <Route path="/usage_statistics" element={<UsageStatistics/>} />
                 </Route>
                 <Route path="/" element={<PrivateRoute><LayoutType2/></PrivateRoute>}>
                     <Route path="/fileupload" element={<FileUpload/>} />
