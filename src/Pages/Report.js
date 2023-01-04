@@ -11,6 +11,7 @@ const Report = () => {
         checkedCount,
         handleAllCheck,
         handleMonoCheck,
+        handleResetCheck,
     } = useCheckbox();
 
     const tableData = [
@@ -81,7 +82,7 @@ const Report = () => {
                         </div>
                         <div className="right">
                             <button type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
-                            <button type="button" className="border_left">선택 취소</button>
+                            <button onClick={handleResetCheck} type="button" className="border_left">선택 취소</button>
                         </div>
                     </div>
                     <table className="table_type1">

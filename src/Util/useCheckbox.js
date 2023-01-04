@@ -49,6 +49,11 @@ export function useCheckbox() {
         setCheckedCount(count);
     };
 
+    const handleResetCheck = () => {
+        setAllChecked(false);
+        setCheckedState(new Array(99).fill(false));
+    };
+
     return {
         isAllChecked,
         checkedState,
@@ -57,6 +62,7 @@ export function useCheckbox() {
         handleMonoCheck,
         getCheckedRows,
         getCheckedRowsCount,
+        handleResetCheck,
     };
 
 }

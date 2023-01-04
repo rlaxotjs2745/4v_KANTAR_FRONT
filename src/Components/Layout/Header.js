@@ -36,7 +36,7 @@ const Header = (props) => {
                         <li className="deps select">
                             <button>Admin</button>
                             <ul className="deps2">
-                                <li><NavLink to="/">멤버 관리</NavLink></li>
+                                <li><NavLink to="/member_management">멤버 관리</NavLink></li>
                                 <li><NavLink to="/">사용량 통계</NavLink></li>
                             </ul>
                         </li>
