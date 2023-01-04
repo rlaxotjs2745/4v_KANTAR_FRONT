@@ -122,7 +122,7 @@ const Report = () => {
                                 <td>{item.code}</td>
                                 <td>{item.name}</td>
                                 <td>{item.date}</td>
-                                <td>상세보기</td>
+                                <td><Link to={`/report_detail/${item.idx}`}>상세보기</Link></td>
                                 <td>
                                     <span className={item.status === '생성중' ? 'co1' : ''}>
                                       {item.status}

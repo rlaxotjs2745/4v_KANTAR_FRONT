@@ -70,7 +70,11 @@ class FileDropzone extends React.Component {
                     onDragLeave={this.handleDragLeave}
                     onClick={() => this.fileInput.click()}
                 >
-                    Drag and drop files here or upload
+                    {this.state.fileName ? (
+                        <p>File name : {this.state.fileName}</p>
+                    ) : (
+                        <>Drag and drop files here or upload</>
+                    ) }
                 </div>
                 <input
                     type="file"
@@ -78,9 +82,7 @@ class FileDropzone extends React.Component {
                     style={{ display: 'none' }}
                     onChange={this.handleFileSelect}
                 />
-                {this.state.fileName && (
-                    <p>File name: {this.state.fileName}</p>
-                )}
+
             </>
 
         );

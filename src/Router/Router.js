@@ -10,6 +10,10 @@ import PublickRoute from "./PublickRoute";
 import PrivateRoute from "./PrivateRoute";
 import FileUpload from "../Pages/FileUpload";
 import Report from "../Pages/Report";
+import ReportDetail from "../Pages/ReportDetail";
+import Dictionary from "../Pages/Dictionary";
+import DictionaryCreate from "../Pages/DictionaryCreate";
+import DictionaryUpdate from "../Pages/DictionaryUpdate";
 
 
 const Routers = () => {
@@ -19,10 +23,15 @@ const Routers = () => {
                 {/* type1 푸터 헤더 있는 버전 */}
                 {/* PrivateRoute 안에는 로그인 해야 접근 가능, 로그인 안되어 있으면 /login으로 이동*/}
                 <Route path="/" element={<PrivateRoute><LayoutType1/></PrivateRoute>}>
-                    {/*<Route path="*" element={<Error/>}/>*/}
                     <Route index element={<Home/>}/>
-                    <Route path="/report" element={<Report/>} />
                     <Route path="/profile" element={<Profile/>} />
+
+                    <Route path="/report" element={<Report/>} />
+                    <Route path="/report_detail/:idx" element={<ReportDetail/>} />
+
+                    <Route path="/dictionary" element={<Dictionary/>} />
+                    <Route path="/dictionary_create" element={<DictionaryCreate/>} />
+                    <Route path="/dictionary_update/:idx" element={<DictionaryUpdate/>} />
                 </Route>
                 <Route path="/" element={<PrivateRoute><LayoutType2/></PrivateRoute>}>
                     <Route path="/fileupload" element={<FileUpload/>} />
