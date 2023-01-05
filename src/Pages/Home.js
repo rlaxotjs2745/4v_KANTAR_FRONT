@@ -116,7 +116,7 @@ const Home = () => {
 
                                 <td>{item.date}</td>
                                 <td>{item.state}</td>
-                                <td>상세보기</td>
+                                <td><Link to={`/project_detail/${item.idx}`}>상세보기</Link> </td>
                                 <td>
                                     <Link to={'/'} className={
                                         item.status === '생성중' ? 'co1' :

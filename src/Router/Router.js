@@ -18,6 +18,7 @@ import MemberManagement from "../Pages/MemberManagement";
 import MemberCreate from "../Pages/MemberCreate";
 import MemberUpdate from "../Pages/MemberUpdate";
 import UsageStatistics from "../Pages/UsageStatistics";
+import ProjectDetail from "../Pages/ProjectDetail";
 
 
 const Routers = () => {
@@ -28,6 +29,7 @@ const Routers = () => {
                 {/* PrivateRoute 안에는 로그인 해야 접근 가능, 로그인 안되어 있으면 /login으로 이동*/}
                 <Route path="/" element={<PrivateRoute><LayoutType1/></PrivateRoute>}>
                     <Route index element={<Home/>}/>
+                    <Route path="/project_detail/:idx" element={<ProjectDetail/>} />
                     <Route path="/profile" element={<Profile/>} />
 
                     <Route path="/report" element={<Report/>} />

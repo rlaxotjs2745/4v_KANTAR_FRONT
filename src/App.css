@@ -151,6 +151,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 /* 버튼 */
 
 .cds--btn.upload {background:#0f62fe url('../public/assets/image/ico_btn_upload.svg') no-repeat right 16px center; font-size:14px; color: #fff;}
+.cds--btn.download {background:#fff url('../public/assets/image/ico_btn_download_blue.svg') no-repeat right 16px center; font-size:14px; color: #0f62fe;}
 .cds--btn.download2 {background:#0f62fe url('../public/assets/image/ico_btn_download2.svg') no-repeat right 16px center; font-size:14px; color: #fff;}
 .cds--btn.plus {background:#0f62fe url('../public/assets/image/ico_btn_plus.svg') no-repeat right 16px center; font-size:14px; color: #fff;}
 .cds--btn.no_ico {background:#0f62fe; font-size:14px; color: #fff;}
