@@ -178,7 +178,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .table_type1 td .no_email {color: #8D8D8D; cursor: inherit}
 .table_type1 td {font-size:14px; border-bottom:1px solid #e0e0e0;}
 .table_type1 th {font-size:14px; color:#161616; font-weight: 600; background: #E0E0E0;}
-.table_type1 .co1 {color:#42BE65}
+.table_type1 .co1 {color:#42BE65; cursor: inherit;}
 .table_type1 .co2 {color:#0043CE}
 .table_type1 .co3 {color:#DA1E28}
 .table_type1 td > * + * {margin-left:20px;}
@@ -215,6 +215,8 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .input_text_area .input_box {margin-top:20px;}
 .input_text_area .input_box label {margin-bottom:8px; font-size:12px; color:#525252; display: flex; align-items: center; justify-content: space-between;}
 .input_text_area .input_box label .required:after {content:'*'; color:#DA1E28; margin-left:4px;}
+.input_text_area .input_box > .tip {font-size:12px; color:#525252; margin-top: 2px;}
+
 .input_text_area input {height: 40px; padding:0 16px; font-size:14px; background: #f4f4f4; border:none; border-bottom:1px solid #8d8d8d; flex-basis: 100%; width: 100%;}
 .input_text_area textarea {height: 100px; padding:11px 16px; background: #f4f4f4; border:none; border-bottom:1px solid #8d8d8d; flex-basis: 100%; width: 100%;}
 .input_text_area .flex {display: flex;}
@@ -323,14 +325,15 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .modal_area {display: block;overflow-y: auto;padding: 30px 0;position: fixed;width: 100%;height: 100%; background:rgba(22, 22, 22, 0.5);  left: 0;top: 0; z-index: 9999;}
 .modal_layout {display: table; height: 100%; margin: 0 auto; table-layout: fixed; vertical-align: middle;}
 .modal {display: table-cell; vertical-align: middle;}
-.modal_content {background: #fff; min-width: 638px; padding:16px; max-width: 1037px;}
+.modal_content {background: #fff; min-width: 638px; padding:16px; max-width: 1100px;}
 .modal_content.in_fixed_btn {position: relative; padding-bottom:130px;}
 .modal_content .fixed_btn_box {display: flex; position: absolute; bottom:0; left:0; width:100%; height:64px;}
 .modal_content .fixed_btn_box .tip {position: absolute; bottom:80px; font-size:12px; color:#a8a8a8; right:10px;}
 .modal_content .fixed_btn_box button {flex:1; padding:15px 16px; color:#fff; background:#393939; font-size:14px; display: flex; }
 .modal_content .fixed_btn_box button.co1 {background: #0f62fe;}
 
-.modal_title_box {display: flex; justify-content: space-between; align-items: baseline;}
+.modal_title_box {display: flex; justify-content: space-between; align-items: center;}
+.modal_title_box.baseline {align-items: baseline;}
 .modal_title_box .title_box .info {font-size:10px; line-height:18px; color:#525252; margin-top:2px;}
 .modal_title_box h3.tit {font-size:20px; color:#161616;}
 .modal_title_box + .search_section {margin-top:25px;}

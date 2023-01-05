@@ -3,8 +3,6 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useCallback, useState, useRef } from 'react';
 import Modal from "../Components/Cards/Modal";
 import {Toggle} from "@carbon/react";
-import $ from 'jquery'
-import FileDropzone from "../Components/Cards/FileDropzone";
 
 import ReactWordcloud from 'react-wordcloud';
 import 'tippy.js/dist/tippy.css';
@@ -919,7 +917,7 @@ const ProjectDetail = () => {
             {/*화자, 챕터, 서브챕터, 질문 공통 필터 + 키워드 필터 모달 */}
             {showModal3 && (
                 <Modal in_fixed_btn="in_fixed_btn" onClose={handleModalClose3}>
-                    <div className="modal_title_box">
+                    <div className="modal_title_box baseline">
                         <div className="title_box">
                             <h3 className="tit">{filterTitle} 필터</h3>
                             {
@@ -1294,7 +1292,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
@@ -1306,7 +1304,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
@@ -1318,7 +1316,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
@@ -1330,7 +1328,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
@@ -1342,7 +1340,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
@@ -1354,7 +1352,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
@@ -1366,7 +1364,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
@@ -1378,7 +1376,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
@@ -1390,7 +1388,7 @@ const ProjectDetail = () => {
                                             <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
                                             <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드></button>
+                                            <button className="hover_count" type="type">키워드</button>
                                         </td>
                                         <td>2022.10.21 16:33</td>
                                         <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
