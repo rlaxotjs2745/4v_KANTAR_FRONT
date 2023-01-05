@@ -83,6 +83,8 @@ const Home = () => {
         },
     ];
 
+
+
     return (
         <>
             <div className="page">
@@ -102,7 +104,7 @@ const Home = () => {
                             <p className="info">{checkedCount}개의 파일이 선택되었습니다.</p>
                         </div>
                         <div className="right">
-                            <button type="button">프로젝트 병합<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_plus.svg'}/></button>
+                            <button onClick={handleButtonClick} type="button">프로젝트 병합<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_plus.svg'}/></button>
                             <button type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
                             <button onClick={handleResetCheck} type="button" className="border_left">선택 취소</button>
                         </div>
@@ -155,7 +157,7 @@ const Home = () => {
                                 <td>
                                     <button onClick={
                                         item.status === '생성중' ? null:
-                                            item.status === '바로가기' ? handleButtonClick : null
+                                            item.status === '바로가기' ? handleButtonClick2 : null
                                     } className={
                                         item.status === '생성중' ? 'co1' :
                                             item.status === '바로가기' ? 'co2'
@@ -212,9 +214,6 @@ const Home = () => {
                                 <col/>
                                 <col/>
                                 <col/>
-                                <col/>
-                                <col/>
-                                <col/>
                             </colgroup>
                             <thead>
                             <tr>
@@ -226,9 +225,6 @@ const Home = () => {
                                 <th>파일명</th>
                                 <th>생성자</th>
                                 <th>프로젝트 생성 일자</th>
-                                <th>유형</th>
-                                <th>프로젝트 상세</th>
-                                <th>리포트</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -245,32 +241,12 @@ const Home = () => {
                                     <td>{item.code}</td>
                                     <td>{item.name}</td>
                                     <td>{item.user_name}</td>
-
                                     <td>{item.date}</td>
-                                    <td>{item.state}</td>
-                                    <td><Link to={`/project_detail/${item.idx}`}>상세보기</Link> </td>
-                                    <td>
-                                        <button onClick={
-                                            item.status === '생성중' ? null:
-                                                item.status === '바로가기' ? handleButtonClick : null
-                                        } className={
-                                            item.status === '생성중' ? 'co1' :
-                                                item.status === '바로가기' ? 'co2'
-                                                    : ''
-                                        }>
-                                            {item.status}
-                                        </button>
-                                    </td>
                                 </tr>
                             ))}
 
                             </tbody>
                         </table>
-                        <div className="table_pagination">
-                            <span className="page_num">Page 1</span>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
-                        </div>
                     </div>
 
                     <div className="fixed_btn_box">
@@ -279,6 +255,29 @@ const Home = () => {
                     </div>
                 </Modal>
             )}
+
+            {/* 생성된 각 프로젝트별 바로가기 */}
+            {showModal2 && (
+                <Modal onClose={handleModalClose2}>
+                    <div className="modal_title_box">
+                        <h3 className="tit">리포트 생성내역</h3>
+                        <button onClick={handleModalClose2}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                    </div>
+                    <div className="report_create_list">
+                        <ul>
+                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                        </ul>
+                    </div>
+
+                </Modal>
+            )}
+
+
         </>
     )
 }

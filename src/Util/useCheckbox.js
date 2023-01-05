@@ -30,10 +30,10 @@ export function useCheckbox() {
     };
 
     const getCheckedRows = () => {
-        const rows = document.querySelectorAll("tbody tr");
+        const rows = document.querySelectorAll(".page tbody tr");
         let checkedRows = 0;
         rows.forEach((row, index) => {
-            const checkbox = row.querySelector("input[type='checkbox']");
+            const checkbox = row.querySelector(".page input[type='checkbox']");
             if (checkbox.checked) {
                 row.classList.add("selected");
                 checkedRows++;

@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useCallback, useState } from 'react';
 
 import FileDropzone from "../Components/Cards/FileDropzone";
+import Modal from "../Components/Cards/Modal";
 
 const FileUpload = () => {
 
@@ -24,6 +25,17 @@ const FileUpload = () => {
     function handleChange(setInputNumber, event) {
         setInputNumber({ value: event.target.value, characters: event.target.value.length });
     }
+    const [showModal, setShowModal] = useState(false); // 프로젝트 병합 버튼 누르면 나오는 모달
+    // 프로젝트 병합
+    const handleButtonClick = () => {
+        setShowModal(true);
+        document.body.classList.add('fixed');
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        document.body.classList.remove('fixed');
+    };
 
 
     return(
@@ -43,8 +55,8 @@ const FileUpload = () => {
                                 <p className="info">.csv 파일만 업로드 가능합니다. 용량은 최대 500kb까지 가능합니다.</p>
                             </div>
                             <div className="btn_box">
-                                <Link to="/fileupload" className="cds--btn cds--btn--tertiary">chapter validation</Link>
-                                <Link to="/fileupload" className="plus cds--btn">기본 리포트 생성</Link>
+                                <button onClick={handleButtonClick} type="button" className="cds--btn cds--btn--tertiary">chapter validation</button>
+                                <Link to="/" className="plus cds--btn">기본 리포트 생성</Link>
                             </div>
                         </div>
                         <FileDropzone onFileDrop={handleFileDrop}/>
@@ -71,6 +83,23 @@ const FileUpload = () => {
                     </div>
                 </form>
             </div>
+
+            {showModal && (
+                <Modal onClose={handleModalClose}>
+                    <div className="modal_title_box">
+                        <h3 className="tit">Chapter validation 검사</h3>
+                        <button onClick={handleModalClose}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                    </div>
+                    <div className="validation_area">
+                        <strong className="tit">챕터 카테고리</strong>
+                        <div className="validation_box">
+                            {/* 임시 이미지 대체 미구현 */}
+                            <img src={process.env.PUBLIC_URL + '/assets/image/img_chapter_validation.jpeg'} alt=""/>
+                        </div>
+                        <p className="tip">**챕터 카테고리를 확인 후, 올바르지 않을시 원본파일을 수정 후 다시 업로드 해주세요.</p>
+                    </div>
+                </Modal>
+            )}
         </>
     )
 
