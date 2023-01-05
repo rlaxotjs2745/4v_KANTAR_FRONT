@@ -133,8 +133,8 @@ const Home = () => {
                     </table>
                     <div className="table_pagination">
                         <span className="page_num">Page 1</span>
-                        <button className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                        <button className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                        <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                        <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                     </div>
                 </div>
             </div>
