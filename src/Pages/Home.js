@@ -265,12 +265,12 @@ const Home = () => {
                     </div>
                     <div className="report_create_list">
                         <ul>
-                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail/0'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail/1'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail/2'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail/3'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail/4'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            <li><Link to='/report_detail/5'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
                         </ul>
                     </div>
 

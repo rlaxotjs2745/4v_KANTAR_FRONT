@@ -284,6 +284,10 @@ const ReportDetail = () => {
                                     </div>
                                 </div>
                             </div>
+                            <div className="btn_box">
+                                <button className="no_ico cds--btn">설정 저장</button>
+                                <button className="no_ico cds--btn">다운로드</button>
+                            </div>
                         </form>
                     </div>
                 </div>
