@@ -98,7 +98,7 @@ const Report = () => {
                         </colgroup>
                         <thead>
                         <tr>
-                            <th><input type="checkbox"
+                            <th className="table_in_chk"><input type="checkbox"
                                        checked={isAllChecked}
                                        onChange={() => handleAllCheck()}/></th>
                             <th>Job No</th>
@@ -112,7 +112,7 @@ const Report = () => {
                         <tbody>
                         {tableData.map((item) => (
                             <tr key={item.idx}>
-                                <td>
+                                <td className="table_in_chk">
                                     <input
                                         type="checkbox"
                                         checked={checkedState[item.idx]}
