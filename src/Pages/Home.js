@@ -37,18 +37,18 @@ const Home = () => {
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
-            setProjectList(res.data)
+            setProjectList(res.data.data)
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
             axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
-                setProjectList(res.data)
+                setProjectList(res.data.data)
             }).catch(err => {
                 console.log(err);
             })
         };
-        const intervalId = setInterval(fetchData, 1000);
+        const intervalId = setInterval(fetchData, 10000);
         return () => clearInterval(intervalId);
 
         setreportCreateList([
@@ -74,7 +74,7 @@ const Home = () => {
             },
         ])
     },[])
-
+    console.log(projectList)
     // 프로젝트 병합
     const handleButtonClick = () => {
         setShowModal(true);
@@ -90,7 +90,7 @@ const Home = () => {
     const handleButtonClick2 = (but) => {
         let idx = but.target.parentElement.parentElement.id;
 
-        navigate(`/idx_report/${idx}`)
+        navigate(`/report_detail/${idx}`)
 
         // 임시 지움,
         // axios.post(SERVER_URL + 'report_view', {'idx' : idx}, AXIOS_OPTION).then(res => {
@@ -267,7 +267,9 @@ const Home = () => {
                         </thead>
                         <tbody>
                         {
-                            !projectList || !projectList.length ? '' :
+                            !projectList || !projectList.length ?
+                                null
+                                :
                                 projectList.map((item) => (
                                     <tr id={item.idx_report} key={item.idx_report}>
                                         <td className="table_in_chk">
@@ -279,11 +281,10 @@ const Home = () => {
                                         </td>
                                         <td>{item.job_no}</td>
                                         <td>{item.project_id}</td>
+                                        <td>{item.filename}</td>
                                         <td>{item.user_name}</td>
                                         <td>{item.create_dt}</td>
-
-                                        <td>{item.project_type}</td>
-                                        <td>{item.idx_project_job_projectid}</td>
+                                        <td>{item.project_type_str}</td>
                                         <td><Link to={`/project_detail/${item.idx_project_job_projectid}`}>상세보기</Link> </td>
                                         <td>
                                             {item.idx_report === null ?

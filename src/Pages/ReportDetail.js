@@ -29,7 +29,7 @@ const ReportDetail = () => {
     useEffect(()=> {
         axios.post(SERVER_URL + 'report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1') {
-                setReportDetailContent(res.data)
+                setReportDetailContent(res.data.data)
             } else if (res.data.success === '0') {
                 toastNoticeError(res.data.msg, '')
                 navigate('/')
