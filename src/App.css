@@ -318,7 +318,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .filter_btn_box .btn_select_box .filter_preset .filter_chk_box {margin-top: 14px; padding:0 10px 15px;}
 .filter_chk_box .input_box {display: flex; align-items: center; justify-content: space-between;}
 .filter_chk_box .input_box + .input_box {margin-top: 10px;}
-.filter_chk_box .input_box label {font-size:14px; color: #161616; margin-left:8px;}
+.filter_chk_box .input_box label {font-size:14px; color: #161616; margin-left:18px;}
 
 .filter_btn_box .btn_box {border-top: 1px solid #E4E4E4; display: flex; align-items: center; padding: 15px 20px 10px;}
 .filter_btn_box .btn_box button {font-size:14px; position: relative;}
