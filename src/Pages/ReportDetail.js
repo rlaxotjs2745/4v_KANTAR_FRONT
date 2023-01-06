@@ -1,17 +1,46 @@
-import React from "react";
-import {Link, useNavigate} from 'react-router-dom';
+import React, {useEffect} from "react";
+import {Link, useNavigate, useLocation} from 'react-router-dom';
 import { useCallback, useState } from 'react';
 
 import FileDropzone from "../Components/Cards/FileDropzone";
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {useToastAlert} from "../Util/toastAlert";
 
 const ReportDetail = () => {
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
 
+    const { pathname } = useLocation();
     const navigate = useNavigate()
+    const pathSplit = Number(pathname.split('/')[2])
+
+    const [reportDetailContent, setReportDetailContent] = useState('');
 
     function copyToClipboard(event) {
         const textarea = event.target.previousSibling;
         navigator.clipboard.writeText(textarea.value);
     }
+
+    useEffect(()=> {
+        axios.post(SERVER_URL + 'report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1') {
+                setReportDetailContent(res.data)
+            } else if (res.data.success === '0') {
+                toastNoticeError(res.data.msg, '')
+                navigate('/')
+            }
+        }).catch(err => {
+            toastNoticeError('에러가 발생했습니다.', '')
+            console.log(err);
+        })
+
+
+    },[])
 
 
     return(
@@ -30,11 +59,11 @@ const ReportDetail = () => {
                             <div className="flex">
                                 <div className="input_box">
                                     <label htmlFor="detail_name">프로젝트 이름</label>
-                                    <input id="detail_name" type="text" readOnly defaultValue="SL00001_PJ002_chat-hitories13_김설문"/>
+                                    <input id="detail_name" type="text" readOnly defaultValue={!reportDetailContent || !reportDetailContent.length ? '' : reportDetailContent[0].project_name}/>
                                 </div>
                                 <div className="input_box">
                                     <label htmlFor="detail_time">생성 일자</label>
-                                    <input id="detail_time" type="text" readOnly defaultValue="2022. 04. 15 22:09"/>
+                                    <input id="detail_time" type="text" readOnly defaultValue={!reportDetailContent || !reportDetailContent.length ? '' : reportDetailContent[0].create_dt}/>
                                 </div>
                             </div>
                             <div className="input_box">
@@ -81,9 +110,7 @@ const ReportDetail = () => {
                             <div className="input_box">
                                 <label>전체 요약문 (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>
                                 <div className="edit">
-                                    <textarea className="h200" defaultValue="원래제로음료의 느낌이 잘 안나서 아쉽다. 사무실에 있었던 장명이 평소 일상과 비슷하여 공감이 간다.
-                                              원래도 좋아하는 편이라 광고가 딱히 호불호에 영향을 주지 않아서 3점을 줬다.라임맛인지 부각이 잘 안되는 점이 있어서 4점을 줬다.
-                                              아쉬운부분이 있으면서도 톡 쏘는 탄산을 먹을때 어떤 느낌인지는 정확히 전달이 되었다."/>
+                                    <textarea className="h200" defaultValue={!reportDetailContent || !reportDetailContent.length ? '' : reportDetailContent[1].summary}/>
                                     <div className="edit_btn_box">
                                         <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
                                         <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>

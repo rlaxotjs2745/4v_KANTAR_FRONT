@@ -1,11 +1,126 @@
 import React from "react";
 import {Link, useNavigate} from 'react-router-dom';
 import { useCallback, useState } from 'react';
+import $ from 'jquery'
+import axios from 'axios';
+import { AXIOS_OPTION, SERVER_URL } from "../Util/env";
 
 import FileDropzone from "../Components/Cards/FileDropzone";
 import Modal from "../Components/Cards/Modal";
+import {useToastAlert} from "../Util/toastAlert";
 
 const FileUpload = () => {
+
+    const tableData = [
+        {
+            idx: 0,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '생성중',
+        },
+        {
+            idx: 1,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '생성중',
+        },
+        {
+            idx: 2,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '바로가기',
+        },
+        {
+            idx: 3,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '생성중',
+        },
+        {
+            idx: 4,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '생성중',
+        },
+        {
+            idx: 5,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '생성중',
+        },
+        {
+            idx: 6,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '바로가기',
+        },
+        {
+            idx: 7,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '바로가기',
+        },
+        {
+            idx: 8,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '바로가기',
+        },
+        {
+            idx: 9,
+            type: 'A20',
+            code: 'P0001',
+            name: 'chat-hitories13',
+            user_name: '김설문',
+            date: '2022.10.25 11:07',
+            state: 'Raw data',
+            status: '바로가기',
+        },
+
+    ];
+
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
 
     const navigate = useNavigate()
 
@@ -37,11 +152,56 @@ const FileUpload = () => {
         document.body.classList.remove('fixed');
     };
 
+    const reportCreate = (data) => { // 기본 리포트 생성 버튼
+
+        const form = document.querySelector('#fileUploadForm');
+
+        if (file === null) {
+            return (toastNoticeError('파일을 추가해주세요.', ''))
+        }
+
+        if (form.job_no.value === '') {
+            return (toastNoticeError('Job No 값은 필수입니다.', ''))
+        }
+
+        if (form.project_name.value === '') {
+            return (toastNoticeError('프로젝트 이름은 필수입니다.', ''))
+        }
+
+        let formData = new FormData();
+
+        formData.append('idx_user', 1);
+        formData.append('file', file);
+        formData.append('job_no', form.job_no.value)
+        formData.append('project_name', form.project_name.value)
+        formData.append('summary0', form.project_content.value)
+
+        axios.post(SERVER_URL + 'create_report', formData, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                toastNoticeInfo('기본리포트 생성을 시작하였습니다.', '')
+                navigate('/')
+            } else {
+                toastNoticeError('에러가 발생했습니다.', '')
+            }
+        }).catch(err => {
+            console.log(err);
+            toastNoticeError('에러가 발생했습니다.', '')
+        })
+
+
+
+        // toastNoticeInfo('기본리포트 생성을 시작하였습니다.', 'https://www.naver.com') 첫번째 인자로 텍스트, 두번째 인자로 링크를 전달하면됨, 링크를 '' 로 넣으면 바로가기 버튼이 사라짐.
+
+    }
+
+    const reportSave = () => { // 프로젝트 저장 버튼
+        toastNoticeInfo('프로젝트 설정이 저장되었습니다.', '')
+    }
 
     return(
         <>
             <div className="page">
-                <form>
+                <form id="fileUploadForm">
                     <div className="file_upload_area">
                         <div className="head">
                             <button onClick={() => navigate('/')}>
@@ -56,7 +216,7 @@ const FileUpload = () => {
                             </div>
                             <div className="btn_box">
                                 <button onClick={handleButtonClick} type="button" className="cds--btn cds--btn--tertiary">chapter validation</button>
-                                <Link to="/" className="plus cds--btn">기본 리포트 생성</Link>
+                                <button onClick={reportSave} type="button" className="plus cds--btn">기본 리포트 생성</button>
                             </div>
                         </div>
                         <FileDropzone onFileDrop={handleFileDrop}/>
@@ -64,21 +224,21 @@ const FileUpload = () => {
                             <div className="flex">
                                 <div className="input_box fb30">
                                     <label htmlFor="job_no"><em className="title required">Job No</em><span>{input1.characters}/10</span></label>
-                                    <input onChange={(event) => handleChange(setInput1, event)} type="text" id="job_no" maxLength="10"/>
+                                    <input name="job_no" onChange={(event) => handleChange(setInput1, event)} type="text" id="job_no" maxLength="10"/>
                                 </div>
                                 <div className="input_box">
                                     <label htmlFor="project_name required"><em className="title required">프로젝트 이름</em><span>{input2.characters}/50</span></label>
-                                    <input onChange={(event) => handleChange(setInput2, event)} type="text" id="project_name" maxLength="50"/>
+                                    <input name="project_name" onChange={(event) => handleChange(setInput2, event)} type="text" id="project_name" maxLength="50"/>
                                 </div>
                             </div>
                             <div className="input_box">
                                 <label htmlFor="project_info"><em className="title">프로젝트 내용 (선택사항)</em><span>{input3.characters}/200</span></label>
-                                <textarea onChange={(event) => handleChange(setInput3, event)} id="project_info" placeholder="프로젝트 세부정보를 입력해 주세요." maxLength="200"/>
+                                <textarea name="project_content" onChange={(event) => handleChange(setInput3, event)} id="project_info" placeholder="프로젝트 세부정보를 입력해 주세요." maxLength="200"/>
                             </div>
                         </div>
                         <div className="btn_box">
                             <Link to="/">취소</Link>
-                            <button type="button" onClick={submit}>프로젝트 저장</button>
+                            <button type="button" onClick={reportCreate}>프로젝트 저장</button>
                         </div>
                     </div>
                 </form>

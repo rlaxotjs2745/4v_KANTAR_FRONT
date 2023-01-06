@@ -395,3 +395,28 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 
 /* 임시 삭제예정 */
 .validation_area img {display: block; width: 100%; margin-top: 20px;}
+
+
+/* 토스트 팝업 */
+#root .Toastify__toast-container--bottom-left {bottom:3em; left:8em; max-width: 500px; width: auto;}
+
+#root .Toastify__close-button {position: absolute; top:50%; transform: translateY(-50%); right:20px; }
+#root .Toastify__toast > img {margin-right: 5px;}
+
+#root .Toastify__toast {font-size:14px; line-height: 1.4; color:#161616; font-weight: 600; min-width: 400px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);}
+#root .Toastify__toast a {color:#0f62fe;}
+#root .Toastify__toast:before {content:''; position: absolute; left: 0; top: 0; width: 3px; height:100%; background:#0043CE; }
+#root .Toastify__toast--info {background: #EDF5FF; border:1px solid #8eaeeb;}
+
+
+#root .Toastify__toast--success {background: #DEFBE6; border:1px solid #94d7a7;}
+#root .Toastify__toast--success:before {background: #24a148}
+
+#root .Toastify__toast--warning {background: #FFF8E1; border:1px solid #f9e292;}
+#root .Toastify__toast--warning:before {background: #f1c21B;}
+#root .Toastify__toast-icon {display: none;}
+#root .Toastify__toast--error {background: #FFF1F1; border:1px solid #f09da1;}
+#root .Toastify__toast--error:before {background: #da1e28;}
+
+.toast_flex {display: flex; justify-content: space-between;}
+.toast_flex img {margin-right:10px;}

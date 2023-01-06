@@ -2,12 +2,16 @@
 import {Button, Checkbox, Toggle} from '@carbon/react';
 import React, {useEffect} from "react";
 import { useRef, useState } from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useCheckbox} from "../Util/useCheckbox";
 import {useCheckbox2} from "../Util/useCheckbox";
 import Modal from "../Components/Cards/Modal";
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 
 const Home = () => {
+    const navigate = useNavigate()
+
     const {
         isAllChecked,
         checkedState,
@@ -28,6 +32,41 @@ const Home = () => {
     const [showModal, setShowModal] = useState(false); // 프로젝트 병합 버튼 누르면 나오는 모달
     const [showModal2, setShowModal2] = useState(false); // 바로가기 버튼 누르면 나오는 모달
 
+    const [projectList, setProjectList] = useState('')
+    const [reportCreateList, setreportCreateList] = useState('')
+
+    useEffect(()=> {
+
+        axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
+            setProjectList(res.data)
+        }).catch(err => {
+            console.log(err);
+        })
+
+        setreportCreateList([
+            {
+                idx: 0,
+                type: 'A20',
+                code: 'P0001',
+                name: 'chat-hitories_00',
+                user_name: '김설문',
+                date: '2022.10.25 11:07',
+                state: 'Raw data',
+                status: '생성중',
+             },
+            {
+                idx: 1,
+                type: 'A20',
+                code: 'P0001',
+                name: 'chat-hitories_01',
+                user_name: '김설문',
+                date: '2022.10.25 11:07',
+                state: 'Raw data',
+                status: '생성중',
+            },
+        ])
+    },[])
+
     // 프로젝트 병합
     const handleButtonClick = () => {
         setShowModal(true);
@@ -40,9 +79,19 @@ const Home = () => {
     };
 
     // 바로가기
-    const handleButtonClick2 = () => {
-        setShowModal2(true);
-        document.body.classList.add('fixed');
+    const handleButtonClick2 = (but) => {
+        let idx = but.target.parentElement.parentElement.id;
+
+        navigate(`/idx_report/${idx}`)
+
+        // 임시 지움,
+        // axios.post(SERVER_URL + 'report_view', {'idx' : idx}, AXIOS_OPTION).then(res => {
+        //     setShowModal2(true);
+        // }).catch(err => {
+        //     console.log(err);
+        // })
+        //
+        // document.body.classList.add('fixed');
     };
 
     const handleModalClose2 = () => {
@@ -156,6 +205,7 @@ const Home = () => {
 
 
 
+
     return (
         <>
             <div className="page">
@@ -208,45 +258,51 @@ const Home = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {tableData.map((item) => (
-                            <tr key={item.idx}>
-                                <td className="table_in_chk">
-                                    <input
-                                        type="checkbox"
-                                        checked={checkedState[item.idx]}
-                                        onChange={() => handleMonoCheck(item.idx)}
-                                    />
-                                </td>
-                                <td>{item.type}</td>
-                                <td>{item.code}</td>
-                                <td>{item.name}</td>
-                                <td>{item.user_name}</td>
+                        {
+                            !projectList || !projectList.length ? '' :
+                                projectList.map((item) => (
+                                    <tr id={item.idx_report} key={item.idx_report}>
+                                        <td className="table_in_chk">
+                                            <input
+                                                type="checkbox"
+                                                checked={checkedState[item.idx]}
+                                                onChange={() => handleMonoCheck(item.idx)}
+                                            />
+                                        </td>
+                                        <td>{item.job_no}</td>
+                                        <td>{item.project_id}</td>
+                                        <td>{item.user_name}</td>
+                                        <td>{item.create_dt}</td>
 
-                                <td>{item.date}</td>
-                                <td>{item.state}</td>
-                                <td><Link to={`/project_detail/${item.idx}`}>상세보기</Link> </td>
-                                <td>
-                                    <button onClick={
-                                        item.status === '생성중' ? null:
-                                            item.status === '바로가기' ? handleButtonClick2 : null
-                                    } className={
-                                        item.status === '생성중' ? 'co1 no_cursor' :
-                                            item.status === '바로가기' ? 'co2'
-                                                : ''
-                                    }>
-                                        {item.status}
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                                        <td>{item.project_type}</td>
+                                        <td>{item.idx_project_job_projectid}</td>
+                                        <td><Link to={`/project_detail/${item.idx_project_job_projectid}`}>상세보기</Link> </td>
+                                        <td>
+                                            {item.idx_report === null ?
+                                                <button className="co1 no_cursor">
+                                                    생성중
+                                                </button>
+                                                :
+                                                <button onClick={handleButtonClick2} className="co2">
+                                                    바로가기
+                                                </button>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                ))
+                        }
 
                         </tbody>
                     </table>
-                    <div className="table_pagination">
-                        <span className="page_num">Page 1</span>
-                        <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                        <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
-                    </div>
+                    {!projectList || !projectList.length ? '' :
+                        <div className="table_pagination">
+                            <span className="page_num">Page 1</span>
+                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                        </div>
+                    }
+
                 </div>
             </div>
 
@@ -336,13 +392,21 @@ const Home = () => {
                     </div>
                     <div className="report_create_list">
                         <ul>
-                            <li><Link to='/report_detail/0'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail/1'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail/2'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail/3'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail/4'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
-                            <li><Link to='/report_detail/5'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>
+                            {
+                                !reportCreateList || !reportCreateList.length ? '' :
+                                    reportCreateList.map((item) => (
+                                        <li id={item.idx} key={item.idx}><Link to={`/report_detail/${item.idx}`}>{item.name}</Link></li>
+                                    ))
+                            }
                         </ul>
+                        {/*<ul>*/}
+                        {/*    <li><Link to='/report_detail/0'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
+                        {/*    <li><Link to='/report_detail/1'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
+                        {/*    <li><Link to='/report_detail/2'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
+                        {/*    <li><Link to='/report_detail/3'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
+                        {/*    <li><Link to='/report_detail/4'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
+                        {/*    <li><Link to='/report_detail/5'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
+                        {/*</ul>*/}
                     </div>
 
                 </Modal>

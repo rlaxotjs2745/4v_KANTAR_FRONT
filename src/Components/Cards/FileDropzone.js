@@ -1,9 +1,30 @@
 import React from "react";
+import {useToastAlert} from "../../Util/toastAlert";
+import {toast} from "react-toastify";
 
+const CustomToastWithLink = (props) => {
+    return(
+        <div className='toast_flex'>
+            <div>
+                {
+                    props.toastType === 'normal' ? <img src={process.env.PUBLIC_URL + '/assets/image/ico_notice_normal.svg'}/> :
+                        props.toastType === 'success' ? <img src={process.env.PUBLIC_URL + '/assets/image/ico_notice_success.svg'}/> :
+                            props.toastType === 'error' ? <img src={process.env.PUBLIC_URL + '/assets/image/ico_notice_error.svg'}/> :
+                                props.toastType === 'warning' ? <img src={process.env.PUBLIC_URL + '/assets/image/ico_notice_warning.svg'}/> : null
+                }
+                <span> {props.text}</span>
+            </div>
+            {
+                props.link === '' ? null : <a href={props.link}>[바로가기]</a>
+            }
+        </div>
+    )
+}
 
-const FILE_SIZE_LIMIT = 100 * 1024 * 1024;  // 100MB
+const FILE_SIZE_LIMIT = 500 * 1024;  // 500kb
 
 class FileDropzone extends React.Component {
+
 
     state = {
         fileName: '',
@@ -11,6 +32,8 @@ class FileDropzone extends React.Component {
     }
 
     handleDrop = (e) => {
+        const toastNoticeError = (text, link) => toast.error(<CustomToastWithLink toastType='error' text={text} link={link}/>); // 빨간색(실패)
+
         e.preventDefault();
         const file = e.dataTransfer.files[0];
         if (file.size <= FILE_SIZE_LIMIT && file.name.endsWith('.csv')) {
@@ -18,28 +41,31 @@ class FileDropzone extends React.Component {
             this.setState({ file: file });
             this.props.onFileDrop(file);
         } else if(file.size >= FILE_SIZE_LIMIT) {
-            alert(`파일 크기는 최대 100MB를 넘을 수 없습니다.`)
+            toastNoticeError('파일 크기는 최대 500kb를 넘을 수 없습니다.', '')
             this.setState({ isDragging: false });
         } else {
-            alert(`.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.`)
+            toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', '')
             this.setState({ isDragging: false });
         }
     }
 
 
+
     handleFileSelect = (e) => {
+
         e.preventDefault();
         const file = e.target.files[0];
+        const toastNoticeError = (text, link) => toast.error(<CustomToastWithLink toastType='error' text={text} link={link}/>); // 빨간색(실패)
 
         if (file.size <= FILE_SIZE_LIMIT && file.name.endsWith('.csv')) {
             this.setState({ fileName: file.name });
             this.setState({ file: file });
             this.props.onFileDrop(file);
         } else if(file.size >= FILE_SIZE_LIMIT) {
-            alert(`파일 크기는 최대 100MB를 넘을 수 없습니다.`)
+            toastNoticeError('파일 크기는 최대 500kb를 넘을 수 없습니다.', '')
             this.setState({ isDragging: false });
         } else {
-            alert(`.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.`)
+            toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', '')
             this.setState({ isDragging: false });
         }
     }
@@ -57,6 +83,7 @@ class FileDropzone extends React.Component {
     }
 
     render() {
+
 
         const dropzoneClass = this.state.isDragging ? 'dropzone dragging' : 'dropzone';
 
