@@ -159,7 +159,7 @@ const Home = () => {
                                         item.status === '생성중' ? null:
                                             item.status === '바로가기' ? handleButtonClick2 : null
                                     } className={
-                                        item.status === '생성중' ? 'co1' :
+                                        item.status === '생성중' ? 'co1 no_cursor' :
                                             item.status === '바로가기' ? 'co2'
                                                 : ''
                                     }>

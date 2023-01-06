@@ -179,6 +179,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .table_type1 td {font-size:14px; border-bottom:1px solid #e0e0e0;}
 .table_type1 th {font-size:14px; color:#161616; font-weight: 600; background: #E0E0E0;}
 .table_type1 .co1 {color:#42BE65;}
+.table_type1 .co1.no_cursor {cursor: inherit;}
 .table_type1 .co2 {color:#0043CE}
 .table_type1 .co3 {color:#DA1E28}
 .table_type1 td > * + * {margin-left:20px;}
