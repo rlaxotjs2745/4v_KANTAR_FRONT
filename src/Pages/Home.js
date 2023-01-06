@@ -36,12 +36,20 @@ const Home = () => {
     const [reportCreateList, setreportCreateList] = useState('')
 
     useEffect(()=> {
-
         axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
             setProjectList(res.data)
         }).catch(err => {
             console.log(err);
         })
+        const fetchData = async () => {
+            axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
+                setProjectList(res.data)
+            }).catch(err => {
+                console.log(err);
+            })
+        };
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
 
         setreportCreateList([
             {
