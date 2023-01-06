@@ -359,6 +359,9 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .filter_check_box .input_box {display: flex; align-items: center; }
 .filter_check_box .input_box.end {justify-content: end;}
 .filter_check_box .input_box + .input_box {margin-top:10px;}
+.filter_check_box .input_box input[type="checkbox"] {margin-left:20px; margin-right: 6px;}
+.keyword_check_box .check_box_list .input_box input[type="checkbox"] {margin-left:10px; margin-right: 6px;}
+.keyword_check_box .all_chk_box input[type="checkbox"] {margin-left:10px; margin-right: 6px;}
 
 .keyword_filter_area {margin-top:14px;}
 .keyword_filter_area .keyword_filter_box > .tit {font-size:18px; color:#161616; font-weight: 400;}
