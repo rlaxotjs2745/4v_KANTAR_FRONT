@@ -270,13 +270,14 @@ const Home = () => {
                             !projectList || !projectList.length ?
                                 null
                                 :
+
                                 projectList.map((item) => (
                                     <tr id={item.idx_report} key={item.idx_report}>
                                         <td className="table_in_chk">
                                             <input
                                                 type="checkbox"
-                                                checked={checkedState[item.idx]}
-                                                onChange={() => handleMonoCheck(item.idx)}
+                                                checked={checkedState[item.idx_report]}
+                                                onChange={() => handleMonoCheck(item.idx_report)}
                                             />
                                         </td>
                                         <td>{item.job_no}</td>
@@ -300,6 +301,8 @@ const Home = () => {
                                         </td>
                                     </tr>
                                 ))
+
+
                         }
 
                         </tbody>
