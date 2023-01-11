@@ -268,9 +268,8 @@ const Home = () => {
                         <tbody>
                         {
                             !projectList || !projectList.length ?
-                                null
+                                <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                 :
-
                                 projectList.map((item) => (
                                     <tr id={item.idx_report} key={item.idx_report}>
                                         <td className="table_in_chk">

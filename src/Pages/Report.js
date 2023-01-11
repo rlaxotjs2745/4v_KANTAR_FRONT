@@ -2,6 +2,8 @@ import React, {useEffect} from "react";
 import { useRef, useState } from "react";
 import {Link} from "react-router-dom";
 import {useCheckbox} from "../Util/useCheckbox";
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 
 const Report = () => {
 
@@ -14,56 +16,26 @@ const Report = () => {
         handleResetCheck,
     } = useCheckbox();
 
-    const tableData = [
-        {
-            idx: 0,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            date: '2022.10.25 11:07',
-            status: '생성중',
-        },
-        {
-            idx: 1,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            date: '2022.10.25 11:07',
-            status: '생성완료',
-        },
-        {
-            idx: 2,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            date: '2022.10.25 11:07',
-            status: '생성중',
-        },
-        {
-            idx: 3,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            date: '2022.10.25 11:07',
-            status: '생성완료',
-        },
-        {
-            idx: 4,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            date: '2022.10.25 11:07',
-            status: '생성중',
-        },
-        {
-            idx: 5,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            date: '2022.10.25 11:07',
-            status: '생성완료',
-        },
-    ];
+    const [projectList, setProjectList] = useState('')
+
+    useEffect(()=> {
+        axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
+            setProjectList(res.data.data)
+        }).catch(err => {
+            console.log(err);
+        })
+        const fetchData = async () => {
+            axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
+                setProjectList(res.data.data)
+            }).catch(err => {
+                console.log(err);
+            })
+        };
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
+    },[])
+
+
 
     return (
         <>
@@ -110,34 +82,74 @@ const Report = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {tableData.map((item) => (
-                            <tr key={item.idx}>
-                                <td className="table_in_chk">
-                                    <input
-                                        type="checkbox"
-                                        checked={checkedState[item.idx]}
-                                        onChange={() => handleMonoCheck(item.idx)}
-                                    />
-                                </td>
-                                <td>{item.type}</td>
-                                <td>{item.code}</td>
-                                <td>{item.name}</td>
-                                <td>{item.date}</td>
-                                <td><Link to={`/report_detail/${item.idx}`}>상세보기</Link></td>
-                                <td>
-                                    <span className={item.status === '생성중' ? 'co1' : ''}>
-                                      {item.status}
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+
+                        {
+                            !projectList || !projectList.length ?
+                                   <td colSpan="8" style={{textAlign:'center'}}>리스트가 없습니다.</td>
+                                :
+                                projectList.map((item) => (
+                                    <tr id={item.idx_report} key={item.idx_report}>
+                                        <td className="table_in_chk">
+                                            <input
+                                                type="checkbox"
+                                                checked={checkedState[item.idx_report]}
+                                                onChange={() => handleMonoCheck(item.idx_report)}
+                                            />
+                                        </td>
+                                        <td>{item.job_no}</td>
+                                        <td>{item.project_id}</td>
+                                        <td>{item.filename}</td>
+                                        <td>{item.user_name}</td>
+                                        <td>{item.create_dt}</td>
+                                        <td>{item.project_type_str}</td>
+                                        <td><Link to={`/project_detail/${item.idx_project_job_projectid}`}>상세보기</Link> </td>
+                                        <td>
+                                            {item.idx_report === null ?
+                                                <button className="co1 no_cursor">
+                                                    생성중
+                                                </button>
+                                                :
+                                                <button className=" no_cursor">
+                                                    생성완료
+                                                </button>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                ))
+
+
+                        }
+                        {/*{projectList.map((item) => (*/}
+                        {/*    <tr key={item.idx}>*/}
+                        {/*        <td className="table_in_chk">*/}
+                        {/*            <input*/}
+                        {/*                type="checkbox"*/}
+                        {/*                checked={checkedState[item.idx]}*/}
+                        {/*                onChange={() => handleMonoCheck(item.idx)}*/}
+                        {/*            />*/}
+                        {/*        </td>*/}
+                        {/*        <td>{item.type}</td>*/}
+                        {/*        <td>{item.code}</td>*/}
+                        {/*        <td>{item.name}</td>*/}
+                        {/*        <td>{item.date}</td>*/}
+                        {/*        <td><Link to={`/report_detail/${item.idx}`}>상세보기</Link></td>*/}
+                        {/*        <td>*/}
+                        {/*            <span className={item.status === '생성중' ? 'co1' : ''}>*/}
+                        {/*              {item.status}*/}
+                        {/*            </span>*/}
+                        {/*        </td>*/}
+                        {/*    </tr>*/}
+                        {/*))}*/}
                         </tbody>
                     </table>
-                    <div className="table_pagination">
-                        <span className="page_num">Page 1</span>
-                        <button className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                        <button className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
-                    </div>
+                    {!projectList || !projectList.length ? '' :
+                        <div className="table_pagination">
+                            <span className="page_num">Page 1</span>
+                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                        </div>
+                    }
                 </div>
             </div>
 
