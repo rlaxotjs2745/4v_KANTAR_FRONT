@@ -98,11 +98,10 @@ const Report = () => {
                                         </td>
                                         <td>{item.job_no}</td>
                                         <td>{item.project_id}</td>
+                                        {/* filename이 리포트명 이름 으로 변경 되어야 합니다. */}
                                         <td>{item.filename}</td>
-                                        <td>{item.user_name}</td>
                                         <td>{item.create_dt}</td>
-                                        <td>{item.project_type_str}</td>
-                                        <td><Link to={`/project_detail/${item.idx_project_job_projectid}`}>상세보기</Link> </td>
+                                        <td><Link to={`/report_detail/${item.idx_report}`}>상세보기</Link> </td>
                                         <td>
                                             {item.idx_report === null ?
                                                 <button className="co1 no_cursor">
