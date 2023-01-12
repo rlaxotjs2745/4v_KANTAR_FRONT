@@ -37,13 +37,13 @@ const Home = () => {
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
-            setProjectList(res.data.data)
+            setProjectList(res.data.data.list)
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
             axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
-                setProjectList(res.data.data)
+                setProjectList(res.data.data.list)
             }).catch(err => {
                 console.log(err);
             })

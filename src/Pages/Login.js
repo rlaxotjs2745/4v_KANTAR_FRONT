@@ -29,8 +29,8 @@ const Login = () => {
                                 <input id="user_pw" type="password" placeholder="비밀번호"/>
                             </div>
                             <div className="btn_box">
-                                <button>비밀번호 재설정 ></button>
-                                <button onClick={loginSubmit} className="co1">로그인 ></button>
+                                <button>비밀번호 재설정 &gt;</button>
+                                <button onClick={loginSubmit} className="co1">로그인 &gt;</button>
                             </div>
                         </div>
                     </form>

@@ -16,17 +16,17 @@ const Report = () => {
         handleResetCheck,
     } = useCheckbox();
 
-    const [projectList, setProjectList] = useState('')
+    const [reportList, setReportList] = useState('')
 
     useEffect(()=> {
-        axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
-            setProjectList(res.data.data)
+        axios.post(SERVER_URL + 'list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
+            setReportList(res.data.data)
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
-            axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
-                setProjectList(res.data.data)
+            axios.post(SERVER_URL + 'list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
+                setReportList(res.data.data)
             }).catch(err => {
                 console.log(err);
             })
@@ -74,7 +74,7 @@ const Report = () => {
                                        checked={isAllChecked}
                                        onChange={() => handleAllCheck()}/></th>
                             <th>Job No</th>
-                            <th>Project ID</th>
+                            <th>Report  ID</th>
                             <th>리포트명</th>
                             <th>리포트 생성 일자</th>
                             <th>리포트 상세</th>
@@ -84,10 +84,10 @@ const Report = () => {
                         <tbody>
 
                         {
-                            !projectList || !projectList.length ?
+                            !reportList || !reportList.length ?
                                    <td colSpan="8" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                 :
-                                projectList.map((item) => (
+                                reportList.map((item) => (
                                     <tr id={item.idx_report} key={item.idx_report}>
                                         <td className="table_in_chk">
                                             <input
@@ -97,14 +97,12 @@ const Report = () => {
                                             />
                                         </td>
                                         <td>{item.job_no}</td>
-                                        <td>{item.project_id}</td>
-                                        <td>{item.filename}</td>
-                                        <td>{item.user_name}</td>
+                                        <td>{item.report_id}</td>
+                                        <td>{item.title}</td>
                                         <td>{item.create_dt}</td>
-                                        <td>{item.project_type_str}</td>
-                                        <td><Link to={`/project_detail/${item.idx_project_job_projectid}`}>상세보기</Link> </td>
+                                        <td><Link to={`/report_detail/${item.idx_report}`}>상세보기</Link> </td>
                                         <td>
-                                            {item.idx_report === null ?
+                                            {item.status_str === '생성중' ?
                                                 <button className="co1 no_cursor">
                                                     생성중
                                                 </button>
@@ -120,7 +118,7 @@ const Report = () => {
 
 
                         }
-                        {/*{projectList.map((item) => (*/}
+                        {/*{reportList.map((item) => (*/}
                         {/*    <tr key={item.idx}>*/}
                         {/*        <td className="table_in_chk">*/}
                         {/*            <input*/}
@@ -143,7 +141,7 @@ const Report = () => {
                         {/*))}*/}
                         </tbody>
                     </table>
-                    {!projectList || !projectList.length ? '' :
+                    {!reportList || !reportList.length ? '' :
                         <div className="table_pagination">
                             <span className="page_num">Page 1</span>
                             <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>

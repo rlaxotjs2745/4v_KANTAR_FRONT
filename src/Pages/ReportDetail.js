@@ -48,22 +48,21 @@ const ReportDetail = () => {
             <div className="page">
                 <div className="file_upload_area">
                     <div className="head type2">
-                        <h2>SL00001_PJ002_choat-histories_김설문_리포트001</h2>
+                        <h2>{reportDetailContent ? reportDetailContent.report.title :''}</h2>
                         <button onClick={() => navigate('/report')}>
                             <img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
                         </button>
                     </div>
 
                     <div className="report_detail_area">
-                        <form>
                             <div className="flex">
                                 <div className="input_box">
                                     <label htmlFor="detail_name">프로젝트 이름</label>
-                                    <input id="detail_name" type="text" defaultValue={reportDetailContent ? reportDetailContent.project.project_name :''}/>
+                                    <input id="detail_name" type="text" readOnly defaultValue={reportDetailContent ? reportDetailContent.project.project_name :''}/>
                                 </div>
                                 <div className="input_box">
                                     <label htmlFor="detail_time">생성 일자</label>
-                                    <input id="detail_time" type="text" readOnly defaultValue={reportDetailContent ? reportDetailContent.project.create_dt : ''}/>
+                                    <input id="detail_time" type="text" readOnly defaultValue={reportDetailContent ? reportDetailContent.report.create_dt : ''}/>
                                 </div>
                             </div>
                             <div className="input_box">
@@ -72,49 +71,51 @@ const ReportDetail = () => {
                             </div>
                             {!reportDetailContent || reportDetailContent.project.title === null ? null :
                                 <div className="input_box">
-                                                <label htmlFor="detail_filter">적용된 필터값</label>
-                                                <div className="filter_area">
-                                                    <div className="filter_box">
-                                                        <strong className="tit">화자</strong>
-                                                        <span className="keyword">화자 A</span>
-                                                        <span className="keyword">화자 D</span>
-                                                        <span className="keyword">화자 E</span>
-                                                    </div>
-                                                    <div className="flex">
-                                                        <div className="filter_box">
-                                                            <strong className="tit">챕터</strong>
-                                                            <span className="keyword">챕터 A</span>
-                                                            <span className="keyword">챕터 C</span>
-                                                            <span className="keyword">챕터 R</span>
-                                                        </div>
-                                                        <div className="filter_box">
-                                                            <strong className="tit">서브챕터</strong>
-                                                            <span className="keyword">서브챕터 A-1</span>
-                                                            <span className="keyword">서브챕터 C-1</span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="filter_box">
-                                                        <strong className="tit">질문</strong>
-                                                        <span className="keyword">질문 A-1-1</span>
-                                                        <span className="keyword">질문 A-1-2</span>
-                                                    </div>
-                                                    <div className="filter_box">
-                                                        <strong className="tit">키워드</strong>
-                                                        <span className="keyword">키워드 01</span>
-                                                        <span className="keyword">키워드 02</span>
-                                                        <span className="keyword">키워드 03</span>
-                                                        <span className="keyword">키워드 04</span>
-                                                        <span className="keyword">키워드 05</span>
-                                                    </div>
-                                                </div>
+                                    <label htmlFor="detail_filter">적용된 필터값</label>
+                                    <div className="filter_area">
+                                        <div className="filter_box">
+                                            <strong className="tit">화자</strong>
+                                            <span className="keyword">화자 A</span>
+                                            <span className="keyword">화자 D</span>
+                                            <span className="keyword">화자 E</span>
+                                        </div>
+                                        <div className="flex">
+                                            <div className="filter_box">
+                                                <strong className="tit">챕터</strong>
+                                                <span className="keyword">챕터 A</span>
+                                                <span className="keyword">챕터 C</span>
+                                                <span className="keyword">챕터 R</span>
                                             </div>
+                                            <div className="filter_box">
+                                                <strong className="tit">서브챕터</strong>
+                                                <span className="keyword">서브챕터 A-1</span>
+                                                <span className="keyword">서브챕터 C-1</span>
+                                            </div>
+                                        </div>
+                                        <div className="filter_box">
+                                            <strong className="tit">질문</strong>
+                                            <span className="keyword">질문 A-1-1</span>
+                                            <span className="keyword">질문 A-1-2</span>
+                                        </div>
+                                        <div className="filter_box">
+                                            <strong className="tit">키워드</strong>
+                                            <span className="keyword">키워드 01</span>
+                                            <span className="keyword">키워드 02</span>
+                                            <span className="keyword">키워드 03</span>
+                                            <span className="keyword">키워드 04</span>
+                                            <span className="keyword">키워드 05</span>
+                                        </div>
+                                    </div>
+                                </div>
                             }
 
 
+                        <form id="frmData0">
+                            <input type="hidden" name="idx_report_data" value={reportDetailContent ? reportDetailContent.report.idx_report_data :''}></input>
                             <div className="input_box">
                                 <label>전체 요약문 (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>
                                 <div className="edit">
-                                    <textarea className="h200" defaultValue={reportDetailContent ? reportDetailContent.report.summary0 : ''}/>
+                                    <textarea className="h200" readOnly defaultValue={reportDetailContent ? reportDetailContent.report.summary0 : ''}/>
                                     <div className="edit_btn_box">
                                         <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
                                         <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
@@ -122,6 +123,7 @@ const ReportDetail = () => {
                                     </div>
                                 </div>
                             </div>
+                        </form>
 
                             {!reportDetailContent || reportDetailContent.project.title === null ? null :
                                 <div className="input_box">
@@ -349,6 +351,8 @@ const ReportDetail = () => {
                                 </>
                             }
 
+                        <form id="frmData">
+                            <input type="hidden" name="idx_report" value={reportDetailContent ? reportDetailContent.report.idx_report :''}></input>
                             <div className="input_box">
                                 <label>메모 <span>edited <em className="required">*</em> 0/100</span></label>
                                 <div className="edit">
