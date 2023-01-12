@@ -1,9 +1,31 @@
 import React from "react";
 import {Link, useNavigate} from 'react-router-dom';
+import {useToastAlert} from "../Util/toastAlert";
 
 const DictionaryUpdate = () => {
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
+
 
     const navigate = useNavigate()
+
+    const dictionarySave = () => { // 프로젝트 저장 버튼
+
+        // const form = document.querySelector('#fileUploadForm');
+
+
+        // if (form.job_no.value === '') {
+        //     return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
+        // }
+
+
+
+        toastNoticeInfo('사전이 저장되었습니다.', '')
+    }
 
     return(
         <>
@@ -19,7 +41,9 @@ const DictionaryUpdate = () => {
                         <div className="title_box">
                             <h3 className="title">브랜드_종합01</h3>
                         </div>
-                        <div className="btn_box"><a className="download2 cds--btn" href="/dictionary_create">사전 다운로드</a>
+                        <div className="btn_box">
+                            <button onClick={dictionarySave} type="button" className="no_ico cds--btn">사전 저장</button>
+                            <a className="download2 cds--btn" href="/dictionary_create">사전 다운로드</a>
                         </div>
                     </div>
                 </div>

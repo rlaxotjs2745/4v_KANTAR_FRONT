@@ -157,15 +157,15 @@ const FileUpload = () => {
         const form = document.querySelector('#fileUploadForm');
 
         if (file === null) {
-            return (toastNoticeError('파일을 추가해주세요.', ''))
+            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', ''))
         }
 
         if (form.job_no.value === '') {
-            return (toastNoticeError('Job No 값은 필수입니다.', ''))
+            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
         }
 
         if (form.project_name.value === '') {
-            return (toastNoticeError('프로젝트 이름은 필수입니다.', ''))
+            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
         }
 
         let formData = new FormData();
@@ -178,7 +178,7 @@ const FileUpload = () => {
 
         axios.post(SERVER_URL + 'create', formData, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                toastNoticeInfo('기본리포트 생성을 시작하였습니다.', '')
+                toastNoticeInfo('기본리포트 생성을 시작 하였습니다.', '')
                 navigate('/')
             } else {
                 toastNoticeError('에러가 발생했습니다.', '')
@@ -195,6 +195,21 @@ const FileUpload = () => {
     }
 
     const reportSave = () => { // 프로젝트 저장 버튼
+
+        const form = document.querySelector('#fileUploadForm');
+
+        if (file === null) {
+            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', ''))
+        }
+
+        if (form.job_no.value === '') {
+            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
+        }
+
+        if (form.project_name.value === '') {
+            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
+        }
+
         toastNoticeInfo('프로젝트 설정이 저장되었습니다.', '')
     }
 
@@ -216,7 +231,7 @@ const FileUpload = () => {
                             </div>
                             <div className="btn_box">
                                 <button onClick={handleButtonClick} type="button" className="cds--btn cds--btn--tertiary">chapter validation</button>
-                                <button onClick={reportSave} type="button" className="plus cds--btn">기본 리포트 생성</button>
+                                <button onClick={reportCreate} type="button" className="plus cds--btn">기본 리포트 생성</button>
                             </div>
                         </div>
                         <FileDropzone onFileDrop={handleFileDrop}/>
@@ -238,7 +253,7 @@ const FileUpload = () => {
                         </div>
                         <div className="btn_box">
                             <Link to="/">취소</Link>
-                            <button type="button" onClick={reportCreate}>프로젝트 저장</button>
+                            <button type="button" onClick={reportSave}>프로젝트 저장</button>
                         </div>
                     </div>
                 </form>

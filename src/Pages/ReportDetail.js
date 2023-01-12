@@ -59,7 +59,7 @@ const ReportDetail = () => {
                             <div className="flex">
                                 <div className="input_box">
                                     <label htmlFor="detail_name">프로젝트 이름</label>
-                                    <input id="detail_name" type="text" readOnly defaultValue={reportDetailContent ? reportDetailContent.project.project_name :''}/>
+                                    <input id="detail_name" type="text" defaultValue={reportDetailContent ? reportDetailContent.project.project_name :''}/>
                                 </div>
                                 <div className="input_box">
                                     <label htmlFor="detail_time">생성 일자</label>
