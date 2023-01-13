@@ -176,10 +176,11 @@ const FileUpload = () => {
         formData.append('project_name', form.project_name.value)
         formData.append('summary0', form.project_content.value)
 
-        axios.post(SERVER_URL + 'create', formData, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'create_report', formData, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
                 toastNoticeInfo('기본리포트 생성을 시작 하였습니다.', '')
                 navigate('/')
+                toastNoticeInfo('기본 리포트 생성이 완료되었습니다.', '')
             } else {
                 toastNoticeError('에러가 발생했습니다.', '')
             }
@@ -253,7 +254,7 @@ const FileUpload = () => {
                         </div>
                         <div className="btn_box">
                             <Link to="/">취소</Link>
-                            <button type="button" onClick={reportSave}>프로젝트 저장</button>
+                            {/* <button type="button" onClick={reportSave}>프로젝트 저장</button> */}
                         </div>
                     </div>
                 </form>
