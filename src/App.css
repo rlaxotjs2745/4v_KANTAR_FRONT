@@ -192,9 +192,9 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 
 .table_type1.type2 {  border-collapse: separate; border-spacing: 0 10px;}
 /*.table_type1.type2 tr {border-bottom:10px solid #fff; }*/
-.table_type1.type2 td {padding:10px 10px; border-bottom:none; border-top:1px solid #e0e0e0}
+.table_type1.type2 td {padding:10px 10px; border-bottom:none; border-top:1px solid #e0e0e0; min-width: auto;}
 .table_type1.type2 td.absolute {position: absolute; background: #fff; border:none; padding:0 16px; display: flex; align-items: center;}
-.table_type1.type2 th {padding:15px 10px;}
+.table_type1.type2 th {padding:15px 10px; min-width: auto;}
 .table_type1.type2 input[type="text"] {background: transparent; border:none; display: inline-block; width: 100%; outline: none;}
 
 .table_pagination {background: #f4f4f4; height:50px; display: flex; align-items: center; justify-content: end;}
@@ -245,6 +245,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .report_detail_area > * > * + * {margin-top:20px; }
 .report_detail_area > * > *.flex {display: flex; align-items: center; gap: 0 36px;}
 .report_detail_area > * > *.flex > * {flex:1;}
+.report_detail_area > .flex + .input_box {margin-top:20px;}
 .report_detail_area .input_box {display: flex; flex-direction: column;}
 .report_detail_area .input_box label {font-size:12px; color:#525252; margin-bottom:8px; display: flex; align-items: center; justify-content: space-between; cursor: inherit}
 .report_detail_area .input_box label em.required {color: #DA1E28;}
@@ -252,7 +253,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .report_detail_area .input_box .edit {position: relative;}
 .report_detail_area .input_box .edit input, .report_detail_area .input_box .edit textarea {border-bottom:1px solid #8d8d8d}
 .report_detail_area .input_box .edit .edit_btn_box {position: absolute; bottom:16px; right:30px; display: flex; align-items: center; gap: 0 11.5px;}
-.report_detail_area .input_box textarea {height:200px; padding:16px;}
+.report_detail_area .input_box textarea {height:200px; padding:16px; margin-top: 0;}
 .report_detail_area .btn_box {display: flex; gap: 0 20px; margin-top: 30px; justify-content: end;}
 
 

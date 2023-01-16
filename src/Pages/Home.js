@@ -8,9 +8,17 @@ import {useCheckbox2} from "../Util/useCheckbox";
 import Modal from "../Components/Cards/Modal";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {useToastAlert} from "../Util/toastAlert";
 
 const Home = () => {
     const navigate = useNavigate()
+
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
 
     const {
         isAllChecked,
@@ -34,6 +42,15 @@ const Home = () => {
 
     const [projectList, setProjectList] = useState('')
     const [reportCreateList, setreportCreateList] = useState('')
+    // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i])
+    const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10));
+    // console.log(checkedIndexes, '체크된 배열값')
+    const filteredProjects = Object.values(projectList).filter(project =>
+        checkedIndexes.includes(project.idx_project)
+    );
+    // console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
+    // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
+
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
@@ -48,7 +65,7 @@ const Home = () => {
                 console.log(err);
             })
         };
-        const intervalId = setInterval(fetchData, 1000);
+        const intervalId = setInterval(fetchData, 10000);
         return () => clearInterval(intervalId);
 
         setreportCreateList([
@@ -74,9 +91,12 @@ const Home = () => {
             },
         ])
     },[])
-    console.log(projectList)
+    // console.log(projectList)
     // 프로젝트 병합
     const handleButtonClick = () => {
+        if(checkedCount < 2) {
+            return toastNoticeWarning('2개의 프로젝트 이상 선택해주세요', '')
+        }
         setShowModal(true);
         document.body.classList.add('fixed');
     };
@@ -366,23 +386,28 @@ const Home = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {tableData.map((item) => (
-                                <tr key={item.idx}>
-                                    <td className="table_in_chk">
-                                        <input
-                                            type="checkbox"
-                                            checked={checkedState2[item.idx]}
-                                            onChange={() => handleMonoCheck2(item.idx)}
-                                        />
-                                    </td>
-                                    <td>{item.type}</td>
-                                    <td>{item.code}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.user_name}</td>
-                                    <td>{item.date}</td>
-                                </tr>
-                            ))}
 
+                            {
+                                !filteredProjects || !filteredProjects.length ?
+                                    <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
+                                    :
+                                    filteredProjects.map((item) => (
+                                        <tr id={item.idx_report} key={item.idx_report}>
+                                            <td className="table_in_chk">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={checkedState2[item.idx_report]}
+                                                    onChange={() => handleMonoCheck2(item.idx_report)}
+                                                />
+                                            </td>
+                                            <td>{item.job_no}</td>
+                                            <td>{item.project_id}</td>
+                                            <td>{item.filename}</td>
+                                            <td>{item.user_name}</td>
+                                            <td>{item.create_dt}</td>
+                                        </tr>
+                                    ))
+                            }
                             </tbody>
                         </table>
                     </div>
