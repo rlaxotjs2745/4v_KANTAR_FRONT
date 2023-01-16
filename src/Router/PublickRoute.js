@@ -7,7 +7,7 @@ const PublicRoute = ({ children }) => {
         return value? value[2] : null;
     }
 
-    return get_cookie('user_id') !== null ? <Navigate to='/'/> : children;
+    return get_cookie('X-AUTH-TOKEN') !== null ? <Navigate to='/'/> : children;
 };
 
 export default PublicRoute;

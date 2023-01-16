@@ -242,9 +242,9 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .cloud_history_box .table_area .hover_count .count {display: inline-block; width: 14px; height:14px; color:#fff; background: #0f62fe; border-radius: 50%; font-size:10px; vertical-align: middle; line-height: 14px; }
 
 .report_detail_area {}
-.report_detail_area > * > * + * {margin-top:20px; }
-.report_detail_area > * > *.flex {display: flex; align-items: center; gap: 0 36px;}
-.report_detail_area > * > *.flex > * {flex:1;}
+.report_detail_area > * + * {margin-top: 20px;}
+.report_detail_area > *.flex > * {flex:1;}
+.report_detail_area > .flex {display: flex; align-items: center; gap: 0 36px;}
 .report_detail_area > .flex + .input_box {margin-top:20px;}
 .report_detail_area .input_box {display: flex; flex-direction: column;}
 .report_detail_area .input_box label {font-size:12px; color:#525252; margin-bottom:8px; display: flex; align-items: center; justify-content: space-between; cursor: inherit}
@@ -351,9 +351,10 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .toggle_check_box > div .tit {font-size:12px; font-weight: 700; color:#161616;}
 .toggle_check_box .cds--toggle__appearance {display: flex; flex-direction: row-reverse; min-width: 300px; justify-content: space-between;}
 .toggle_check_box .cds--toggle__text {font-size:12px; color:#525252;}
-.toggle_check_box .label_box {margin-top: 13px; display: flex; align-items: baseline; justify-content: space-between; min-width: 325px;}
+.toggle_check_box .label_box {margin-top: 13px; display: flex; align-items: baseline; justify-content: space-between; min-width: 318px;}
 .toggle_check_box .label_box .input_box + .input_box {margin-top: 10px;}
 .toggle_check_box .label_box .input_box label {font-size:12px; color:#161616; margin-left:10px;}
+
 
 .filter_check_box {max-height: 220px; overflow-y: scroll;}
 .filter_check_box label {font-size:14px; color:#161616; line-height:18px; margin-left:10px;}

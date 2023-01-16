@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
         return null;
     }
 
-    return get_cookie('user_id') == null ? <Navigate to='/login'/> : children;
+    return get_cookie('X-AUTH-TOKEN') == null ? <Navigate to='/login'/> : children;
 };
 
 export default PrivateRoute;

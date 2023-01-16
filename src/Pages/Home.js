@@ -42,6 +42,10 @@ const Home = () => {
 
     const [projectList, setProjectList] = useState('')
     const [reportCreateList, setreportCreateList] = useState('')
+
+    const [currentPageNumber, setCurrentPageNumber] = useState(1)
+
+
     // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i])
     const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10));
     // console.log(checkedIndexes, '체크된 배열값')
@@ -53,13 +57,13 @@ const Home = () => {
 
 
     useEffect(()=> {
-        axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setProjectList(res.data.data.list)
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
-            axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
+            axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
                 setProjectList(res.data.data.list)
             }).catch(err => {
                 console.log(err);
@@ -90,7 +94,7 @@ const Home = () => {
                 status: '생성중',
             },
         ])
-    },[])
+    },[currentPageNumber])
     // console.log(projectList)
     // 프로젝트 병합
     const handleButtonClick = () => {
@@ -127,109 +131,17 @@ const Home = () => {
         document.body.classList.remove('fixed');
     };
 
-    const tableData = [
-        {
-            idx: 0,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 1,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 2,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 3,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 4,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 5,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 6,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 7,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 8,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 9,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
+    const handleLeftClick = () => {
+        if (currentPageNumber > 1) {
+            setCurrentPageNumber(currentPageNumber - 1);
+        } else {
+            setCurrentPageNumber(1);
+        }
+    };
 
-    ];
+    const handleRightClick = () => {
+        setCurrentPageNumber(currentPageNumber + 1)
+    };
 
 
 
@@ -328,9 +240,9 @@ const Home = () => {
                     </table>
                     {!projectList || !projectList.length ? '' :
                         <div className="table_pagination">
-                            <span className="page_num">Page 1</span>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                            <span className="page_num">Page {currentPageNumber}</span>
+                            <button type="button" onClick={handleLeftClick} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                            <button type="button" onClick={handleRightClick} className="right"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                         </div>
                     }
 
