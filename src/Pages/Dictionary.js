@@ -1,40 +1,44 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import DictionaryEntity from "../Components/Cards/DictionaryEntity";
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_DICT_URL, SERVER_URL} from "../Util/env";
+import {useToastAlert} from "../Util/toastAlert";
 
 const Dictionary = () => {
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
 
-    const tableData = [
-        {
-            idx: 0,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 1,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 2,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-    ];
+    const idx_user = 1;
+    const [tableData, setTableData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    useEffect(() => {
+        getListDictionary(currentPage);
+    }, [currentPage]);
+
+    const getListDictionary = (curPage) => {
+        axios.get(SERVER_DICT_URL + `list_dictionary?idx_user=${idx_user}&currentPage=${curPage}`, AXIOS_OPTION)
+            .then(res => {
+                if(res.data.success == '1'){
+                    setTableData(res.data.data);
+                }
+            })
+
+    }
+
+
+    const movePage = (type) => {
+        if(currentPage == 0 && type === 0){
+            return toastNoticeInfo('첫 페이지입니다.', '');
+        }
+        setCurrentPage(type === 1 ? currentPage + 1 : currentPage - 1);
+    }
+
 
     return (
         <>
@@ -76,45 +80,15 @@ const Dictionary = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>01</td>
-                            <td>브랜드_종합01</td>
-                            <td><div className="co2">기본사전</div></td>
-                            <td>3</td>
-                            <td>2022.10.27 18:11</td>
-                            <td style={{textAlign:"center"}}>
-                                <Link to={`/dictionary_update/2`} className="co1">수정</Link>
-                                <button type="button" className="co3">삭제</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>02</td>
-                            <td>브랜드_종합01</td>
-                            <td><div className="co2">기본사전</div></td>
-                            <td>3</td>
-                            <td>2022.10.27 18:11</td>
-                            <td style={{textAlign:"center"}}>
-                                <Link to={`/dictionary_update/3`} className="co1">수정</Link>
-                                <button type="button" className="co3">삭제</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>03</td>
-                            <td>브랜드_종합01</td>
-                            <td><div className="co2">기본사전</div></td>
-                            <td>3</td>
-                            <td>2022.10.27 18:11</td>
-                            <td style={{textAlign:"center"}}>
-                                <Link to={`/dictionary_update/4`} className="co1">수정</Link>
-                                <button type="button" className="co3">삭제</button>
-                            </td>
-                        </tr>
+                        {
+                            tableData.map(dt => <DictionaryEntity key={dt.idx_dictionary} entity={dt} />)
+                        }
                         </tbody>
                     </table>
                     <div className="table_pagination">
-                        <span className="page_num">Page 1</span>
-                        <button className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                        <button className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                        <span className="page_num">Page {currentPage + 1}</span>
+                        <button onClick={() => movePage(0)} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                        <button onClick={() => movePage(1)} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                     </div>
                 </div>
             </div>

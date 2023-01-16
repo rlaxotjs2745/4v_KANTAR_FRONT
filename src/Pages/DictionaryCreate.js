@@ -3,12 +3,22 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useCallback, useState } from 'react';
 
 import FileDropzone from "../Components/Cards/FileDropzone";
+import {useToastAlert} from "../Util/toastAlert";
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_DICT_URL, SERVER_URL} from "../Util/env";
 
 const DictionaryCreate = () => {
 
     const navigate = useNavigate()
-
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
     const [file, setFile] = useState(null);
+
+    const idx_user = 1;
 
     const handleFileDrop = (file) => {
         setFile(file);
@@ -21,6 +31,37 @@ const DictionaryCreate = () => {
 
     function handleChange(setInputNumber, event) {
         setInputNumber({ value: event.target.value, characters: event.target.value.length });
+    }
+
+    const handleSubmit = () => {
+        let formData = new FormData();
+
+        if(!idx_user){
+            return toastNoticeError('다시 로그인하고 시도해주세요.', '')
+        }
+
+        if(!file){
+            return toastNoticeError('파일을 업로드하고 다시 시도해주세요.', '')
+        }
+
+        if(file.type != 'text/csv'){
+            return toastNoticeError('.csv 파일만 업로드 가능합니다. 확인 후 다시 시도해주세요.', '')
+        }
+
+        formData.append('idx_user', idx_user);
+        formData.append('file', file);
+        formData.append('title', input1.value);
+
+        axios.post(SERVER_DICT_URL + 'create', formData, AXIOS_OPTION)
+            .then(res => {
+                if(res.data.success === '1'){
+                    toastNoticeSuccess(res.data.msg, '');
+                    navigate('/dictionary');
+                } else {
+                    return toastNoticeError(res.data.msg, '');
+                }
+            })
+            .catch(() => toastNoticeError('서버와 통신 중 오류가 발생했습니다.', ''))
     }
 
 
@@ -43,7 +84,7 @@ const DictionaryCreate = () => {
                             </div>
                             <div className="btn_box">
                                 <a href="#none" download className="cds--btn download2">샘플파일 다운로드</a>
-                                <button type="button" className="plus cds--btn">등록하기</button>
+                                <button type="button" onClick={handleSubmit} className="plus cds--btn">등록하기</button>
                             </div>
                         </div>
                         <FileDropzone onFileDrop={handleFileDrop}/>
