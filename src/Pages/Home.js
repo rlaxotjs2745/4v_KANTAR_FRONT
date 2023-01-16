@@ -45,7 +45,7 @@ const Home = () => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
 
-
+    const [filteredList, setFilteredList] = useState([])
     // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i])
     const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10));
     // console.log(checkedIndexes, '체크된 배열값')
@@ -54,7 +54,6 @@ const Home = () => {
     );
     // console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
     // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
-
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
@@ -95,7 +94,12 @@ const Home = () => {
             },
         ])
     },[currentPageNumber])
-    // console.log(projectList)
+
+    const projectListArray = Object.values(projectList);
+    const reportList = projectListArray.map(item => item.reportList);
+    console.log(reportList)
+
+
     // 프로젝트 병합
     const handleButtonClick = () => {
         if(checkedCount < 2) {
@@ -113,17 +117,14 @@ const Home = () => {
     // 바로가기
     const handleButtonClick2 = (but) => {
         let idx = but.target.parentElement.parentElement.id;
-
         navigate(`/report_detail/${idx}`)
+    };
 
-        // 임시 지움,
-        // axios.post(SERVER_URL + 'report_view', {'idx' : idx}, AXIOS_OPTION).then(res => {
-        //     setShowModal2(true);
-        // }).catch(err => {
-        //     console.log(err);
-        // })
-        //
-        // document.body.classList.add('fixed');
+    const handleButtonClick3 = (but) => {
+        let idx = Number(but.target.parentElement.parentElement.id);
+        // setFilteredList(reportList.filter(item => item.find(report => report.idx_report === idx)))
+        setFilteredList(reportList.flatMap(item => item.filter(report => report.idx_report === idx)))
+        setShowModal2(true);
     };
 
     const handleModalClose2 = () => {
@@ -142,9 +143,6 @@ const Home = () => {
     const handleRightClick = () => {
         setCurrentPageNumber(currentPageNumber + 1)
     };
-
-
-
 
     return (
         <>
@@ -224,9 +222,15 @@ const Home = () => {
                                                     생성중
                                                 </button>
                                                 :
-                                                <button onClick={handleButtonClick2} className="co2">
-                                                    바로가기
-                                                </button>
+                                                item.reportList.length > 1 ?
+                                                        <button onClick={handleButtonClick3} className="co2">
+                                                            모달 띄우기
+                                                        </button>
+                                                        :
+                                                        <button onClick={handleButtonClick2} className="co2">
+                                                            바로가기
+                                                        </button>
+
                                             }
 
                                         </td>
@@ -341,9 +345,9 @@ const Home = () => {
                     <div className="report_create_list">
                         <ul>
                             {
-                                !reportCreateList || !reportCreateList.length ? '' :
-                                    reportCreateList.map((item) => (
-                                        <li id={item.idx} key={item.idx}><Link to={`/report_detail/${item.idx}`}>{item.name}</Link></li>
+                                !filteredList || !filteredList.length ? '' :
+                                    filteredList.map((item) =>  (
+                                        <li id={item.idx_report} key={item.idx_report}><Link to={`/report_detail/${item.idx_report}`}>{item.title}</Link></li>
                                     ))
                             }
                         </ul>
