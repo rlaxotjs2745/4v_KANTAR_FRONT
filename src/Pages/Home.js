@@ -224,7 +224,7 @@ const Home = () => {
                                                 :
                                                 item.reportList.length > 1 ?
                                                         <button onClick={handleButtonClick3} className="co2">
-                                                            모달 띄우기
+                                                            바로가기
                                                         </button>
                                                         :
                                                         <button onClick={handleButtonClick2} className="co2">
