@@ -300,37 +300,36 @@ const FileUpload = () => {
                         <div className="validation_box">
                             {
                                 !validationDataReverse || !validationDataReverse.length ? '' :
-                                    validationDataReverse.map((item) =>  (
-                                    <div>
+                                    validationDataReverse.map((item) => (
                                         <div className="chapter">
-                                            <button onClick={toggleClassOnSibling} className="title">{Object.values(item)[0]}</button>
+                                            <button onClick={toggleClassOnSibling} className="title">{item[Object.keys(item)[0]]}</button>
                                             <div className="sub_chapter">
-                                               {Object.entries(Object.values(item)[1]).sort().map(([key, value]) => (
-                                                   <div className="title">
-                                                       <button onClick={toggleClassOnSibling} className="title">{key}</button>
-                                                       <div className="question">
-                                                           {Object.keys(value).sort().map((subItem) => (
-                                                                <p className="title">
-                                                                    <button onClick={toggleClassOnSibling} className="title">{subItem}</button>
-                                                                    <div className="person">
-                                                                      {Object.entries(value[subItem]).map(([key, value]) => (
-                                                                          <div className="flex">
-                                                                            <span className="title">{key} : {value}</span>
-                                                                          </div>
-                                                                      ))}
-                                                                    </div>
-                                                                </p>
-                                                           ))}
-
-                                                       </div>
-                                                   </div>
-                                               ))}
-
+                                                {Object.entries(item[Object.keys(item)[1]])
+                                                    .sort((a, b) => a[0].localeCompare(b[0]))
+                                                    .map(([subChapterTitle, questions]) => (
+                                                        <div className="title">
+                                                            <button onClick={toggleClassOnSibling} className="title">{subChapterTitle}</button>
+                                                            <div className="question">
+                                                                {Object.entries(questions)
+                                                                    .sort((a, b) => a[0].localeCompare(b[0]))
+                                                                    .map(([questionTitle, person]) => (
+                                                                        <p className="title">
+                                                                            <button onClick={toggleClassOnSibling} className="title">{questionTitle}</button>
+                                                                            <div className="person">
+                                                                                {Object.entries(person).map(([key, value]) => (
+                                                                                    <div className="flex">
+                                                                                        <span className="title">{key} : {value}</span>
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        </p>
+                                                                    ))}
+                                                            </div>
+                                                        </div>
+                                                    ))}
                                             </div>
                                         </div>
-                                    </div>
-
-                                ))
+                                    ))
                             }
 
 
