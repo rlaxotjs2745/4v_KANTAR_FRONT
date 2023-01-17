@@ -1,6 +1,10 @@
-import React from "react";
-import {Link, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {useToastAlert} from "../Util/toastAlert";
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_DICT_URL} from "../Util/env";
+import DictionaryUpdateEntity from "../Components/Cards/DictionaryUpdateEntity";
+
 
 const DictionaryUpdate = () => {
     const {
@@ -9,22 +13,106 @@ const DictionaryUpdate = () => {
         toastNoticeError,
         toastNoticeWarning,
     } = useToastAlert();
+    const navigate = useNavigate();
 
+    const [dictionaryIdx, setDictionaryIdx] = useState(window.location.pathname.split('/').reverse()[0]);
+    const [dictionaryTitle, setDictionaryTitle] = useState('');
+    const [dictionaryData, setDictionaryData] = useState([]);
+    const [loadingBool, setLoadingBool] = useState(false);
+    const idx_user = 1;
 
-    const navigate = useNavigate()
+    useEffect(() => {
+        getDictionaryData();
+    }, [])
+
+    const getDictionaryData = () => {
+        axios.get(SERVER_DICT_URL + `dictionary_detail?idx_dictionary=${dictionaryIdx}`, AXIOS_OPTION)
+            .then(res => {
+                if(res.data.success === '1'){
+                    setDictionaryTitle(res.data.data.title);
+                    setDictionaryData(res.data.data.dictDataList);
+                } else {
+                    toastNoticeError(res.data.msg, '');
+                }
+            });
+    }
 
     const dictionarySave = () => { // 프로젝트 저장 버튼
+        if(loadingBool){
+            return;
+        }
+        setLoadingBool(true);
+        axios.post(SERVER_DICT_URL + 'update_dictionary_data', dictionaryData, AXIOS_OPTION)
+            .then(res => {
+                if(res.data.success === "1"){
+                    toastNoticeInfo('사전이 저장되었습니다.', '');
+                    navigate('/dictionary');
+                } else {
+                    toastNoticeError(res.data.msg, '');
+                }
+            })
+        setLoadingBool(false);
+    }
 
-        // const form = document.querySelector('#fileUploadForm');
+    const deleteDictionaryData = (idx) => {
+        if(!!idx){
+            if(loadingBool){
+                return;
+            }
+            setLoadingBool(true);
+            axios.post(SERVER_DICT_URL + 'delete_dictionary_data', {idx_dictionary_data: idx}, AXIOS_OPTION)
+                .then(res => {
+                    if(res.data.success === '1'){
+                        toastNoticeSuccess('대표 키워드 삭제가 완료되었습니다.', '');
+                        setDictionaryData(dictionaryData.filter(dt => dt.idx_dictionary_data != idx));
+                    } else {
+                        toastNoticeError(res.data.msg, '');
+                    }
+                })
+            setLoadingBool(false);
+        } else {
+            setDictionaryData(dictionaryData.slice(1));
+        }
+    }
 
+    const addDictionaryData = () => {
+        if(dictionaryData[0].idx_dictionary_data == null && dictionaryData[0].keyword == ''){
+            return;
+        }
 
-        // if (form.job_no.value === '') {
-        //     return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
-        // }
+        setDictionaryData([{
+            idx_dictionary: parseInt(dictionaryIdx),
+            keyword: '',
+            keyword01:'',
+            keyword02:'',
+            keyword03:'',
+            keyword04:'',
+            keyword05:'',
+            keyword06:'',
+            keyword07:'',
+            keyword08:'',
+            keyword09:'',
+            keyword10:'',
+            idx_user: idx_user
+        }, ...dictionaryData]);
+    }
 
+    const updateDictionaryData = (idx, e) => {
+        let thisIdx = 0;
+        if(idx){
+            for(let i = 0; i < dictionaryData.length; i++){
+                if(dictionaryData[i].idx_dictionary_data == idx){
+                    thisIdx = i;
+                }
+            }
+        }
+        const headArr = dictionaryData.slice(0, thisIdx);
+        const tailArr = dictionaryData.slice(thisIdx+1);
+        let thisDictionaryData = dictionaryData[thisIdx];
+        thisDictionaryData[e.target.className.split('_').reverse()[0]] = e.target.value;
+        thisDictionaryData.filter = 1;
 
-
-        toastNoticeInfo('사전이 저장되었습니다.', '')
+        setDictionaryData([...headArr, thisDictionaryData, ...tailArr]);
     }
 
     return(
@@ -39,7 +127,7 @@ const DictionaryUpdate = () => {
                     </div>
                     <div className="title_section pd0">
                         <div className="title_box">
-                            <h3 className="title">브랜드_종합01</h3>
+                            <h3 className="title">{dictionaryTitle}</h3>
                         </div>
                         <div className="btn_box">
                             <button onClick={dictionarySave} type="button" className="no_ico cds--btn">사전 저장</button>
@@ -78,55 +166,15 @@ const DictionaryUpdate = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>현대백화점</td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드01"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드02"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드04"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드05"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드07"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드09"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td className="absolute">
-                                <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_table_delete.svg'}/></button>
-                                <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_table_add.svg'}/></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>현대백화점</td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드04"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드06"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드08"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드09"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td className="absolute">
-                                <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_table_delete.svg'}/></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>현대백화점</td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드02"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드05"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드08"/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue=""/></td>
-                            <td><input type="text" placeholder="단어입력" defaultValue="키워드10"/></td>
-                            <td className="absolute">
-                                <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_table_delete.svg'}/></button>
-                            </td>
-                        </tr>
+                        {
+                            dictionaryData && dictionaryData.length > 0 ?
+                                dictionaryData.map((dt,idx) => {
+                                    return idx === 0 ?
+                                    <DictionaryUpdateEntity key={dt.idx_dictionary_data} entity={dt} deleteData={deleteDictionaryData} updateData={updateDictionaryData} newData={addDictionaryData} isFirst={true}/>
+                                        :
+                                    <DictionaryUpdateEntity key={dt.idx_dictionary_data} entity={dt} deleteData={deleteDictionaryData} updateData={updateDictionaryData} newData={addDictionaryData} isFirst={false}/>
+                                }) : null
+                        }
                         </tbody>
                     </table>
                 </div>

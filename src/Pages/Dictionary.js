@@ -16,6 +16,7 @@ const Dictionary = () => {
     const idx_user = 1;
     const [tableData, setTableData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [searchWord, setSearchWord] = useState('');
 
     useEffect(() => {
         getListDictionary(currentPage);
@@ -25,10 +26,13 @@ const Dictionary = () => {
         axios.get(SERVER_DICT_URL + `list_dictionary?idx_user=${idx_user}&currentPage=${curPage}`, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success == '1'){
+                    if(res.data.data.length === 0){
+                        setCurrentPage(currentPage - 1);
+                        return toastNoticeInfo('마지막 페이지입니다.', '');
+                    }
                     setTableData(res.data.data);
                 }
             })
-
     }
 
 
@@ -39,13 +43,27 @@ const Dictionary = () => {
         setCurrentPage(type === 1 ? currentPage + 1 : currentPage - 1);
     }
 
+    const getSearchWord = (e) => {
+        setSearchWord(e.target.value);
+    }
+
+    const deleteDictionary = (idx) => {
+        axios.post(SERVER_DICT_URL + 'delete_dictionary', {idx_dictionary: idx}, AXIOS_OPTION)
+            .then(res => {
+                if(res.data.success === '1'){
+                    toastNoticeSuccess('사전이 삭제되었습니다.', '');
+                    setTableData(tableData.filter(dt => dt.idx_dictionary != idx));
+                }
+            })
+    }
+
 
     return (
         <>
             <div className="page">
                 <div className="search_section">
                     <div className="input_box">
-                        <input type="text" placeholder="검색어를 입력하세요."/>
+                        <input onChange={(e) => getSearchWord(e)} type="text" placeholder="검색어를 입력하세요."/>
                         <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                     </div>
                 </div>
@@ -81,7 +99,7 @@ const Dictionary = () => {
                         </thead>
                         <tbody>
                         {
-                            tableData.map(dt => <DictionaryEntity key={dt.idx_dictionary} entity={dt} />)
+                            tableData.map(dt => <DictionaryEntity key={dt.idx_dictionary} deleteDictionary={deleteDictionary} entity={dt} />)
                         }
                         </tbody>
                     </table>
