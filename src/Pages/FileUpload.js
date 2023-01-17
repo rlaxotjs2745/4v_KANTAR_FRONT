@@ -10,6 +10,15 @@ import Modal from "../Components/Cards/Modal";
 import {useToastAlert} from "../Util/toastAlert";
 
 const FileUpload = () => {
+    function customSort(a, b) {
+        const aParts = a[0].split('_');
+        const bParts = b[0].split('_');
+        if (aParts[0] === bParts[0]) {
+            return Number(aParts[1]) - Number(bParts[1]);
+        } else {
+            return a[0].localeCompare(b[0]);
+        }
+    }
 
     const tableData = [
         {
@@ -305,13 +314,13 @@ const FileUpload = () => {
                                             <button onClick={toggleClassOnSibling} className="title">{item[Object.keys(item)[0]]}</button>
                                             <div className="sub_chapter">
                                                 {Object.entries(item[Object.keys(item)[1]])
-                                                    .sort((a, b) => a[0].localeCompare(b[0]))
+                                                    .sort(customSort)
                                                     .map(([subChapterTitle, questions]) => (
                                                         <div className="title">
                                                             <button onClick={toggleClassOnSibling} className="title">{subChapterTitle}</button>
                                                             <div className="question">
                                                                 {Object.entries(questions)
-                                                                    .sort((a, b) => a[0].localeCompare(b[0]))
+                                                                    .sort(customSort)
                                                                     .map(([questionTitle, person]) => (
                                                                         <p className="title">
                                                                             <button onClick={toggleClassOnSibling} className="title">{questionTitle}</button>
