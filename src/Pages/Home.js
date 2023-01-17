@@ -8,9 +8,17 @@ import {useCheckbox2} from "../Util/useCheckbox";
 import Modal from "../Components/Cards/Modal";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {useToastAlert} from "../Util/toastAlert";
 
 const Home = () => {
     const navigate = useNavigate()
+
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
 
     const {
         isAllChecked,
@@ -35,20 +43,32 @@ const Home = () => {
     const [projectList, setProjectList] = useState('')
     const [reportCreateList, setreportCreateList] = useState('')
 
+    const [currentPageNumber, setCurrentPageNumber] = useState(1)
+
+    const [filteredList, setFilteredList] = useState([])
+    // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i])
+    const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10));
+    // console.log(checkedIndexes, '체크된 배열값')
+    const filteredProjects = Object.values(projectList).filter(project =>
+        checkedIndexes.includes(project.idx_project)
+    );
+    // console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
+    // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
+
     useEffect(()=> {
-        axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setProjectList(res.data.data.list)
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
-            axios.post(SERVER_URL + 'list_project', {currentPage : 1}, AXIOS_OPTION).then(res => {
+            axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
                 setProjectList(res.data.data.list)
             }).catch(err => {
                 console.log(err);
             })
         };
-        const intervalId = setInterval(fetchData, 1000);
+        const intervalId = setInterval(fetchData, 10000);
         return () => clearInterval(intervalId);
 
         setreportCreateList([
@@ -73,10 +93,18 @@ const Home = () => {
                 status: '생성중',
             },
         ])
-    },[])
-    console.log(projectList)
+    },[currentPageNumber])
+
+    const projectListArray = Object.values(projectList);
+    const reportList = projectListArray.map(item => item.reportList);
+    console.log(reportList)
+
+
     // 프로젝트 병합
     const handleButtonClick = () => {
+        if(checkedCount < 2) {
+            return toastNoticeWarning('2개의 프로젝트 이상 선택해주세요', '')
+        }
         setShowModal(true);
         document.body.classList.add('fixed');
     };
@@ -89,17 +117,14 @@ const Home = () => {
     // 바로가기
     const handleButtonClick2 = (but) => {
         let idx = but.target.parentElement.parentElement.id;
-
         navigate(`/report_detail/${idx}`)
+    };
 
-        // 임시 지움,
-        // axios.post(SERVER_URL + 'report_view', {'idx' : idx}, AXIOS_OPTION).then(res => {
-        //     setShowModal2(true);
-        // }).catch(err => {
-        //     console.log(err);
-        // })
-        //
-        // document.body.classList.add('fixed');
+    const handleButtonClick3 = (but) => {
+        let idx = Number(but.target.parentElement.parentElement.id);
+        // setFilteredList(reportList.filter(item => item.find(report => report.idx_report === idx)))
+        setFilteredList(reportList.flatMap(item => item.filter(report => report.idx_report === idx)))
+        setShowModal2(true);
     };
 
     const handleModalClose2 = () => {
@@ -107,112 +132,17 @@ const Home = () => {
         document.body.classList.remove('fixed');
     };
 
-    const tableData = [
-        {
-            idx: 0,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 1,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 2,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 3,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 4,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 5,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 6,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 7,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 8,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 9,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
+    const handleLeftClick = () => {
+        if (currentPageNumber > 1) {
+            setCurrentPageNumber(currentPageNumber - 1);
+        } else {
+            setCurrentPageNumber(1);
+        }
+    };
 
-    ];
-
-
-
+    const handleRightClick = () => {
+        setCurrentPageNumber(currentPageNumber + 1)
+    };
 
     return (
         <>
@@ -292,9 +222,15 @@ const Home = () => {
                                                     생성중
                                                 </button>
                                                 :
-                                                <button onClick={handleButtonClick2} className="co2">
-                                                    바로가기
-                                                </button>
+                                                item.reportList.length > 1 ?
+                                                        <button onClick={handleButtonClick3} className="co2">
+                                                            바로가기
+                                                        </button>
+                                                        :
+                                                        <button onClick={handleButtonClick2} className="co2">
+                                                            바로가기
+                                                        </button>
+
                                             }
 
                                         </td>
@@ -308,9 +244,9 @@ const Home = () => {
                     </table>
                     {!projectList || !projectList.length ? '' :
                         <div className="table_pagination">
-                            <span className="page_num">Page 1</span>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                            <span className="page_num">Page {currentPageNumber}</span>
+                            <button type="button" onClick={handleLeftClick} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                            <button type="button" onClick={handleRightClick} className="right"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                         </div>
                     }
 
@@ -366,23 +302,28 @@ const Home = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {tableData.map((item) => (
-                                <tr key={item.idx}>
-                                    <td className="table_in_chk">
-                                        <input
-                                            type="checkbox"
-                                            checked={checkedState2[item.idx]}
-                                            onChange={() => handleMonoCheck2(item.idx)}
-                                        />
-                                    </td>
-                                    <td>{item.type}</td>
-                                    <td>{item.code}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.user_name}</td>
-                                    <td>{item.date}</td>
-                                </tr>
-                            ))}
 
+                            {
+                                !filteredProjects || !filteredProjects.length ?
+                                    <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
+                                    :
+                                    filteredProjects.map((item) => (
+                                        <tr id={item.idx_report} key={item.idx_report}>
+                                            <td className="table_in_chk">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={checkedState2[item.idx_report]}
+                                                    onChange={() => handleMonoCheck2(item.idx_report)}
+                                                />
+                                            </td>
+                                            <td>{item.job_no}</td>
+                                            <td>{item.project_id}</td>
+                                            <td>{item.filename}</td>
+                                            <td>{item.user_name}</td>
+                                            <td>{item.create_dt}</td>
+                                        </tr>
+                                    ))
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -404,9 +345,9 @@ const Home = () => {
                     <div className="report_create_list">
                         <ul>
                             {
-                                !reportCreateList || !reportCreateList.length ? '' :
-                                    reportCreateList.map((item) => (
-                                        <li id={item.idx} key={item.idx}><Link to={`/report_detail/${item.idx}`}>{item.name}</Link></li>
+                                !filteredList || !filteredList.length ? '' :
+                                    filteredList.map((item) =>  (
+                                        <li id={item.idx_report} key={item.idx_report}><Link to={`/report_detail/${item.idx_report}`}>{item.title}</Link></li>
                                     ))
                             }
                         </ul>

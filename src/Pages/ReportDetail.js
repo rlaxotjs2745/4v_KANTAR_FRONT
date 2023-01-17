@@ -27,7 +27,7 @@ const ReportDetail = () => {
     }
 
     useEffect(()=> {
-        axios.post(SERVER_URL + 'report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'project/report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1') {
                 setReportDetailContent(res.data.data)
             } else if (res.data.success === '0') {
@@ -58,7 +58,7 @@ const ReportDetail = () => {
                             <div className="flex">
                                 <div className="input_box">
                                     <label htmlFor="detail_name">프로젝트 이름</label>
-                                    <input id="detail_name" type="text" readOnly defaultValue={reportDetailContent ? reportDetailContent.project.project_name :''}/>
+                                    <input id="detail_name" type="text" defaultValue={reportDetailContent ? reportDetailContent.project.project_name :''}/>
                                 </div>
                                 <div className="input_box">
                                     <label htmlFor="detail_time">생성 일자</label>
@@ -125,7 +125,8 @@ const ReportDetail = () => {
                             </div>
                         </form>
 
-                            {!reportDetailContent || reportDetailContent.project.title === null ? null :
+                        <div>
+                            {!reportDetailContent || reportDetailContent.project.title !== null ? null :
                                 <div className="input_box">
                                     <label htmlFor="detail_filter">적용된 필터값</label>
                                     <div className="filter_area">
@@ -164,7 +165,8 @@ const ReportDetail = () => {
                                     </div>
                                 </div>
                             }
-                            {!reportDetailContent || reportDetailContent.project.title === null ? null :
+                        </div>
+                            {!reportDetailContent || reportDetailContent.project.title !== null ? null :
                                 <>
                                     <div className="input_box">
                                         <label>ChapterA 요약문 (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>

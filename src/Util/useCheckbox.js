@@ -68,8 +68,10 @@ export function useCheckbox() {
 }
 
 export function useCheckbox2() {
-    const [isAllChecked2, setAllChecked2] = useState(false);
-    const [checkedState2, setCheckedState2] = useState(new Array(99).fill(false));
+    // const [isAllChecked2, setAllChecked2] = useState(true); // 기본 값으로 체크 다 안되어있게
+    const [isAllChecked2, setAllChecked2] = useState(true); // 기본 값으로 체크 다 되어있게
+    // const [checkedState2, setCheckedState2] = useState(new Array(99).fill(false)); // 기본 값으로 체크 다 안되어있게
+    const [checkedState2, setCheckedState2] = useState(new Array(99).fill(true)); // 기본 값으로 체크 다 되어 있게
     const [checkedCount2, setCheckedCount2] = useState(0);
 
     useEffect(()=>{
