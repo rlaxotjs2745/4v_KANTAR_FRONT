@@ -13,7 +13,7 @@ const Dictionary = () => {
         toastNoticeWarning,
     } = useToastAlert();
 
-    const idx_user = 1;
+    const idx_user = 1; // 토큰 처리 방법 및 idx 값을 구할 수 있는 방법이 생기면 수정 예정
     const [tableData, setTableData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [searchWord, setSearchWord] = useState('');
@@ -22,8 +22,15 @@ const Dictionary = () => {
         getListDictionary(currentPage);
     }, [currentPage]);
 
-    const getListDictionary = (curPage) => {
-        axios.get(SERVER_DICT_URL + `list_dictionary?idx_user=${idx_user}&currentPage=${curPage}`, AXIOS_OPTION)
+    const getListDictionary = (curPage, search) => {
+        let param = `list_dictionary?idx_user=${idx_user}`;
+        if(curPage){
+            param = param + `&currentPage=${curPage}`;
+        }
+        if(search){
+            param = param + `&title=${searchWord}`
+        }
+        axios.get(SERVER_DICT_URL + param, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success == '1'){
                     if(res.data.data.length === 0){
@@ -57,6 +64,10 @@ const Dictionary = () => {
             })
     }
 
+    const searchDictionary = () => {
+        getListDictionary(null, true);
+    }
+
 
     return (
         <>
@@ -64,7 +75,7 @@ const Dictionary = () => {
                 <div className="search_section">
                     <div className="input_box">
                         <input onChange={(e) => getSearchWord(e)} type="text" placeholder="검색어를 입력하세요."/>
-                        <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                        <button onClick={searchDictionary}><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                     </div>
                 </div>
                 <div className="title_section">

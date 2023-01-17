@@ -18,7 +18,7 @@ const DictionaryCreate = () => {
     } = useToastAlert();
     const [file, setFile] = useState(null);
 
-    const idx_user = 1;
+    const idx_user = 1; // 토큰 처리 방법 및 idx 값을 구할 수 있는 방법이 생기면 수정 예정
 
     const handleFileDrop = (file) => {
         setFile(file);
