@@ -324,13 +324,12 @@ const FileUpload = () => {
                                                                     .map(([questionTitle, person]) => (
                                                                         <p className="title">
                                                                             <button onClick={toggleClassOnSibling} className="title">{questionTitle}</button>
-                                                                            <div className="person">
-                                                                                {Object.entries(person).map(([key, value]) => (
-                                                                                    <div className="flex">
-                                                                                        <span className="title">{key} : {value}</span>
-                                                                                    </div>
-                                                                                ))}
-                                                                            </div>
+                                                                            {Object.entries(person).map(([personTitle, answer]) => (
+                                                                                <div className="person">
+                                                                                    <button onClick={toggleClassOnSibling} className="title">{personTitle}</button>
+                                                                                    <div className="title answer">{answer}</div>
+                                                                                </div>
+                                                                            ))}
                                                                         </p>
                                                                     ))}
                                                             </div>

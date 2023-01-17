@@ -437,3 +437,4 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .validation_box .chapter .title + .question {display: none; padding-left:50px;}
 .validation_box .chapter .title + .person {display: none; padding-left:50px;}
 .validation_box .chapter .title + .person > .flex {display: flex; align-items: center;}
+.validation_box .chapter .title + .answer {display: none; padding-left:50px;}
