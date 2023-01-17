@@ -88,6 +88,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .login_box .input_box {margin-top:16px; display: flex; flex-direction: column;}
 .login_box .input_box input {margin-top:8px; padding:15px 16px; font-size:14px; line-height:18px; border:none; border-bottom:1px solid #8d8d8d;}
 .login_box .input_box + .input_box {margin-top:32px;}
+.login_box .input_box .tip {color:#da1e28; font-size:11px; margin:5px 0 0px;}
 
 .login_box .btn_box {position: absolute; left:0; bottom:0; width: 100%; display: flex;}
 .login_box .btn_box button {height: 64px; flex:1;border:1px solid #0F62FE; display: flex; padding:15px 16px; color: #0F62FE; font-size:14px;}
@@ -422,3 +423,17 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 
 .toast_flex {display: flex; justify-content: space-between;}
 .toast_flex img {margin-right:10px;}
+
+.validation_box {background: #D9D9D9; padding:16px 20px; font-size:16px; line-height:1.4; font-weight: 600; min-width: 1000px; margin-top: 20px;}
+.validation_box > * + * {margin-top: 10px;}
+.validation_box .title {font-size:16px; line-height:1.6; font-weight: 600; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;}
+
+.validation_box .chapter .on {display: block !important;}
+.validation_box .chapter button.title {padding-right:25px; position: relative; text-align: left;}
+.validation_box .chapter button.title:after {content:''; display: inline-block; position: absolute; top:50%; transform: translateY(-50%); right:0; width: 12px; height:6px; background: url("../public/assets/image/ico_btn_tri.svg") no-repeat center / 100% 100%; }
+.validation_box .chapter .title + .sub_chapter .title {font-size:14px; font-weight: 500;}
+
+.validation_box .chapter .title + .sub_chapter {display: none; padding-left:50px;}
+.validation_box .chapter .title + .question {display: none; padding-left:50px;}
+.validation_box .chapter .title + .person {display: none; padding-left:50px;}
+.validation_box .chapter .title + .person > .flex {display: flex; align-items: center;}

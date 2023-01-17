@@ -1,6 +1,6 @@
 import React from "react";
 import {Link, useNavigate} from 'react-router-dom';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import $ from 'jquery'
 import axios from 'axios';
 import { AXIOS_OPTION, SERVER_URL } from "../Util/env";
@@ -133,18 +133,47 @@ const FileUpload = () => {
         console.log(file, '전달받은 파일')
     }
 
+
     const [input1, setInput1] = useState({ value: '', characters: 0 });
     const [input2, setInput2] = useState({ value: '', characters: 0 });
     const [input3, setInput3] = useState({ value: '', characters: 0 });
+    const [validationData, setValidationData] = useState([]);
+    const validationDataReverse = Object.entries(validationData).reverse()
+
+    function toggleClassOnSibling(element) {
+        const target = element.target;
+        target.nextElementSibling.classList.toggle("on");
+    }
+
+    console.log(validationDataReverse)
 
     function handleChange(setInputNumber, event) {
         setInputNumber({ value: event.target.value, characters: event.target.value.length });
     }
     const [showModal, setShowModal] = useState(false); // 프로젝트 병합 버튼 누르면 나오는 모달
     // 프로젝트 병합
-    const handleButtonClick = () => {
-        setShowModal(true);
-        document.body.classList.add('fixed');
+    const checkValidation = () => {
+        if (file === null) {
+            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', ''))
+        }
+        let formData = new FormData();
+
+        formData.append('file', file);
+
+        axios.post(SERVER_URL + 'project/csv_view', formData, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                setValidationData(res.data.data)
+                setShowModal(true);
+                document.body.classList.add('fixed');
+            } else {
+                toastNoticeError(res.data.data.msg, '')
+            }
+        }).catch(err => {
+            console.log(err);
+            toastNoticeError('에러가 발생했습니다.', '')
+        })
+
+
     };
 
     const handleModalClose = () => {
@@ -154,7 +183,7 @@ const FileUpload = () => {
 
     const reportCreate = (data) => { // 기본 리포트 생성 버튼
 
-        const form = document.querySelector('#fileUploadForm');
+        let form = document.querySelector('#fileUploadForm');
 
         if (file === null) {
             return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', ''))
@@ -231,7 +260,7 @@ const FileUpload = () => {
                                 <p className="info">.csv 파일만 업로드 가능합니다. 용량은 최대 500kb까지 가능합니다.</p>
                             </div>
                             <div className="btn_box">
-                                <button onClick={handleButtonClick} type="button" className="cds--btn cds--btn--tertiary">chapter validation</button>
+                                <button onClick={checkValidation} type="button" className="cds--btn cds--btn--tertiary">chapter validation</button>
                                 <button onClick={reportCreate} type="button" className="plus cds--btn">기본 리포트 생성</button>
                             </div>
                         </div>
@@ -269,8 +298,43 @@ const FileUpload = () => {
                     <div className="validation_area">
                         <strong className="tit">챕터 카테고리</strong>
                         <div className="validation_box">
-                            {/* 임시 이미지 대체 미구현 */}
-                            <img src={process.env.PUBLIC_URL + '/assets/image/img_chapter_validation.jpeg'} alt=""/>
+                            {
+                                !validationDataReverse || !validationDataReverse.length ? '' :
+                                    validationDataReverse.map((item) =>  (
+                                    <div>
+                                        <div className="chapter">
+                                            <button onClick={toggleClassOnSibling} className="title">{Object.values(item)[0]}</button>
+                                            <div className="sub_chapter">
+                                               {Object.entries(Object.values(item)[1]).sort().map(([key, value]) => (
+                                                   <div className="title">
+                                                       <button onClick={toggleClassOnSibling} className="title">{key}</button>
+                                                       <div className="question">
+                                                           {Object.keys(value).sort().map((subItem) => (
+                                                                <p className="title">
+                                                                    <button onClick={toggleClassOnSibling} className="title">{subItem}</button>
+                                                                    <div className="person">
+                                                                      {Object.entries(value[subItem]).map(([key, value]) => (
+                                                                          <div className="flex">
+                                                                            <span className="title">{key} : {value}</span>
+                                                                          </div>
+                                                                      ))}
+                                                                    </div>
+                                                                </p>
+                                                           ))}
+
+                                                       </div>
+                                                   </div>
+                                               ))}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                ))
+                            }
+
+
+
                         </div>
                         <p className="tip">**챕터 카테고리를 확인 후, 올바르지 않을시 원본파일을 수정 후 다시 업로드 해주세요.</p>
                     </div>
