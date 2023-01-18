@@ -52,7 +52,7 @@ const DictionaryCreate = () => {
         formData.append('file', file);
         formData.append('title', input1.value);
 
-        axios.post(SERVER_DICT_URL + 'create', formData, AXIOS_OPTION)
+        axios.post(SERVER_URL + 'dict/create', formData, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
                     toastNoticeSuccess(res.data.msg, '');
