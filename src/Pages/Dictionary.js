@@ -36,7 +36,7 @@ const Dictionary = () => {
                 if(res.data.success == '1'){
                     if(res.data.data.length === 0 && currentPage != 0){
                         setCurrentPage(currentPage - 1);
-                        return toastNoticeInfo('마지막 페이지입니다.', '');
+                        return toastNoticeInfo('마지막 페이지입니다.', '', '');
                     }
                     setTableData(res.data.data);
                 }
@@ -46,7 +46,7 @@ const Dictionary = () => {
 
     const movePage = (type) => {
         if(currentPage == 0 && type === 0){
-            return toastNoticeInfo('첫 페이지입니다.', '');
+            return toastNoticeInfo('첫 페이지입니다.', '', '');
         }
         setCurrentPage(type === 1 ? currentPage + 1 : currentPage - 1);
     }
@@ -59,7 +59,7 @@ const Dictionary = () => {
         axios.post(SERVER_URL + 'dict/delete_dictionary', {idx_dictionary: idx}, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
-                    toastNoticeSuccess('사전이 삭제되었습니다.', '');
+                    toastNoticeSuccess('사전이 삭제되었습니다.', '', '');
                     setTableData(tableData.filter(dt => dt.idx_dictionary != idx));
                 }
             })

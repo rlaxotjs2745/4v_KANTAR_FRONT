@@ -4,8 +4,16 @@ import {Link} from "react-router-dom";
 import {useCheckbox} from "../Util/useCheckbox";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {useToastAlert} from "../Util/toastAlert";
 
 const Report = () => {
+
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
 
     const {
         isAllChecked,

@@ -12,7 +12,7 @@ function App(){
         <ToastContainer
             closeButton={<img src={process.env.PUBLIC_URL + '/assets/image/ico_toast_delete.svg'} alt="Custom close icon" />}
             position="bottom-left"
-            autoClose={3000}
+            autoClose={30000}
             hideProgressBar={true}
             newestOnTop={false}
             closeOnClick

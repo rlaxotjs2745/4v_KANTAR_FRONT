@@ -1,6 +1,11 @@
 import { toast } from 'react-toastify';
 
 const CustomToastWithLink = (props) => {
+
+    const dictionaryDelete = () => {
+        alert('삭제')
+    }
+
     return(
         <div className='toast_flex'>
             <div>
@@ -15,19 +20,22 @@ const CustomToastWithLink = (props) => {
             {
                 props.link === '' ? null : <a href={props.link}>[바로가기]</a>
             }
+            {
+                props.del === '' ? null : <button onClick={dictionaryDelete} className="co1" type="button">[삭제하기]</button>
+            }
         </div>
     )
 }
 
 export function useToastAlert() {
 
-    const toastNoticeInfo = (text, link) => toast.info(<CustomToastWithLink toastType='normal' text={text} link={link}/>); // 파란색(기본)
+    const toastNoticeInfo = (text, link, del) => toast.info(<CustomToastWithLink toastType='normal' text={text} link={link} del={del}/>); // 파란색(기본)
 
-    const toastNoticeSuccess = (text, link) => toast.success(<CustomToastWithLink toastType='success' text={text} link={link}/>); // 초록색(성공)
+    const toastNoticeSuccess = (text, link, del) => toast.success(<CustomToastWithLink toastType='success' text={text} link={link} del={del}/>); // 초록색(성공)
 
-    const toastNoticeError = (text, link) => toast.error(<CustomToastWithLink toastType='error' text={text} link={link}/>); // 빨간색(실패)
+    const toastNoticeError = (text, link, del) => toast.error(<CustomToastWithLink toastType='error' text={text} link={link} del={del}/>); // 빨간색(실패)
 
-    const toastNoticeWarning = (text, link) => toast.warning(<CustomToastWithLink toastType='warning' text={text} link={link}/>); // 노란색(경고 or 알림)
+    const toastNoticeWarning = (text, link, del) => toast.warning(<CustomToastWithLink toastType='warning' text={text} link={link} del={del}/>); // 노란색(경고 or 알림)
 
     return {
         toastNoticeInfo,

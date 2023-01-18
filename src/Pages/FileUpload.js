@@ -20,110 +20,6 @@ const FileUpload = () => {
         }
     }
 
-    const tableData = [
-        {
-            idx: 0,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 1,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 2,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 3,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 4,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 5,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '생성중',
-        },
-        {
-            idx: 6,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 7,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 8,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-        {
-            idx: 9,
-            type: 'A20',
-            code: 'P0001',
-            name: 'chat-hitories13',
-            user_name: '김설문',
-            date: '2022.10.25 11:07',
-            state: 'Raw data',
-            status: '바로가기',
-        },
-
-    ];
-
     const {
         toastNoticeInfo,
         toastNoticeSuccess,
@@ -163,7 +59,7 @@ const FileUpload = () => {
     // 프로젝트 병합
     const checkValidation = () => {
         if (file === null) {
-            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', ''))
+            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', '', ''))
         }
         let formData = new FormData();
 
@@ -175,11 +71,11 @@ const FileUpload = () => {
                 setShowModal(true);
                 document.body.classList.add('fixed');
             } else {
-                toastNoticeError(res.data.data.msg, '')
+                toastNoticeError(res.data.data.msg, '', '')
             }
         }).catch(err => {
             console.log(err);
-            toastNoticeError('에러가 발생했습니다.', '')
+            toastNoticeError('에러가 발생했습니다.', '', '')
         })
 
 
@@ -195,15 +91,15 @@ const FileUpload = () => {
         let form = document.querySelector('#fileUploadForm');
 
         if (file === null) {
-            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', ''))
+            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', '', ''))
         }
 
         if (form.job_no.value === '') {
-            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
+            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', '', ''))
         }
 
         if (form.project_name.value === '') {
-            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
+            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', '', ''))
         }
 
         let formData = new FormData();
@@ -216,15 +112,15 @@ const FileUpload = () => {
 
         axios.post(SERVER_URL + 'report/create_report', formData, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                toastNoticeInfo('기본리포트 생성을 시작 하였습니다.', '')
+                toastNoticeInfo('기본리포트 생성을 시작 하였습니다.', '', '')
                 navigate('/')
-                toastNoticeSuccess('기본 리포트가 생성되었습니다', `/report_detail/1`)
+                toastNoticeSuccess('기본 리포트가 생성되었습니다', `/report_detail/1`, '')
             } else {
-                toastNoticeError('에러가 발생했습니다.', '')
+                toastNoticeError('에러가 발생했습니다.', '', '')
             }
         }).catch(err => {
             console.log(err);
-            toastNoticeError('에러가 발생했습니다.', '')
+            toastNoticeError('에러가 발생했습니다.', '', '')
         })
 
 
@@ -238,18 +134,18 @@ const FileUpload = () => {
         const form = document.querySelector('#fileUploadForm');
 
         if (file === null) {
-            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', ''))
+            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.', '', ''))
         }
 
         if (form.job_no.value === '') {
-            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
+            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', '', ''))
         }
 
         if (form.project_name.value === '') {
-            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', ''))
+            return (toastNoticeError('필수 정보가 입력되지 않았습니다.', '', ''))
         }
 
-        toastNoticeInfo('프로젝트 설정이 저장되었습니다.', '')
+        toastNoticeInfo('프로젝트 설정이 저장되었습니다.', '', '')
     }
 
     return(

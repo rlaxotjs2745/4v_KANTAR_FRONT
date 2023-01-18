@@ -103,7 +103,7 @@ const Home = () => {
     // 프로젝트 병합
     const handleButtonClick = () => {
         if(checkedCount < 2) {
-            return toastNoticeWarning('2개의 프로젝트 이상 선택해주세요', '')
+            return toastNoticeWarning('2개의 프로젝트 이상 선택해주세요', '', '')
         }
         setShowModal(true);
         document.body.classList.add('fixed');

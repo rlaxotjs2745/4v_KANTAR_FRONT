@@ -39,7 +39,7 @@ const MemberManagement = () => {
                 if(res.data.success == '1'){
                     if(res.data.data.length === 0 && currentPage != 0){
                         setCurrentPage(currentPage - 1);
-                        return toastNoticeInfo('마지막 페이지입니다.', '');
+                        return toastNoticeInfo('마지막 페이지입니다.', '', '');
                     }
                     setUserList(res.data.data);
                 }
@@ -49,7 +49,7 @@ const MemberManagement = () => {
 
     const movePage = (type) => {
         if(currentPage == 0 && type === 0){
-            return toastNoticeInfo('첫 페이지입니다.', '');
+            return toastNoticeInfo('첫 페이지입니다.', '', '');
         }
         setCurrentPage(type === 1 ? currentPage + 1 : currentPage - 1);
     }

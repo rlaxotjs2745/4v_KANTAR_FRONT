@@ -408,6 +408,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 
 #root .Toastify__toast {font-size:14px; line-height: 1.4; color:#161616; font-weight: 600; min-width: 400px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);}
 #root .Toastify__toast a {color:#0f62fe;}
+#root .Toastify__toast button.co1 {color: #da1e28;}
 #root .Toastify__toast:before {content:''; position: absolute; left: 0; top: 0; width: 3px; height:100%; background:#0043CE; }
 #root .Toastify__toast--info {background: #EDF5FF; border:1px solid #8eaeeb;}
 
