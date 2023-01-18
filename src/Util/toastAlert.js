@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 const CustomToastWithLink = (props) => {
 
     const dictionaryDelete = () => {
-        alert('삭제')
+        console.log(props.del, '삭제하기 기능 함수')
     }
 
     return(
