@@ -1,40 +1,52 @@
 import React, {useEffect, useState} from 'react';
 
 function InfiniteScroller({ items }) {
-    const [list, setList] = useState(items ? items.slice(0, 10) : []);
-    const [perPage, setPerPage] = useState(10);
+    const [list, setList] = useState([]);
+    const perPage = 10; // 스크롤 할때 몇개씩 불러올지
     const [isLoading, setIsLoading] = useState(false); // 추가
+    const [endReached, setEndReached] = useState(false);
 
     useEffect(() => {
         if (items) {
             setList(items.slice(0, 20));
         }
-    }, [items]);
+    }, [items]); // 아이템 받아온 뒤로 기본 처음 20개 잘라서 리스트에 집어넣음.
 
-    console.log(list, '받은 리스트 내역')
+    function loadMore() {
+        setList(prevList => {
+            const updatedList = [...prevList, ...items.slice(prevList.length, prevList.length + perPage)];
+            return updatedList;
+        });
+    }
+
+    useEffect(() => {
+
+        console.log(list.length, '리스트 개수', items.length, '서버에서 받은 개수')
+        if (list.length === items.length) {
+            setEndReached(true);
+        }
+    }, [list, items]);
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
 
-    function handleScroll() {
+        function handleScroll() {
+            const scrollTop = document.documentElement.scrollTop
+            const scrollHeight = document.documentElement.scrollHeight
+            const clientHeight = document.documentElement.clientHeight
 
-        const scrollTop = document.documentElement.scrollTop
-        const scrollHeight = document.documentElement.scrollHeight
-        const clientHeight = document.documentElement.clientHeight
-
-        if (
-            scrollTop + clientHeight >= scrollHeight
-        ) {
-            loadMore();
+            if (scrollTop + clientHeight >= scrollHeight) {
+                if(endReached !== true) {
+                    console.log('실행 되는중')
+                    loadMore();
+                }
+            }
         }
-    }
 
+    }, [endReached])
 
-    function loadMore() {
-        setList(prevList => [...prevList, ...items.slice(prevList.length, prevList.length+perPage)]);
-    }
+    console.log(endReached)
 
 
     return (
@@ -48,7 +60,7 @@ function InfiniteScroller({ items }) {
                     <td>{item.answer}</td>
                 </tr>
             ))}
-            {/*<button type="button" onClick={loadMore}>Load More</button>*/}
+            {/*{endReached ? null : <button type="button" onClick={loadMore}>더보기</button>} 지금은 더보기 버튼 가리고 무한스크롤 */}
         </>
     );
 }

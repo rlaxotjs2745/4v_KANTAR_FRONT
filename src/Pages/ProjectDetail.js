@@ -764,22 +764,6 @@ const ProjectDetail = () => {
                                     items={projectDetailList}
                                 />
                             }
-
-
-                            {/*{*/}
-                            {/*    !projectDetailList || !projectDetailList.length ?*/}
-                            {/*        <td colSpan="5" style={{textAlign:'center'}}>리스트가 없습니다.</td>*/}
-                            {/*        :*/}
-                            {/*        projectDetailList.map((item) => (*/}
-                            {/*            <tr>*/}
-                            {/*                <td>{item.person}</td>*/}
-                            {/*                <td>{item.chapter}</td>*/}
-                            {/*                <td>{item.subchapter}</td>*/}
-                            {/*                <td>{item.question}</td>*/}
-                            {/*                <td>{item.answer}</td>*/}
-                            {/*            </tr>*/}
-                            {/*        ))*/}
-                            {/*}*/}
                             </tbody>
                         </table>
 
