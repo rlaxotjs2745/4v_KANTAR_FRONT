@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { useCallback, useState, useRef } from 'react';
 import Modal from "../Components/Cards/Modal";
 import {Toggle} from "@carbon/react";
@@ -7,9 +7,19 @@ import {Toggle} from "@carbon/react";
 import ReactWordcloud from 'react-wordcloud';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {useToastAlert} from "../Util/toastAlert";
+import InfiniteScroller from "../Components/Cards/InfiniteScroller";
 
 const ProjectDetail = () => {
 
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
 
     const words = [
         {
@@ -530,9 +540,11 @@ const ProjectDetail = () => {
         transitionDuration: 1000
     };
 
-
+    const { pathname } = useLocation();
     const navigate = useNavigate()
+    const pathSplit = Number(pathname.split('/')[2])
 
+    const [projectDetailList, setProjectDetailList] = useState([])
 
     useEffect(() => {
         const handleClick = (event) => {
@@ -548,7 +560,22 @@ const ProjectDetail = () => {
         return () => {
             document.removeEventListener('click', handleClick);
         };
+
     }, []);
+
+    useEffect(()=> {
+        axios.post(SERVER_URL + 'project/project_view', {"idx_project" : pathSplit}, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                setProjectDetailList(res.data.data)
+            } else {
+            }
+        }).catch(err => {
+            console.log(err);
+            toastNoticeError('에러가 발생했습니다.', '')
+        })
+    },[])
+
+    console.log(projectDetailList, '프로젝트 디테일 리스트')
 
     function toggleClass() {
         const topElement = document.querySelector('.btn_select');
@@ -729,83 +756,33 @@ const ProjectDetail = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>$설문의 단답형일 수 있음</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>발베니</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>평소 에도 한국 전통문화에 관심이 많고 우리의 것을 사랑하자는 생각을 가지고 있었는데 위스키 중 전통성을 가진 발베니가 우리나라의 전통과 함께 어우러진다는 점이 마음에 든다.</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>평소 에도 한국 전통문화에 관심이 많고 우리의 것을 사랑하자는 생각을 가지고 있었는데 위스키 중 전통성을 가진 발베니가 우리나라의 전통과 함께 어우러진다는 점이 마음에 든다.</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>평소 에도 한국 전통문화에 관심이 많고 우리의 것을 사랑하자는 생각을 가지고 있었는데 위스키 중 전통성을 가진 발베니가 우리나라의 전통과 함께 어우러진다는 점이 마음에 든다.</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>평소 에도 한국 전통문화에 관심이 많고 우리의 것을 사랑하자는 생각을 가지고 있었는데 위스키 중 전통성을 가진 발베니가 우리나라의 전통과 함께 어우러진다는 점이 마음에 든다.</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>평소 에도 한국 전통문화에 관심이 많고 우리의 것을 사랑하자는 생각을 가지고 있었는데 위스키 중 전통성을 가진 발베니가 우리나라의 전통과 함께 어우러진다는 점이 마음에 든다.</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>평소 에도 한국 전통문화에 관심이 많고 우리의 것을 사랑하자는 생각을 가지고 있었는데 위스키 중 전통성을 가진 발베니가 우리나라의 전통과 함께 어우러진다는 점이 마음에 든다.</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>평소 에도 한국 전통문화에 관심이 많고 우리의 것을 사랑하자는 생각을 가지고 있었는데 위스키 중 전통성을 가진 발베니가 우리나라의 전통과 함께 어우러진다는 점이 마음에 든다.</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>User Lifestyle</td>
-                                <td>User behavior</td>
-                                <td>평소에 즐거먹는 브랜드는 어디인가요?</td>
-                                <td>평소 에도 한국 전통문화에 관심이 많고 우리의 것을 사랑하자는 생각을 가지고 있었는데 위스키 중 전통성을 가진 발베니가 우리나라의 전통과 함께 어우러진다는 점이 마음에 든다.</td>
-                            </tr>
+
+                            {!projectDetailList || !projectDetailList.length ?
+                                <td colSpan="5" style={{textAlign:'center'}}>리스트가 없습니다.</td>
+                             :
+                                <InfiniteScroller
+                                    items={projectDetailList}
+                                />
+                            }
+
+
+                            {/*{*/}
+                            {/*    !projectDetailList || !projectDetailList.length ?*/}
+                            {/*        <td colSpan="5" style={{textAlign:'center'}}>리스트가 없습니다.</td>*/}
+                            {/*        :*/}
+                            {/*        projectDetailList.map((item) => (*/}
+                            {/*            <tr>*/}
+                            {/*                <td>{item.person}</td>*/}
+                            {/*                <td>{item.chapter}</td>*/}
+                            {/*                <td>{item.subchapter}</td>*/}
+                            {/*                <td>{item.question}</td>*/}
+                            {/*                <td>{item.answer}</td>*/}
+                            {/*            </tr>*/}
+                            {/*        ))*/}
+                            {/*}*/}
                             </tbody>
                         </table>
-                        <div className="table_pagination">
-                            <span className="page_num">Page 1</span>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
-                        </div>
+
                     </div>
                 </form>
             </div>

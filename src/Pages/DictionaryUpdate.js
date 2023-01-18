@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {useToastAlert} from "../Util/toastAlert";
 import axios from "axios";
-import {AXIOS_OPTION, SERVER_DICT_URL} from "../Util/env";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import DictionaryUpdateEntity from "../Components/Cards/DictionaryUpdateEntity";
 
 
@@ -26,7 +26,7 @@ const DictionaryUpdate = () => {
     }, [])
 
     const getDictionaryData = () => {
-        axios.get(SERVER_DICT_URL + `dictionary_detail?idx_dictionary=${dictionaryIdx}`, AXIOS_OPTION)
+        axios.get(SERVER_URL + `dict/dictionary_detail?idx_dictionary=${dictionaryIdx}`, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
                     setDictionaryTitle(res.data.data.title);
@@ -42,7 +42,7 @@ const DictionaryUpdate = () => {
             return;
         }
         setLoadingBool(true);
-        axios.post(SERVER_DICT_URL + 'update_dictionary_data', dictionaryData, AXIOS_OPTION)
+        axios.post(SERVER_URL + 'dict/update_dictionary_data', dictionaryData, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === "1"){
                     toastNoticeInfo('사전이 저장되었습니다.', '');
@@ -60,7 +60,7 @@ const DictionaryUpdate = () => {
                 return;
             }
             setLoadingBool(true);
-            axios.post(SERVER_DICT_URL + 'delete_dictionary_data', {idx_dictionary_data: idx}, AXIOS_OPTION)
+            axios.post(SERVER_URL + 'dict/delete_dictionary_data', {idx_dictionary_data: idx}, AXIOS_OPTION)
                 .then(res => {
                     if(res.data.success === '1'){
                         toastNoticeSuccess('대표 키워드 삭제가 완료되었습니다.', '');
