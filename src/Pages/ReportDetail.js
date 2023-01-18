@@ -27,7 +27,7 @@ const ReportDetail = () => {
     }
 
     useEffect(()=> {
-        axios.post(SERVER_URL + 'project/report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'report/report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1') {
                 setReportDetailContent(res.data.data)
             } else if (res.data.success === '0') {

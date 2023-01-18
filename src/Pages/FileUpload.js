@@ -214,7 +214,7 @@ const FileUpload = () => {
         formData.append('project_name', form.project_name.value)
         formData.append('summary0', form.project_content.value)
 
-        axios.post(SERVER_URL + 'project/create_report', formData, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'report/create_report', formData, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
                 toastNoticeInfo('기본리포트 생성을 시작 하였습니다.', '')
                 navigate('/')

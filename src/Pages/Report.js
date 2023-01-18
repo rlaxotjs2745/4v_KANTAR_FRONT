@@ -19,13 +19,13 @@ const Report = () => {
     const [reportList, setReportList] = useState('')
 
     useEffect(()=> {
-        axios.post(SERVER_URL + 'project/list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'report/list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
             setReportList(res.data.data)
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
-            axios.post(SERVER_URL + 'project/list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
+            axios.post(SERVER_URL + 'report/list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
                 setReportList(res.data.data)
             }).catch(err => {
                 console.log(err);
