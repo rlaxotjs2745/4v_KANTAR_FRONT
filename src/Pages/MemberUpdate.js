@@ -29,7 +29,7 @@ const MemberUpdate = () => {
                     setUserData(res.data.data);
                     setModUserData(res.data.data);
                 } else {
-                    toastNoticeError(res.data.msg, '', '');
+                    toastNoticeError(res.data.msg);
                 }
             });
     }
@@ -42,16 +42,16 @@ const MemberUpdate = () => {
 
     const submitModifyInfo = () => {
         if(!modUserData.user_phone.match(/^\d+$/)){
-            return toastNoticeError('유효하지 않은 전화번호입니다.', '', '');
+            return toastNoticeError('유효하지 않은 전화번호입니다.');
         }
 
         axios.post(SERVER_URL + 'user/modify', modUserData, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
-                    toastNoticeSuccess(res.data.msg, '', '');
+                    toastNoticeSuccess(res.data.msg);
                     navigate('/member_management');
                 } else {
-                    toastNoticeError(res.data.msg, '', '');
+                    toastNoticeError(res.data.msg);
                 }
             })
     }
@@ -60,10 +60,10 @@ const MemberUpdate = () => {
         axios.post(SERVER_URL + 'user/dropout', modUserData, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
-                    toastNoticeSuccess(res.data.msg, '', '');
+                    toastNoticeSuccess(res.data.msg);
                     navigate('/member_management');
                 } else {
-                    toastNoticeError(res.data.msg, '', '');
+                    toastNoticeError(res.data.msg);
                 }
             })
     }

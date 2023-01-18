@@ -31,11 +31,11 @@ const ReportDetail = () => {
             if(res.data.success === '1') {
                 setReportDetailContent(res.data.data)
             } else if (res.data.success === '0') {
-                toastNoticeError(res.data.msg, '', '')
+                toastNoticeError(res.data.msg)
                 navigate('/')
             }
         }).catch(err => {
-            toastNoticeError('에러가 발생했습니다.', '', '')
+            toastNoticeError('에러가 발생했습니다.')
             console.log(err);
         })
 

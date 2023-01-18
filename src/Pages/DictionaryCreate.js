@@ -37,15 +37,15 @@ const DictionaryCreate = () => {
         let formData = new FormData();
 
         if(!idx_user){
-            return toastNoticeError('다시 로그인하고 시도해주세요.', '', '')
+            return toastNoticeError('다시 로그인하고 시도해주세요.')
         }
 
         if(!file){
-            return toastNoticeError('파일을 업로드하고 다시 시도해주세요.', '', '')
+            return toastNoticeError('파일을 업로드하고 다시 시도해주세요.')
         }
 
         if(file.type != 'text/csv'){
-            return toastNoticeError('.csv 파일만 업로드 가능합니다. 확인 후 다시 시도해주세요.', '', '')
+            return toastNoticeError('.csv 파일만 업로드 가능합니다. 확인 후 다시 시도해주세요.')
         }
 
         formData.append('idx_user', idx_user);
@@ -55,13 +55,13 @@ const DictionaryCreate = () => {
         axios.post(SERVER_URL + 'dict/create', formData, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
-                    toastNoticeSuccess(res.data.msg, '', '');
+                    toastNoticeSuccess(res.data.msg);
                     navigate('/dictionary');
                 } else {
-                    return toastNoticeError(res.data.msg, '', '');
+                    return toastNoticeError(res.data.msg);
                 }
             })
-            .catch(() => toastNoticeError('서버와 통신 중 오류가 발생했습니다.', '', ''))
+            .catch(() => toastNoticeError('서버와 통신 중 오류가 발생했습니다.'))
     }
 
 

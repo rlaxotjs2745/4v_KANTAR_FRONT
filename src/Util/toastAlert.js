@@ -18,10 +18,10 @@ const CustomToastWithLink = (props) => {
                 <span> {props.text}</span>
             </div>
             {
-                props.link === '' ? null : <a href={props.link}>[바로가기]</a>
+                props.link ? <a href={props.link}>[바로가기]</a> : null
             }
             {
-                props.del === '' ? null : <button onClick={dictionaryDelete} className="co1" type="button">[삭제하기]</button>
+                props.del ? <button onClick={dictionaryDelete} className="co1" type="button">[삭제하기]</button> : null
             }
         </div>
     )
