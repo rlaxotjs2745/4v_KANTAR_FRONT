@@ -17,23 +17,24 @@ const Dictionary = () => {
     const [tableData, setTableData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [searchWord, setSearchWord] = useState('');
+    const [isSearched, setIsSearched] = useState(false);
 
     useEffect(() => {
         getListDictionary(currentPage);
-    }, [currentPage]);
+    }, [currentPage, isSearched]);
 
-    const getListDictionary = (curPage, search) => {
-        let param = `list_dictionary?idx_user=${idx_user}`;
+    const getListDictionary = (curPage) => {
+        let param = `dict/list_dictionary?idx_user=${idx_user}`;
         if(curPage){
-            param = param + `&currentPage=${curPage}`;
+            param = param + `&currentPage=${currentPage}`;
         }
-        if(search){
-            param = param + `&title=${searchWord}`
+        if(isSearched){
+            param = param + `&title=${searchWord}`;
         }
-        axios.get(SERVER_DICT_URL + param, AXIOS_OPTION)
+        axios.get(SERVER_URL + param, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success == '1'){
-                    if(res.data.data.length === 0){
+                    if(res.data.data.length === 0 && currentPage != 0){
                         setCurrentPage(currentPage - 1);
                         return toastNoticeInfo('마지막 페이지입니다.', '');
                     }
@@ -55,7 +56,7 @@ const Dictionary = () => {
     }
 
     const deleteDictionary = (idx) => {
-        axios.post(SERVER_DICT_URL + 'delete_dictionary', {idx_dictionary: idx}, AXIOS_OPTION)
+        axios.post(SERVER_URL + 'dict/delete_dictionary', {idx_dictionary: idx}, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
                     toastNoticeSuccess('사전이 삭제되었습니다.', '');
@@ -65,7 +66,14 @@ const Dictionary = () => {
     }
 
     const searchDictionary = () => {
-        getListDictionary(null, true);
+        setIsSearched(true);
+        getListDictionary(null);
+    }
+
+    const addEnterEventListener = () => {
+        if(window.event.keyCode == 13){
+            searchDictionary();
+        }
     }
 
 
@@ -74,7 +82,7 @@ const Dictionary = () => {
             <div className="page">
                 <div className="search_section">
                     <div className="input_box">
-                        <input onChange={(e) => getSearchWord(e)} type="text" placeholder="검색어를 입력하세요."/>
+                        <input onChange={(e) => getSearchWord(e)} onKeyUp={addEnterEventListener} type="text" placeholder="검색어를 입력하세요."/>
                         <button onClick={searchDictionary}><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                     </div>
                 </div>
