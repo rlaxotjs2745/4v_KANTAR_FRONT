@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from 'react';
 
-function InfiniteScroller({ items }) {
+function InfiniteScroller({ items, persons, subchapters, questions, answers}) {
+
+
+
     const [list, setList] = useState([]);
     const perPage = 10; // 스크롤 할때 몇개씩 불러올지
     const [isLoading, setIsLoading] = useState(false); // 추가
     const [endReached, setEndReached] = useState(false);
 
     useEffect(() => {
+        console.log(items, '스테이트 넘겨받은 받은 리스트')
+        setEndReached(false); // 체크박스 선택해서 items가 바뀔때 length값 true 되는걸 초기화해줌.
         if (items) {
             setList(items.slice(0, 20));
         }
@@ -19,15 +24,17 @@ function InfiniteScroller({ items }) {
         });
     }
 
+
     useEffect(() => {
 
-        console.log(list.length, '리스트 개수', items.length, '서버에서 받은 개수')
+        // console.log(list.length, '리스트 개수', items.length, '서버에서 받은 개수')
         if (list.length === items.length) {
             setEndReached(true);
         }
     }, [list, items]);
 
     useEffect(() => {
+
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
 
@@ -38,7 +45,7 @@ function InfiniteScroller({ items }) {
 
             if (scrollTop + clientHeight >= scrollHeight) {
                 if(endReached !== true) {
-                    console.log('실행 되는중')
+                    // console.log('실행 되는중')
                     loadMore();
                 }
             }
@@ -46,7 +53,9 @@ function InfiniteScroller({ items }) {
 
     }, [endReached])
 
-    console.log(endReached)
+
+    // console.log(list)
+
 
 
     return (
