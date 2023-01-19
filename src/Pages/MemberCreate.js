@@ -16,6 +16,22 @@ const MemberCreate = () => {
     const navigate = useNavigate();
 
     const [newUser, setNewUser] = useState({});
+    const [isSuper, setIsSuper] = useState(false);
+    const idx_user = 1;
+
+
+    useEffect(() => {
+        axios.get(SERVER_URL + 'user/' + `member_detail?idx_user=${idx_user}`, AXIOS_OPTION)
+            .then(res => {
+                if(res.data.success === '1'){
+                    if(res.data.data.user_type === 99){
+                        setIsSuper(true);
+                    }
+                } else {
+                    toastNoticeError(res.data.msg);
+                }
+            });
+    }, [])
 
     const refreshForm = () => {
         document.querySelector('#user_name').value = '';
@@ -36,6 +52,9 @@ const MemberCreate = () => {
         if(!/^([\w\.\_\-])*[a-zA-Z0-9]+([\w\.\_\-])*([a-zA-Z0-9])+([\w\.\_\-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/.test(newUser.user_id)){
             return toastNoticeError('이메일 형식에 맞지 않습니다.', '');
         }
+        if(!isSuper){
+            newUser.user_type = 1;
+        }
 
         isDoing = true;
         axios.post(SERVER_URL + 'user/create', newUser, AXIOS_OPTION)
@@ -50,6 +69,13 @@ const MemberCreate = () => {
         isDoing = false;
     }
 
+    const setUserType = (e) => {
+        if(e.target.checked){
+            let fillInfo = {...newUser};
+            fillInfo.user_type = e.target.id === 'admin' ? 11 : 1;
+            setNewUser(fillInfo);
+        }
+    }
 
 
     return (
@@ -74,19 +100,23 @@ const MemberCreate = () => {
                             <label htmlFor="user_email">이메일</label>
                             <input onChange={(e) => fillUserInfo(e)} id="user_id" type="email" placeholder="아이디로 사용할 이메일을 작성해주세요."/>
                         </div>
-                        <div className="input_box">
-                            <label>멤버 권한</label>
-                            <div className="flex">
-                                <div className="radio_box disabled">
-                                    <input name="grade" id="admin" type="radio" disabled/>
-                                    <label htmlFor="admin">관리자</label>
-                                </div>
-                                <div className="radio_box">
-                                    <input name="grade" id="normal" type="radio"/>
-                                    <label htmlFor="normal">일반</label>
+                        {
+                            isSuper ?
+                            <div className="input_box">
+                                <label>멤버 권한</label>
+                                <div className="flex">
+                                    <div className="radio_box">
+                                        <input onChange={(e) => setUserType(e)} name="grade" id="admin" type="radio"/>
+                                        <label htmlFor="admin">관리자</label>
+                                    </div>
+                                    <div className="radio_box">
+                                        <input onChange={(e) => setUserType(e)} name="grade" id="normal" type="radio"/>
+                                        <label htmlFor="normal">일반</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                                : null
+                        }
                     </div>
                     <div className="btn_box">
                         <button onClick={refreshForm} className="co1 ico_btn_refresh" type="button">초기화</button>
