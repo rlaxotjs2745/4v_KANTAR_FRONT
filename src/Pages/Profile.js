@@ -37,6 +37,8 @@ const Profile = () => {
                     <div className="profile_box">
                         <h3>김설문</h3>
                         <p className="user_id">seolmoon@kantar.com</p>
+                        {/* 계정정보 추가 */}
+                        <span className="grade">일반 계정</span>
                     </div>
                     <div className="profile_box">
                         <h3>멤버 정보</h3>

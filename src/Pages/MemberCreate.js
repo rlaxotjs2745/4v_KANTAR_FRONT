@@ -27,6 +27,19 @@ const MemberCreate = () => {
                             <label htmlFor="user_email">이메일</label>
                             <input id="user_email" type="email" defaultValue="seolmoon@kantar.com"/>
                         </div>
+                        <div className="input_box">
+                            <label>멤버 권한</label>
+                            <div className="flex">
+                                <div className="radio_box disabled">
+                                    <input name="grade" id="admin" type="radio" disabled/>
+                                    <label htmlFor="admin">관리자</label>
+                                </div>
+                                <div className="radio_box">
+                                    <input name="grade" id="normal" type="radio"/>
+                                    <label htmlFor="normal">일반</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="btn_box">
                         <button className="co1 ico_btn_refresh" type="button">초기화</button>
