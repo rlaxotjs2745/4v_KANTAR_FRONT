@@ -545,6 +545,8 @@ const ProjectDetail = () => {
     const pathSplit = Number(pathname.split('/')[2])
 
     const [projectDetailList, setProjectDetailList] = useState([])
+    const [projectDetailListOrigin, setProjectDetailListOrigin] = useState([])
+
 
     useEffect(() => {
         const handleClick = (event) => {
@@ -567,6 +569,17 @@ const ProjectDetail = () => {
         axios.post(SERVER_URL + 'project/project_view', {"idx_project" : pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
                 setProjectDetailList(res.data.data)
+                setProjectDetailListOrigin(res.data.data)
+            } else {
+            }
+        }).catch(err => {
+            console.log(err);
+            toastNoticeError('에러가 발생했습니다.', '', '')
+        })
+
+        axios.post(SERVER_URL + 'filter/get', {"idx_project" : pathSplit}, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                console.log(res.data.data, '필터 정보')
             } else {
             }
         }).catch(err => {
@@ -575,7 +588,7 @@ const ProjectDetail = () => {
         })
     },[])
 
-    console.log(projectDetailList, '프로젝트 디테일 리스트')
+    // console.log(projectDetailList, '프로젝트 디테일 리스트')
 
     function toggleClass() {
         const topElement = document.querySelector('.btn_select');
@@ -657,6 +670,95 @@ const ProjectDetail = () => {
         setShowModal5(false);
         document.body.classList.remove('fixed');
     };
+
+    const [persons, setPersons] = useState([]);
+    const [chapters, setChapters] = useState([]);
+    const [subchapters, setSubchapters] = useState([]);
+    const [questions, setQuestions] = useState([]);
+
+    useEffect(()=> {
+        projectDetailListOrigin.forEach(item => {
+            if (!persons.includes(item.person)) setPersons([...persons, item.person])
+            if (!chapters.includes(item.chapter)) setChapters([...chapters, item.chapter]) // 화자 필터와 챕터 필터는 언제나 서버에서 보내준 origin 데이터에서 필터 가능 하게 함
+            // if (!answers.includes(item.answer)) setAnswers([...answers, item.answer])
+        });
+
+        projectDetailList.forEach(item => {
+            if (!subchapters.includes(item.subchapter)) setSubchapters([...subchapters, item.subchapter])  // 서브챕터와 질문 챕터는 화자 필터와 챕터에서 선택한 하위 계층에서만 고를 수 있음.
+            if (!questions.includes(item.question)) setQuestions([...questions, item.question]) // 질문 챕터는 동시에 고를 수 있는 것 같으나 모달 기능에서 서브챕터를 고르고 내려와야 하기 때문에 해당 리스트에서 필터링 하게 해 놓음.
+        });
+    })
+
+
+
+    // console.log(projectDetailListOrigin)
+    // console.log(persons, '화자')
+    // console.log(chapters, '챕터')
+    // console.log(subchapters, '서브챕터')
+    // console.log(questions, '질문')
+
+    const [selectedLabelsPersons, setSelectedLabelsPersons] = useState([]);
+    const [selectedLabelsChapters, setSelectedLabelsChapters] = useState([]);
+    const [selectedLabelsSubchapters, setSelectedLabelsSubchapters] = useState([]);
+    const [selectedLabelsQuestions, setSelectedLabelsQuestions] = useState([]);
+
+    const handleCheckboxChangePersons = (e, label) => {
+        if (e.target.checked) {
+            setSelectedLabelsPersons([...selectedLabelsPersons, label]);
+        } else {
+            setSelectedLabelsPersons(selectedLabelsPersons.filter(item => item !== label));
+        }
+    } // 화자 체크박스 선택한거 setState해주는 함수
+
+    const handleCheckboxChangeChapters = (e, label) => {
+        if (e.target.checked) {
+            setSelectedLabelsChapters([...selectedLabelsChapters, label]);
+        } else {
+            setSelectedLabelsChapters(selectedLabelsChapters.filter(item => item !== label));
+        }
+    } // 챕터 체크박스 선택한거 setState해주는 함수
+
+    const handleCheckboxChangeSubchapters = (e, label) => {
+        if (e.target.checked) {
+            setSelectedLabelsSubchapters([...selectedLabelsSubchapters, label]);
+        } else {
+            setSelectedLabelsSubchapters(selectedLabelsSubchapters.filter(item => item !== label));
+        }
+    } // 서브챕터 체크박스 선택한거 setState해주는 함수
+
+    const handleCheckboxChangeQuestions = (e, label) => {
+        if (e.target.checked) {
+            setSelectedLabelsQuestions([...selectedLabelsQuestions, label]);
+        } else {
+            setSelectedLabelsQuestions(selectedLabelsQuestions.filter(item => item !== label));
+        }
+    } // 질문 체크박스 선택한거 setState해주는 함수
+
+
+
+    useEffect(()=> {
+        setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+    }, [selectedLabelsPersons]) // 화자 선택된값에 필터된 리스트를 재 설정
+
+    useEffect(()=> {
+        setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+    },[selectedLabelsChapters]) // 챕터 선택된값에 필터된 리스트를 재 설정
+
+    useEffect(()=> {
+        setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.subchapter)))
+    },[selectedLabelsSubchapters]) // 서브챕터 선택된값에 필터된 리스트를 재 설정
+
+    useEffect(()=> {
+        setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.question)))
+    },[selectedLabelsQuestions]) // 질문 선택된값에 필터된 리스트를 재 설정
+
+
+    useEffect(()=> {
+        console.log(projectDetailList, '디테일 리스트') // 리스트 값 바뀐것 확인은 여기서
+    }, [projectDetailList])
+
+
+
 
 
     return(
@@ -762,6 +864,9 @@ const ProjectDetail = () => {
                              :
                                 <InfiniteScroller
                                     items={projectDetailList}
+                                    persons={persons}
+                                    subchapters={subchapters}
+                                    questions={questions}
                                 />
                             }
                             </tbody>
@@ -1103,102 +1208,48 @@ const ProjectDetail = () => {
                                     <input type="checkbox" id="filter1"/>
                                     <label htmlFor="filter1">전체선택</label>
                                 </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
-                                <div className="input_box">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01_Chapter 01</label>
-                                </div>
+                                {filterTitle === '화자' ?
+                                    <>
+                                        {persons.map(item => (
+                                            <div className="input_box">
+                                                <input type="checkbox" onChange={(e) => handleCheckboxChangePersons(e, item)}/>
+                                                <label>{item}</label>
+                                            </div>
+                                        ))}
+                                    </>
+                                    :
+                                    filterTitle === '챕터' ?
+                                        <>
+                                            {chapters.map(item => (
+                                                <div className="input_box">
+                                                    <input type="checkbox"/>
+                                                    <label>{item}</label>
+                                                </div>
+                                            ))}
+                                        </>
+                                        :
+                                        filterTitle === '서브챕터' ?
+                                            <>
+                                                {subchapters.map(item => (
+                                                    <div className="input_box">
+                                                        <input type="checkbox"/>
+                                                        <label>{item}</label>
+                                                    </div>
+                                                ))}
+                                            </>
+                                            :
+                                            filterTitle === '질문' ?
+                                                <>
+                                                    {questions.map(item => (
+                                                        <div className="input_box">
+                                                            <input type="checkbox"/>
+                                                            <label>{item}</label>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                                : null
+                                }
+
                             </div>
                     }
 
