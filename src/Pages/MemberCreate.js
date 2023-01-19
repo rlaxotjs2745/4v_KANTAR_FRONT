@@ -5,7 +5,6 @@ import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
 
-let isDoing = false;
 const MemberCreate = () => {
     const {
         toastNoticeInfo,
@@ -18,6 +17,7 @@ const MemberCreate = () => {
     const [newUser, setNewUser] = useState({});
     const [isSuper, setIsSuper] = useState(false);
     const idx_user = 1;
+    let isDoing = false;
 
 
     useEffect(() => {
@@ -45,19 +45,19 @@ const MemberCreate = () => {
         setNewUser(fillInfo);
     };
 
-    const submitNewUser = () => {
+    const submitNewUser = async () => {
         if(isDoing){
             return toastNoticeInfo('처리중입니다. 잠시만 기다려 주세요.', '');
         }
+        isDoing = true;
         if(!/^([\w\.\_\-])*[a-zA-Z0-9]+([\w\.\_\-])*([a-zA-Z0-9])+([\w\.\_\-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/.test(newUser.user_id)){
             return toastNoticeError('이메일 형식에 맞지 않습니다.', '');
         }
-        if(!isSuper){
+        if(!isSuper || !newUser.user_type){
             newUser.user_type = 1;
         }
 
-        isDoing = true;
-        axios.post(SERVER_URL + 'user/create', newUser, AXIOS_OPTION)
+        await axios.post(SERVER_URL + 'user/create', newUser, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
                     toastNoticeSuccess(res.data.msg, '');
@@ -110,7 +110,7 @@ const MemberCreate = () => {
                                         <label htmlFor="admin">관리자</label>
                                     </div>
                                     <div className="radio_box">
-                                        <input onChange={(e) => setUserType(e)} name="grade" id="normal" type="radio"/>
+                                        <input onChange={(e) => setUserType(e)} name="grade" id="normal" type="radio" checked/>
                                         <label htmlFor="normal">일반</label>
                                     </div>
                                 </div>
