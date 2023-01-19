@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 const DictionaryUpdateEntity = ({entity, deleteData, updateData, newData, isFirst}) => {
 

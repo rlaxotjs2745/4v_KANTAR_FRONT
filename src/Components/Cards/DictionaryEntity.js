@@ -1,12 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-const DictionaryEntity = ({entity, deleteDictionary}) => {
+const DictionaryEntity = ({entity, deleteDictionary, num}) => {
 
 
     return (
         <tr>
-            <td>{entity.idx_dictionary}</td>
+            <td>{num}</td>
             <td>{entity.title}</td>
             <td><div className="co2">{entity.dic_type === 0 ? '기본사전' : '사용자 사전'}</div></td>
             <td>{entity.dic_count}</td>

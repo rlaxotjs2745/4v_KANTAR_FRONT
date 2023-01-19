@@ -8,10 +8,7 @@ import MemberManagementEntity from "../Components/Cards/MemberManagementEntity";
 const MemberManagement = () => {
 
     const {
-        toastNoticeInfo,
-        toastNoticeSuccess,
-        toastNoticeError,
-        toastNoticeWarning,
+        toastNoticeInfo
     } = useToastAlert();
 
     const idx_user = 1;
@@ -35,8 +32,8 @@ const MemberManagement = () => {
 
         axios.get(SERVER_URL + 'user/' + param, AXIOS_OPTION)
             .then(res => {
-                if(res.data.success == '1'){
-                    if(res.data.data.length === 0 && currentPage != 0){
+                if(res.data.success === '1'){
+                    if(res.data.data.length === 0 && currentPage !== 0){
                         setCurrentPage(currentPage - 1);
                         return toastNoticeInfo('마지막 페이지입니다.');
                     }
@@ -47,7 +44,7 @@ const MemberManagement = () => {
     }
 
     const movePage = (type) => {
-        if(currentPage == 0 && type === 0){
+        if(currentPage === 0 && type === 0){
             return toastNoticeInfo('첫 페이지입니다.');
         }
         setCurrentPage(type === 1 ? currentPage + 1 : currentPage - 1);
@@ -63,7 +60,7 @@ const MemberManagement = () => {
     }
 
     const addEnterEventListener = () => {
-        if(window.event.keyCode == 13){
+        if(window.event.keyCode === 13){
             searchUser();
         }
     }
@@ -100,7 +97,7 @@ const MemberManagement = () => {
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>번호</th>
+                            <th>이름</th>
                             <th>이메일</th>
                             <th>가입일</th>
                             <th>최근 로그인 날짜</th>
@@ -109,7 +106,7 @@ const MemberManagement = () => {
                         </thead>
                         <tbody>
                         {
-                            userList && userList.length != 0 ? userList.map(dt => <MemberManagementEntity user={dt}/>) : null
+                            userList && userList.length !== 0 ? userList.map(dt => <MemberManagementEntity user={dt}/>) : null
                         }
                         </tbody>
                     </table>

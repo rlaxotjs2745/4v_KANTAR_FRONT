@@ -1,20 +1,18 @@
 import React from "react";
-import {Link, useNavigate} from 'react-router-dom';
-import { useCallback, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
+import { useState } from 'react';
 
 import FileDropzone from "../Components/Cards/FileDropzone";
 import {useToastAlert} from "../Util/toastAlert";
 import axios from "axios";
-import {AXIOS_OPTION, SERVER_DICT_URL, SERVER_URL} from "../Util/env";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 
 const DictionaryCreate = () => {
 
     const navigate = useNavigate()
     const {
-        toastNoticeInfo,
         toastNoticeSuccess,
         toastNoticeError,
-        toastNoticeWarning,
     } = useToastAlert();
     const [file, setFile] = useState(null);
 
@@ -22,9 +20,6 @@ const DictionaryCreate = () => {
 
     const handleFileDrop = (file) => {
         setFile(file);
-    }
-    const submit = (data) => {
-        console.log(file, '전달받은 파일')
     }
 
     const [input1, setInput1] = useState({ value: '', characters: 0 })
@@ -44,7 +39,7 @@ const DictionaryCreate = () => {
             return toastNoticeError('파일을 업로드하고 다시 시도해주세요.')
         }
 
-        if(file.type != 'text/csv'){
+        if(file.type !== 'text/csv'){
             return toastNoticeError('.csv 파일만 업로드 가능합니다. 확인 후 다시 시도해주세요.')
         }
 

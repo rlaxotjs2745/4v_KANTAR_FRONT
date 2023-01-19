@@ -2,15 +2,13 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import DictionaryEntity from "../Components/Cards/DictionaryEntity";
 import axios from "axios";
-import {AXIOS_OPTION, SERVER_DICT_URL, SERVER_URL} from "../Util/env";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
 
 const Dictionary = () => {
     const {
         toastNoticeInfo,
         toastNoticeSuccess,
-        toastNoticeError,
-        toastNoticeWarning,
     } = useToastAlert();
 
     const idx_user = 1; // 토큰 처리 방법 및 idx 값을 구할 수 있는 방법이 생기면 수정 예정
@@ -33,8 +31,8 @@ const Dictionary = () => {
         }
         axios.get(SERVER_URL + param, AXIOS_OPTION)
             .then(res => {
-                if(res.data.success == '1'){
-                    if(res.data.data.length === 0 && currentPage != 0){
+                if(res.data.success === '1'){
+                    if(res.data.data.length === 0 && currentPage !== 0){
                         setCurrentPage(currentPage - 1);
                         return toastNoticeInfo('마지막 페이지입니다.');
                     }
@@ -45,7 +43,7 @@ const Dictionary = () => {
 
 
     const movePage = (type) => {
-        if(currentPage == 0 && type === 0){
+        if(currentPage === 0 && type === 0){
             return toastNoticeInfo('첫 페이지입니다.');
         }
         setCurrentPage(type === 1 ? currentPage + 1 : currentPage - 1);
@@ -60,7 +58,7 @@ const Dictionary = () => {
             .then(res => {
                 if(res.data.success === '1'){
                     toastNoticeSuccess('사전이 삭제되었습니다.');
-                    setTableData(tableData.filter(dt => dt.idx_dictionary != idx));
+                    setTableData(tableData.filter(dt => dt.idx_dictionary !== idx));
                 }
             })
     }
@@ -71,7 +69,7 @@ const Dictionary = () => {
     }
 
     const addEnterEventListener = () => {
-        if(window.event.keyCode == 13){
+        if(window.event.keyCode === 13){
             searchDictionary();
         }
     }
@@ -118,7 +116,7 @@ const Dictionary = () => {
                         </thead>
                         <tbody>
                         {
-                            tableData.map(dt => <DictionaryEntity key={dt.idx_dictionary} deleteDictionary={deleteDictionary} entity={dt} />)
+                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(currentPage+1) * 10 - (9 - idx)} deleteDictionary={deleteDictionary} entity={dt} />)
                         }
                         </tbody>
                     </table>

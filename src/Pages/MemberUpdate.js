@@ -7,10 +7,8 @@ import {useToastAlert} from "../Util/toastAlert";
 
 const MemberUpdate = () => {
     const {
-        toastNoticeInfo,
         toastNoticeSuccess,
-        toastNoticeError,
-        toastNoticeWarning,
+        toastNoticeError
     } = useToastAlert();
     const navigate = useNavigate();
 
@@ -23,7 +21,7 @@ const MemberUpdate = () => {
     }, [])
 
     const getUserData = () => {
-        axios.get(SERVER_URL + 'user/' + `member_detail?idx_user=${userIdx}`, AXIOS_OPTION)
+        axios.get(SERVER_URL + `user/member_detail?idx_user=${userIdx}`, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
                     setUserData(res.data.data);

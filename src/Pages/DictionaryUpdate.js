@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useToastAlert} from "../Util/toastAlert";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
@@ -11,7 +11,6 @@ const DictionaryUpdate = () => {
         toastNoticeInfo,
         toastNoticeSuccess,
         toastNoticeError,
-        toastNoticeWarning,
     } = useToastAlert();
     const navigate = useNavigate();
 
@@ -64,7 +63,7 @@ const DictionaryUpdate = () => {
                 .then(res => {
                     if(res.data.success === '1'){
                         toastNoticeSuccess('대표 키워드 삭제가 완료되었습니다.');
-                        setDictionaryData(dictionaryData.filter(dt => dt.idx_dictionary_data != idx));
+                        setDictionaryData(dictionaryData.filter(dt => dt.idx_dictionary_data !== idx));
                     } else {
                         toastNoticeError(res.data.msg);
                     }
@@ -76,7 +75,7 @@ const DictionaryUpdate = () => {
     }
 
     const addDictionaryData = () => {
-        if(dictionaryData[0].idx_dictionary_data == null && dictionaryData[0].keyword == ''){
+        if(dictionaryData[0].idx_dictionary_data == null && dictionaryData[0].keyword === ''){
             return;
         }
 
@@ -101,7 +100,7 @@ const DictionaryUpdate = () => {
         let thisIdx = 0;
         if(idx){
             for(let i = 0; i < dictionaryData.length; i++){
-                if(dictionaryData[i].idx_dictionary_data == idx){
+                if(dictionaryData[i].idx_dictionary_data === idx){
                     thisIdx = i;
                 }
             }

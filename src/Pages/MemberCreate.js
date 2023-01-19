@@ -10,7 +10,6 @@ const MemberCreate = () => {
         toastNoticeInfo,
         toastNoticeSuccess,
         toastNoticeError,
-        toastNoticeWarning,
     } = useToastAlert();
     const navigate = useNavigate();
 
@@ -50,7 +49,7 @@ const MemberCreate = () => {
             return toastNoticeInfo('처리중입니다. 잠시만 기다려 주세요.', '');
         }
         isDoing = true;
-        if(!/^([\w\.\_\-])*[a-zA-Z0-9]+([\w\.\_\-])*([a-zA-Z0-9])+([\w\.\_\-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/.test(newUser.user_id)){
+        if(!/^([\w._-])*[a-zA-Z0-9]+([\w._-])*([a-zA-Z0-9])+([\w._-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/.test(newUser.user_id)){
             return toastNoticeError('이메일 형식에 맞지 않습니다.', '');
         }
         if(!isSuper || !newUser.user_type){
