@@ -1,9 +1,56 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {useToastAlert} from "../Util/toastAlert";
 
+let isDoing = false;
 const MemberCreate = () => {
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
     const navigate = useNavigate();
+
+    const [newUser, setNewUser] = useState({});
+
+    const refreshForm = () => {
+        document.querySelector('#user_name').value = '';
+        document.querySelector('#user_id').value = '';
+        setNewUser({});
+    }
+
+    const fillUserInfo = (e) => {
+        let fillInfo = {...newUser};
+        fillInfo[e.target.id] = e.target.value;
+        setNewUser(fillInfo);
+    };
+
+    const submitNewUser = () => {
+        if(isDoing){
+            return toastNoticeInfo('처리중입니다. 잠시만 기다려 주세요.', '');
+        }
+        if(!/^([\w\.\_\-])*[a-zA-Z0-9]+([\w\.\_\-])*([a-zA-Z0-9])+([\w\.\_\-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/.test(newUser.user_id)){
+            return toastNoticeError('이메일 형식에 맞지 않습니다.', '');
+        }
+
+        isDoing = true;
+        axios.post(SERVER_URL + 'user/create', newUser, AXIOS_OPTION)
+            .then(res => {
+                if(res.data.success === '1'){
+                    toastNoticeSuccess(res.data.msg, '');
+                    navigate('/member_management');
+                } else {
+                    toastNoticeError(res.data.msg, '');
+                }
+            })
+        isDoing = false;
+    }
+
+
 
     return (
         <div className="page">
@@ -21,11 +68,11 @@ const MemberCreate = () => {
                         <h3>기본 정보</h3>
                         <div className="input_box">
                             <label htmlFor="user_id">이름</label>
-                            <input id="user_id" type="text" defaultValue="김설문"/>
+                            <input onChange={(e) => fillUserInfo(e)} id="user_name" type="text" placeholder="홍길동"/>
                         </div>
                         <div className="input_box">
                             <label htmlFor="user_email">이메일</label>
-                            <input id="user_email" type="email" defaultValue="seolmoon@kantar.com"/>
+                            <input onChange={(e) => fillUserInfo(e)} id="user_id" type="email" placeholder="아이디로 사용할 이메일을 작성해주세요."/>
                         </div>
                         <div className="input_box">
                             <label>멤버 권한</label>
@@ -42,8 +89,8 @@ const MemberCreate = () => {
                         </div>
                     </div>
                     <div className="btn_box">
-                        <button className="co1 ico_btn_refresh" type="button">초기화</button>
-                        <button type="button">등록하기</button>
+                        <button onClick={refreshForm} className="co1 ico_btn_refresh" type="button">초기화</button>
+                        <button onClick={submitNewUser} type="button">등록하기</button>
                     </div>
                 </div>
             </form>

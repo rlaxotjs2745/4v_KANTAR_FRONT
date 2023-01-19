@@ -35,7 +35,6 @@ const MemberManagement = () => {
 
         axios.get(SERVER_URL + 'user/' + param, AXIOS_OPTION)
             .then(res => {
-                console.log(res)
                 if(res.data.success == '1'){
                     if(res.data.data.length === 0 && currentPage != 0){
                         setCurrentPage(currentPage - 1);
