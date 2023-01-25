@@ -106,7 +106,7 @@ const MemberManagement = () => {
                         </thead>
                         <tbody>
                         {
-                            userList && userList.length !== 0 ? userList.map(dt => <MemberManagementEntity user={dt}/>) : null
+                            userList && userList.length !== 0 ? userList.map(dt => dt.user_status == 0 ? <MemberManagementEntity user={dt} isConfirmUser={false} /> : <MemberManagementEntity user={dt} isConfirmUser={true} />) : null
                         }
                         </tbody>
                     </table>
