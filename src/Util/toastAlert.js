@@ -1,12 +1,13 @@
 import { toast } from 'react-toastify';
 
+
 const CustomToastWithLink = (props) => {
-    //
-    // const dictionaryDelete = () => {
-    //     if(props.del === 'dictionary'){
-    //
-    //     }
-    // }
+
+//props - text, link, del
+
+//text: 토스트 모달에서 표출될 텍스트, type String
+//link: 바로가기 버튼 클릭 시 이동할 url, type String(url)
+//del : 버튼 클릭 시 실행될 콜백 함수, type function
 
     return(
         <div className='toast_flex'>
