@@ -7,7 +7,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 // export const SERVER_URL = "http://swdev2.dynu.net:3000/api"
 // export const SERVER_URL = "http://localhost:10000/api/";
 
-export const SERVER_URL = "http://43.201.14.108:10000/api/";
+export const SERVER_URL = "http://13.125.43.62:10000/api/";
 // export const SERVER_URL = "https://477a-211-221-71-139.jp.ngrok.io/api/";
 
 const userid = getCookie('user_id')
