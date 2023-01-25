@@ -691,7 +691,7 @@ const ProjectDetail = () => {
 
 
 
-    // console.log(projectDetailListOrigin)
+    console.log(projectDetailListOrigin, '서버에서 보내준 오리지널 데이터')
     // console.log(persons, '화자')
     // console.log(chapters, '챕터')
     // console.log(subchapters, '서브챕터')
