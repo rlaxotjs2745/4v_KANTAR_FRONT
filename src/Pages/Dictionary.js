@@ -63,6 +63,10 @@ const Dictionary = () => {
             })
     }
 
+    const modalDictionaryDelete = (idx) => {
+        toastNoticeInfo('이 사전을 삭제하시겠습니까?', null, () => deleteDictionary(idx));
+    }
+
     const searchDictionary = () => {
         setIsSearched(true);
         getListDictionary(null);
@@ -116,7 +120,7 @@ const Dictionary = () => {
                         </thead>
                         <tbody>
                         {
-                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(currentPage+1) * 10 - (9 - idx)} deleteDictionary={deleteDictionary} entity={dt} />)
+                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(currentPage+1) * 10 - (9 - idx)} deleteDictionary={modalDictionaryDelete} entity={dt} />)
                         }
                         </tbody>
                     </table>

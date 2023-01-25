@@ -1,10 +1,12 @@
 import { toast } from 'react-toastify';
 
 const CustomToastWithLink = (props) => {
-
-    const dictionaryDelete = () => {
-        console.log(props.del, '삭제하기 기능 함수')
-    }
+    //
+    // const dictionaryDelete = () => {
+    //     if(props.del === 'dictionary'){
+    //
+    //     }
+    // }
 
     return(
         <div className='toast_flex'>
@@ -21,7 +23,7 @@ const CustomToastWithLink = (props) => {
                 props.link ? <a href={props.link}>[바로가기]</a> : null
             }
             {
-                props.del ? <button onClick={dictionaryDelete} className="co1" type="button">[삭제하기]</button> : null
+                props.del ? <button onClick={props.del} className="co1" type="button">[삭제하기]</button> : null
             }
         </div>
     )
