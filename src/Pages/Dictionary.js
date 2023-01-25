@@ -120,7 +120,7 @@ const Dictionary = () => {
                         </thead>
                         <tbody>
                         {
-                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(currentPage+1) * 10 - (9 - idx)} deleteDictionary={modalDictionaryDelete} entity={dt} />)
+                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(currentPage+1) * 10 - (9 - idx)} deleteDictionary={modalDictionaryDelete} entity={dt} isOwn={idx_user === dt.idx_user} />)
                         }
                         </tbody>
                     </table>
