@@ -14,7 +14,8 @@ const FirstLogin = () => {
     const navigate = useNavigate();
 
     const [userInfo, setUserInfo] = useState({});
-    const [pwBool, setPwBool] = useState(false);
+    const [pwcBool, setPwcBool] = useState(true);
+    const [pwBool, setPwBool] = useState(true);
     const fCode = window.location.pathname.split('/').reverse()[0];
 
     useEffect(() => {
@@ -29,9 +30,14 @@ const FirstLogin = () => {
     const changeInfo = (e) => {
         if(e.target.id === "user_pw_confirm"){
             if(e.target.value !== userInfo.user_pw){
+                setPwcBool(false);
+            } else setPwcBool(true);
+            return;
+        }
+        if(e.target.id === "user_pw"){
+            if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/.test(e.target.value)){
                 setPwBool(false);
             } else setPwBool(true);
-            return;
         }
         let newUserInfo = {...userInfo};
         newUserInfo[e.target.id] = e.target.value;
@@ -39,11 +45,11 @@ const FirstLogin = () => {
     }
 
     const submitFirstLogin = () => {
-        if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/.test(userInfo.user_pw)){
+        if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/.test(userInfo.user_pw)){
             return toastNoticeWarning('비밀번호 규칙에 맞지 않는 비밀번호입니다.');
         }
 
-        if(!pwBool){
+        if(!pwcBool){
             return toastNoticeWarning('비밀번호 확인이 다릅니다.');
         }
 
@@ -86,12 +92,18 @@ const FirstLogin = () => {
 
                                 <div className="input_box">
                                     <label htmlFor="user_pw">비밀번호 설정</label>
-                                    <input onChange={(e) => changeInfo(e)} id="user_pw" type="password" placeholder="한글, 숫자, 영어, 특수기호 포함 8자 이상"/>
+                                    <input onChange={(e) => changeInfo(e)} id="user_pw" type="password" placeholder="한글, 숫자, 영어, 특수기호 포함 8~12글자"/>
                                 </div>
+                                {
+                                    !pwBool ? <p className="tip">한글, 숫자, 영어, 특수기호 포함 8~12글자</p> : null
+                                }
                                 <div className="input_box">
                                     <label htmlFor="user_pw_confirm">비밀번호 확인</label>
                                     <input onChange={(e) => changeInfo(e)} id="user_pw_confirm" type="password" placeholder="비밀번호 확인"/>
                                 </div>
+                                {
+                                    !pwcBool ? <p className="tip">비밀번호와 일치하지 않습니다.</p> : null
+                                }
                             </div>
                             <div className="btn_box">
                                 <button onClick={submitFirstLogin} type="button">등록하기</button>
