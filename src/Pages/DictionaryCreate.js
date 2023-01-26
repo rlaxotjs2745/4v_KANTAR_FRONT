@@ -85,7 +85,7 @@ const DictionaryCreate = () => {
                         <FileDropzone onFileDrop={handleFileDrop}/>
                         <div className="input_text_area">
                             <div className="input_box">
-                                <label htmlFor="project_name required"><em className="title required">프로젝트 이름</em></label>
+                                <label htmlFor="project_name required"><em className="title required">사전 이름</em></label>
                                 <input onChange={(event) => handleChange(setInput1, event)} type="text" id="project_name"/>
                             </div>
                         </div>
