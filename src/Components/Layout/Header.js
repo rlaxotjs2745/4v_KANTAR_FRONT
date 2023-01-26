@@ -8,8 +8,11 @@ import {AXIOS_OPTION, SERVER_URL} from "../../Util/env";
 
 const Header = (props) => {
     const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
-
     const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     axios.get()
+    // })
 
     const logOut = () => {
         removeCookie("X-AUTH-TOKEN", {path: "/", domain: "localhost"}) // path랑 domain 입력 해야

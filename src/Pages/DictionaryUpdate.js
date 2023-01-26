@@ -44,7 +44,7 @@ const DictionaryUpdate = () => {
         axios.post(SERVER_URL + 'dict/update_dictionary_data', dictionaryData, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === "1"){
-                    toastNoticeInfo('사전이 저장되었습니다.');
+                    toastNoticeInfo('키워드 그룹이 저장되었습니다.');
                     navigate('/dictionary');
                 } else {
                     toastNoticeError(res.data.msg);
@@ -62,7 +62,7 @@ const DictionaryUpdate = () => {
             axios.post(SERVER_URL + 'dict/delete_dictionary_data', {idx_dictionary_data: idx}, AXIOS_OPTION)
                 .then(res => {
                     if(res.data.success === '1'){
-                        toastNoticeSuccess('대표 키워드 삭제가 완료되었습니다.');
+                        toastNoticeSuccess('키워드 그룹 삭제가 완료되었습니다.');
                         setDictionaryData(dictionaryData.filter(dt => dt.idx_dictionary_data !== idx));
                     } else {
                         toastNoticeError(res.data.msg);

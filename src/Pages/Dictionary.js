@@ -113,7 +113,7 @@ const Dictionary = () => {
                             <th>번호</th>
                             <th>사전이름</th>
                             <th>속성</th>
-                            <th>표제어 수</th>
+                            <th>키워드 그룹 수</th>
                             <th>등록일</th>
                             <th style={{textAlign:"center"}}>관리</th>
                         </tr>
