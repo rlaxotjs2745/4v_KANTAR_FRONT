@@ -620,6 +620,7 @@ const ProjectDetail = () => {
 
     const handleModalFilterClose1 = () => {
         setShowFilterModal1(false)
+        // setSelectedLabelsPersons(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         document.body.classList.remove('fixed');
     };
 
@@ -1559,7 +1560,7 @@ const ProjectDetail = () => {
 
 
             {/*  화자 모달  */}
-            <div onClick={handleModalFilterClose1} className={showFilterModal1? 'modal_area on' : 'filterModal'}>
+            <div onClick={handleModalFilterClose1} className={showFilterModal1? 'modal_area on' : 'modal_area off'}>
                 <div className="modal_layout">
                     <div className="modal" onClick={(e)=>e.stopPropagation()} >
                         <div className="modal_content in_fixed_btn">

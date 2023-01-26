@@ -28,13 +28,13 @@ const Report = () => {
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'report/list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
-            setReportList(res.data.data)
+            setReportList(res.data.data.list)
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
             axios.post(SERVER_URL + 'report/list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
-                setReportList(res.data.data)
+                setReportList(res.data.data.list)
             }).catch(err => {
                 console.log(err);
             })
@@ -42,6 +42,8 @@ const Report = () => {
         const intervalId = setInterval(fetchData, 1000);
         return () => clearInterval(intervalId);
     },[])
+
+    console.log(reportList)
 
 
 
