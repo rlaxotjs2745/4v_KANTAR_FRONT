@@ -12,14 +12,22 @@ export const SERVER_URL = "http://13.125.43.62:10000/api/";
 
 const userid = getCookie('user_id')
 
-export const headers = {
-    'X-AUTH-TOKEN': getCookie('X-AUTH-TOKEN')
-}
+// export const headers = {
+//     'X-AUTH-TOKEN': getCookie('X-AUTH-TOKEN')
+// }
 
 export const AXIOS_OPTION = Object.assign({}, {
-    withCredentials: true,
-    headers: headers
+    withCredentials: false,
 })
+
+axios.interceptors.request.use(
+config => {
+    config.headers['X-AUTH-TOKEN'] = getCookie('X-AUTH-TOKEN');
+    return config;
+},
+error => {
+    return Promise.reject(error);
+}); // 인터셉터로 모든 요청에 자동으로 헤더를 추가
 
 // export const AXIOS_OPTION = {...{
 //         withCredentials: true,

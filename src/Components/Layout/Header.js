@@ -12,8 +12,7 @@ const Header = (props) => {
     const navigate = useNavigate();
 
     const logOut = () => {
-        removeCookie("X-AUTH-TOKEN", {path: "/"}) // path랑 domain 입력 해야
-        // document.cookie = `X-AUTH-TOKEN=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=${location.pathname}; domain=${location.hostname}`;
+        removeCookie("X-AUTH-TOKEN", {path: "/", domain: "localhost"}) // path랑 domain 입력 해야
         navigate('/login'); // 로그인 페이지로 이동
     };
 
