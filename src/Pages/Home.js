@@ -225,7 +225,7 @@ const Home = () => {
                                         <td>{item.user_name}</td>
                                         <td>{item.create_dt}</td>
                                         <td>{item.project_type_str}</td>
-                                        <td><Link to={`/project_detail/${item.idx_project_job_projectid}`}>상세보기</Link> </td>
+                                        <td><Link to={`/project_detail/${item.idx_project}`}>상세보기</Link> </td>
                                         <td>
                                             {item.idx_report === null ?
                                                 <button className="co1 no_cursor">

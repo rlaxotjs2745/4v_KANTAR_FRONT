@@ -612,12 +612,12 @@ const ProjectDetail = () => {
     const [showFilterModal4, setShowFilterModal4] = useState(false) // 질문 모달
     const [showFilterModal5, setShowFilterModal5] = useState(false) // 키워드 모달
 
-    // 화자, 챕터, 서브챕터, 질문 공통 필터 모달 생성
+
     const handleModalFilter1 = () => {
         setShowFilterModal1(true)
         setPersonsFilterModalOrigin([...selectedLabelsPersons])
         document.body.classList.add('fixed');
-    };
+    }; // 화자 모달 오픈
 
     const handleModalFilterClose1 = () => {
         setShowFilterModal1(false)
@@ -626,7 +626,6 @@ const ProjectDetail = () => {
     };
 
     const handleCheckAll1 = (e) => {
-
         setCheckAll(e.target.checked);
         if(e.target.checked) {
             setSelectedLabelsPersons(persons);
@@ -635,18 +634,11 @@ const ProjectDetail = () => {
         }
     }
 
-
     const handleModalFilterSubmit1 = () => {
         setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         setShowFilterModal1(false)
 
-        let checkedBoxCount = 0;
-        uniquePersons.map(item => {
-            if(selectedLabelsPersons.includes(item)){
-                checkedBoxCount++;
-            }
-        });
-        console.log(checkedBoxCount, '화자 필터 선택된 개수');
+
     }
 
 
@@ -777,6 +769,9 @@ const ProjectDetail = () => {
     // console.log(questions, '질문')
 
     const [checkAll, setCheckAll] = useState(true);
+    const [checkAll2, setCheckAll2] = useState(true);
+    const [checkAll3, setCheckAll3] = useState(true);
+    const [checkAll4, setCheckAll4] = useState(true);
 
 
     const [selectedLabelsPersons, setSelectedLabelsPersons] = useState([]);
@@ -785,7 +780,14 @@ const ProjectDetail = () => {
     const [selectedLabelsQuestions, setSelectedLabelsQuestions] = useState([]);
 
     const [personsFilterModalOrigin, setPersonsFilterModalOrigin] = useState([])
+    const [chaptersFilterModalOrigin, setChaptersFilterModalOrigin] = useState([])
+    const [subchaptersFilterModalOrigin, setSubchaptersFilterModalOrigin] = useState([])
+    const [questionsFilterModalOrigin, setQuestionsFilterModalOrigin] = useState([])
 
+    const [checkBoxCount, setCheckBoxCount] = useState(0)
+    const [checkBoxCount2, setCheckBoxCount2] = useState(0)
+    const [checkBoxCount3, setCheckBoxCount3] = useState(0)
+    const [checkBoxCount4, setCheckBoxCount4] = useState(0)
 
     const handleCheckboxChangePersons = (e, label) => {
         if (e.target.checked) {
@@ -801,6 +803,16 @@ const ProjectDetail = () => {
 
     useEffect(()=> {
         setCheckAll(persons.every(item => selectedLabelsPersons.includes(item)))
+
+        let checkedBoxCount = 0;
+        uniquePersons.map(item => {
+            if(selectedLabelsPersons.includes(item)){
+                checkedBoxCount++;
+            }
+        });
+
+        setCheckBoxCount(checkedBoxCount)
+
     },[selectedLabelsPersons]) // 체크박스 전체 선택 되어있는지 안되어있는지 ture false 반환해서 setCheckAll State 관리
 
     const handleCheckboxChangeChapters = (e, label) => {
@@ -853,7 +865,6 @@ const ProjectDetail = () => {
 
 
 
-
     return(
         <>
             <div className="page">
@@ -879,7 +890,7 @@ const ProjectDetail = () => {
                     </div>
                     <div className="project_detail_area">
                         <div className="filter_btn_box">
-                            <button onClick={handleModalFilter1} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자<span className="count">{selectedLabelsPersons.includes().length}</span></button>
+                            <button onClick={handleModalFilter1} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자 {checkBoxCount > 0 ? <span className="count">{checkBoxCount}</span> : null}</button>
                             <button onClick={handleModalFilter2}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터</button>
                             <button onClick={handleModalFilter3}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터<span className="count">2</span></button>
                             <button onClick={handleModalFilter4}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문<span className="count">2</span></button>
@@ -1610,7 +1621,39 @@ const ProjectDetail = () => {
             </div>
 
             {/*  챕터 모달  */}
-
+            {/*<div onClick={handleModalFilterClose2} className={showFilterModal1? 'modal_area on' : 'modal_area off'}>*/}
+            {/*    <div className="modal_layout">*/}
+            {/*        <div className="modal" onClick={(e)=>e.stopPropagation()} >*/}
+            {/*            <div className="modal_content in_fixed_btn">*/}
+            {/*                <div className="modal_title_box baseline">*/}
+            {/*                    <div className="title_box">*/}
+            {/*                        <h3 className="tit">화자 필터</h3>*/}
+            {/*                        <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>*/}
+            {/*                    </div>*/}
+            {/*                    <button onClick={handleModalFilterClose2}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>*/}
+            {/*                </div>*/}
+            {/*                <div className="filter_check_box">*/}
+            {/*                    <div className="input_box end">*/}
+            {/*                        <input type="checkbox" id="filter1" onChange={handleCheckAll2} checked={checkAll}/>*/}
+            {/*                        <label htmlFor="filter1">전체선택</label>*/}
+            {/*                    </div>*/}
+            {/*                    <>*/}
+            {/*                        {uniquePersons.map(item => (*/}
+            {/*                            <div className="input_box">*/}
+            {/*                                <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangePersons(e, item)} checked={selectedLabelsPersons.includes(item)}/>*/}
+            {/*                                <label htmlFor={item}>{item}</label>*/}
+            {/*                            </div>*/}
+            {/*                        ))}*/}
+            {/*                    </>*/}
+            {/*                </div>*/}
+            {/*                <div className="fixed_btn_box">*/}
+            {/*                    <button onClick={handleModalFilterClose2} type="button">취소</button>*/}
+            {/*                    <button onClick={handleModalFilterSubmit2} type="button" className="co1">선택완료</button>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             {/*  서브챕터 모달  */}
 
             {/*  질문 모달  */}
