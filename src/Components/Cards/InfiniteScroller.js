@@ -10,7 +10,7 @@ function InfiniteScroller({ items, persons, subchapters, questions, answers}) {
     const [endReached, setEndReached] = useState(false);
 
     useEffect(() => {
-        console.log(items, '스테이트 넘겨받은 받은 리스트')
+        // console.log(items, '스테이트 넘겨받은 받은 리스트')
         setEndReached(false); // 체크박스 선택해서 items가 바뀔때 length값 true 되는걸 초기화해줌.
         if (items) {
             setList(items.slice(0, 20));

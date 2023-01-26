@@ -17,7 +17,7 @@ export const headers = {
 }
 
 export const AXIOS_OPTION = Object.assign({}, {
-    withCredentials: true,
+    withCredentials: false,
     headers: headers
 })
 

@@ -13,7 +13,6 @@ const Header = (props) => {
 
     const logOut = () => {
         removeCookie("X-AUTH-TOKEN", {path: "/"}) // path랑 domain 입력 해야
-        // document.cookie = `X-AUTH-TOKEN=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=${location.pathname}; domain=${location.hostname}`;
         navigate('/login'); // 로그인 페이지로 이동
     };
 

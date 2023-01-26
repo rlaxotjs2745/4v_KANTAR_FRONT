@@ -9,6 +9,7 @@ import Modal from "../Components/Cards/Modal";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
+import {getCookie} from "../Util/cookie";
 
 const Home = () => {
     const navigate = useNavigate()

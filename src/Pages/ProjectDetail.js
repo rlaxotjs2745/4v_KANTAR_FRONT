@@ -606,6 +606,80 @@ const ProjectDetail = () => {
     const [showModal5, setShowModal5] = useState(false); // 워드 클라우드 상세페이지 모달
 
 
+    const [showFilterModal1, setShowFilterModal1] = useState(false) // 화자 모달
+    const [showFilterModal2, setShowFilterModal2] = useState(false) // 챕터 모달
+    const [showFilterModal3, setShowFilterModal3] = useState(false) // 서브챕터 모달
+    const [showFilterModal4, setShowFilterModal4] = useState(false) // 질문 모달
+    const [showFilterModal5, setShowFilterModal5] = useState(false) // 키워드 모달
+
+    // 화자, 챕터, 서브챕터, 질문 공통 필터 모달 생성
+    const handleModalFilter1 = () => {
+        setShowFilterModal1(true)
+        document.body.classList.add('fixed');
+    };
+
+    const handleModalFilterClose1 = () => {
+        setShowFilterModal1(false)
+        document.body.classList.remove('fixed');
+    };
+
+    const handleCheckAll1 = (e) => {
+        setCheckAll(e.target.checked);
+        if(e.target.checked) {
+            setSelectedLabelsPersons(persons);
+        } else {
+            setSelectedLabelsPersons([]);
+        }
+    }
+
+    const handleModalFilterSubmit1 = () => {
+        setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        setShowFilterModal1(false)
+    }
+
+
+    const handleModalFilter2 = () => {
+        setShowFilterModal2(true)
+        document.body.classList.add('fixed');
+    };
+
+    const handleModalFilterClose2 = () => {
+        setShowFilterModal2(false)
+        document.body.classList.remove('fixed');
+    };
+
+    const handleModalFilter3 = () => {
+        setShowFilterModal3(true)
+        document.body.classList.add('fixed');
+    };
+
+    const handleModalFilterClose3 = () => {
+        setShowFilterModal3(false)
+        document.body.classList.remove('fixed');
+    };
+
+    const handleModalFilter4 = () => {
+        setShowFilterModal4(true)
+        document.body.classList.add('fixed');
+    };
+
+    const handleModalFilterClose4 = () => {
+        setShowFilterModal4(false)
+        document.body.classList.remove('fixed');
+    };
+
+    const handleModalFilter5 = () => {
+        setShowFilterModal5(true)
+        document.body.classList.add('fixed');
+    };
+
+    const handleModalFilterClose5 = () => {
+        setShowFilterModal5(false)
+        document.body.classList.remove('fixed');
+    };
+
+
+
     const [input, setInput] = useState({ value: '', characters: 0 }); // 리포트 생성 리포트 이름 0/50 글자 개수제한
     const [input2, setInput2] = useState({ value: '', characters: 0 }); // 워드 클라우드 이름 0/20 글자 개수제한
 
@@ -637,17 +711,7 @@ const ProjectDetail = () => {
         document.body.classList.remove('fixed');
     };
 
-    // 화자, 챕터, 서브챕터, 질문 공통 필터 모달 생성
-    const handleButtonClick3 = (newValue) => {
-        setFilterTitle(newValue);
-        setShowModal3(true);
-        document.body.classList.add('fixed');
-    };
 
-    const handleModalClose3 = () => {
-        setShowModal3(false);
-        document.body.classList.remove('fixed');
-    };
 
     // 워드 클라우드 생성 모달
     const handleButtonClick4 = (newValue) => {
@@ -676,26 +740,34 @@ const ProjectDetail = () => {
     const [subchapters, setSubchapters] = useState([]);
     const [questions, setQuestions] = useState([]);
 
+    const uniquePersons = [...new Set(persons)];
+    const uniqueChapters = [...new Set(chapters)];
+    const uniqueSubchapters = [...new Set(subchapters)];
+    const uniqueQuestions = [...new Set(questions)];
+
     useEffect(()=> {
         projectDetailListOrigin.forEach(item => {
-            if (!persons.includes(item.person)) setPersons([...persons, item.person])
-            if (!chapters.includes(item.chapter)) setChapters([...chapters, item.chapter]) // 화자 필터와 챕터 필터는 언제나 서버에서 보내준 origin 데이터에서 필터 가능 하게 함
+            if (!persons.includes(item.person)) setPersons(prevPersons => [...prevPersons, item.person])
+            if (!chapters.includes(item.chapter)) setChapters(prevChapters => [...prevChapters, item.chapter]) // 화자 필터와 챕터 필터는 언제나 서버에서 보내준 origin 데이터에서 필터 가능 하게 함
             // if (!answers.includes(item.answer)) setAnswers([...answers, item.answer])
         });
 
         projectDetailList.forEach(item => {
-            if (!subchapters.includes(item.subchapter)) setSubchapters([...subchapters, item.subchapter])  // 서브챕터와 질문 챕터는 화자 필터와 챕터에서 선택한 하위 계층에서만 고를 수 있음.
-            if (!questions.includes(item.question)) setQuestions([...questions, item.question]) // 질문 챕터는 동시에 고를 수 있는 것 같으나 모달 기능에서 서브챕터를 고르고 내려와야 하기 때문에 해당 리스트에서 필터링 하게 해 놓음.
+            if (!subchapters.includes(item.subchapter)) setSubchapters(prevSubchapters => [...prevSubchapters, item.subchapter])  // 서브챕터와 질문 챕터는 화자 필터와 챕터에서 선택한 하위 계층에서만 고를 수 있음.
+            if (!questions.includes(item.question)) setQuestions(prevQuestions => [...prevQuestions, item.question]) // 질문 챕터는 동시에 고를 수 있는 것 같으나 모달 기능에서 서브챕터를 고르고 내려와야 하기 때문에 해당 리스트에서 필터링 하게 해 놓음.
         });
-    })
+    },)
 
 
 
-    console.log(projectDetailListOrigin, '서버에서 보내준 오리지널 데이터')
+    // console.log(projectDetailListOrigin, '서버에서 보내준 오리지널 데이터')
     // console.log(persons, '화자')
     // console.log(chapters, '챕터')
     // console.log(subchapters, '서브챕터')
     // console.log(questions, '질문')
+
+    const [checkAll, setCheckAll] = useState(true);
+
 
     const [selectedLabelsPersons, setSelectedLabelsPersons] = useState([]);
     const [selectedLabelsChapters, setSelectedLabelsChapters] = useState([]);
@@ -708,7 +780,12 @@ const ProjectDetail = () => {
         } else {
             setSelectedLabelsPersons(selectedLabelsPersons.filter(item => item !== label));
         }
-    } // 화자 체크박스 선택한거 setState해주는 함수
+        setCheckAll(false);
+    }// 화자 체크박스 선택한거 setState해주는 함수
+
+    useEffect(() => {
+        setSelectedLabelsPersons(persons);
+    }, [persons]);
 
     const handleCheckboxChangeChapters = (e, label) => {
         if (e.target.checked) {
@@ -735,10 +812,10 @@ const ProjectDetail = () => {
     } // 질문 체크박스 선택한거 setState해주는 함수
 
 
-
-    useEffect(()=> {
-        setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
-    }, [selectedLabelsPersons]) // 화자 선택된값에 필터된 리스트를 재 설정
+    // 여기 부분을 선택완료 함수로 감싸서 바꿔주기
+    // useEffect(()=> {
+    //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+    // }, [selectedLabelsPersons]) // 화자 선택된값에 필터된 리스트를 재 설정
 
     useEffect(()=> {
         setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
@@ -754,7 +831,7 @@ const ProjectDetail = () => {
 
 
     useEffect(()=> {
-        console.log(projectDetailList, '디테일 리스트') // 리스트 값 바뀐것 확인은 여기서
+        // console.log(projectDetailList, '디테일 리스트') // 리스트 값 바뀐것 확인은 여기서
     }, [projectDetailList])
 
 
@@ -786,11 +863,11 @@ const ProjectDetail = () => {
                     </div>
                     <div className="project_detail_area">
                         <div className="filter_btn_box">
-                            <button onClick={() => handleButtonClick3('화자')} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자<span className="count">2</span></button>
-                            <button onClick={() => handleButtonClick3('챕터')}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터</button>
-                            <button onClick={() => handleButtonClick3('서브챕터')}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터<span className="count">2</span></button>
-                            <button onClick={() => handleButtonClick3('질문')}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문<span className="count">2</span></button>
-                            <button  onClick={() => handleButtonClick3('키워드')} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드</button>
+                            <button onClick={handleModalFilter1} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자<span className="count">2</span></button>
+                            <button onClick={handleModalFilter2}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터</button>
+                            <button onClick={handleModalFilter3}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터<span className="count">2</span></button>
+                            <button onClick={handleModalFilter4}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문<span className="count">2</span></button>
+                            <button  onClick={handleModalFilter5} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드</button>
                             <button type="button" className="refresh"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh_blue.svg'}/></button>
                             <div className="btn_select_box">
                                 <button type="button" onClick={toggleClass} className="btn_select">필터값 저장 / 불러오기</button>
@@ -1201,7 +1278,7 @@ const ProjectDetail = () => {
 
             {/*화자, 챕터, 서브챕터, 질문 공통 필터 + 키워드 필터 모달 */}
             {showModal3 && (
-                <Modal in_fixed_btn="in_fixed_btn" onClose={handleModalClose3}>
+                <Modal in_fixed_btn="in_fixed_btn">
                     <div className="modal_title_box baseline">
                         <div className="title_box">
                             <h3 className="tit">{filterTitle} 필터</h3>
@@ -1211,7 +1288,7 @@ const ProjectDetail = () => {
                                     <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
                             }
                         </div>
-                        <button onClick={handleModalClose3}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                        <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
                     </div>
 
                     {
@@ -1473,7 +1550,7 @@ const ProjectDetail = () => {
                     }
 
                     <div className="fixed_btn_box">
-                        <button onClick={handleModalClose3} type="button">취소</button>
+                        <button type="button">취소</button>
                         <button type="button" className="co1">선택완료</button>
                     </div>
 
@@ -1482,8 +1559,38 @@ const ProjectDetail = () => {
 
 
             {/*  화자 모달  */}
-            <div className="filter on">
-
+            <div onClick={handleModalFilterClose1} className={showFilterModal1? 'modal_area on' : 'filterModal'}>
+                <div className="modal_layout">
+                    <div className="modal" onClick={(e)=>e.stopPropagation()} >
+                        <div className="modal_content in_fixed_btn">
+                            <div className="modal_title_box baseline">
+                                <div className="title_box">
+                                    <h3 className="tit">화자 필터</h3>
+                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
+                                </div>
+                                <button onClick={handleModalFilterClose1}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                            </div>
+                            <div className="filter_check_box">
+                                <div className="input_box end">
+                                    <input type="checkbox" id="filter1" onChange={handleCheckAll1} checked={checkAll}/>
+                                    <label htmlFor="filter1">전체선택</label>
+                                </div>
+                                <>
+                                    {uniquePersons.map(item => (
+                                        <div className="input_box">
+                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangePersons(e, item)} checked={selectedLabelsPersons.includes(item)}/>
+                                            <label htmlFor={item}>{item}</label>
+                                        </div>
+                                    ))}
+                                </>
+                            </div>
+                            <div className="fixed_btn_box">
+                                <button onClick={handleModalFilterClose1} type="button">취소</button>
+                                <button onClick={handleModalFilterSubmit1} type="button" className="co1">선택완료</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/*  챕터 모달  */}
@@ -1491,6 +1598,8 @@ const ProjectDetail = () => {
             {/*  서브챕터 모달  */}
 
             {/*  질문 모달  */}
+
+            {/*  키워드 모달  */}
 
         </>
     )
