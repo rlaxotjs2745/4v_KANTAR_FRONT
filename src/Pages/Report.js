@@ -31,14 +31,26 @@ const Report = () => {
     useEffect(()=> {
         axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setReportList(res.data.data.list)
-            setCurrentLastPage(res.data.data.tcnt)
+            setCurrentLastPage(() => {
+                if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
+                    return Math.floor(res.data.data.tcnt/10)
+                } else {
+                    return Math.floor(res.data.data.tcnt/10)+1
+                }
+            })
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
             axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
                 setReportList(res.data.data.list)
-                setCurrentLastPage(res.data.data.tcnt)
+                setCurrentLastPage(() => {
+                    if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
+                        return Math.floor(res.data.data.tcnt/10)
+                    } else {
+                        return Math.floor(res.data.data.tcnt/10)+1
+                    }
+                })
             }).catch(err => {
                 console.log(err);
             })
@@ -57,7 +69,7 @@ const Report = () => {
     };
 
     let handleRightClick = () => {
-        if(currentPageNumber === Math.floor(currentLastPage/10)+1) {
+        if(currentPageNumber === currentLastPage) {
             toastNoticeWarning('마지막 페이지 입니다.')
         } else {
             setCurrentPageNumber(currentPageNumber + 1)
@@ -65,7 +77,7 @@ const Report = () => {
 
     };
 
-
+    console.log(currentLastPage)
 
 
     return (
