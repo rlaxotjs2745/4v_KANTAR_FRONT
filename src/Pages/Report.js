@@ -25,25 +25,47 @@ const Report = () => {
     } = useCheckbox();
 
     const [reportList, setReportList] = useState('')
+    const [currentLastPage, setCurrentLastPage] = useState(1)
+    const [currentPageNumber, setCurrentPageNumber] = useState(1)
 
     useEffect(()=> {
-        axios.post(SERVER_URL + 'report/list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setReportList(res.data.data.list)
+            setCurrentLastPage(res.data.data.tcnt)
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
-            axios.post(SERVER_URL + 'report/list_report', {currentPage : 1}, AXIOS_OPTION).then(res => {
+            axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
                 setReportList(res.data.data.list)
+                setCurrentLastPage(res.data.data.tcnt)
             }).catch(err => {
                 console.log(err);
             })
         };
         const intervalId = setInterval(fetchData, 1000);
         return () => clearInterval(intervalId);
-    },[])
+    },[currentPageNumber])
 
-    console.log(reportList)
+    let handleLeftClick = () => {
+        if (currentPageNumber > 1) {
+            setCurrentPageNumber(currentPageNumber - 1);
+        } else {
+            toastNoticeWarning('첫번째 페이지 입니다.')
+            setCurrentPageNumber(1);
+        }
+    };
+
+    let handleRightClick = () => {
+        if(currentPageNumber === Math.floor(currentLastPage/10)+1) {
+            toastNoticeWarning('마지막 페이지 입니다.')
+        } else {
+            setCurrentPageNumber(currentPageNumber + 1)
+        }
+
+    };
+
+    console.log(Math.floor(currentLastPage/10)+1, '페이지 개수')
 
 
 
@@ -128,34 +150,13 @@ const Report = () => {
 
 
                         }
-                        {/*{reportList.map((item) => (*/}
-                        {/*    <tr key={item.idx}>*/}
-                        {/*        <td className="table_in_chk">*/}
-                        {/*            <input*/}
-                        {/*                type="checkbox"*/}
-                        {/*                checked={checkedState[item.idx]}*/}
-                        {/*                onChange={() => handleMonoCheck(item.idx)}*/}
-                        {/*            />*/}
-                        {/*        </td>*/}
-                        {/*        <td>{item.type}</td>*/}
-                        {/*        <td>{item.code}</td>*/}
-                        {/*        <td>{item.name}</td>*/}
-                        {/*        <td>{item.date}</td>*/}
-                        {/*        <td><Link to={`/report_detail/${item.idx}`}>상세보기</Link></td>*/}
-                        {/*        <td>*/}
-                        {/*            <span className={item.status === '생성중' ? 'co1' : ''}>*/}
-                        {/*              {item.status}*/}
-                        {/*            </span>*/}
-                        {/*        </td>*/}
-                        {/*    </tr>*/}
-                        {/*))}*/}
                         </tbody>
                     </table>
                     {!reportList || !reportList.length ? '' :
                         <div className="table_pagination">
-                            <span className="page_num">Page 1</span>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                            <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                            <span className="page_num">Page {currentPageNumber}</span>
+                            <button type="button" onClick={handleLeftClick} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                            <button type="button" onClick={handleRightClick} className="right"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                         </div>
                     }
                 </div>

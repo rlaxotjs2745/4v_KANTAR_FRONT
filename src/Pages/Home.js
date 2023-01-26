@@ -44,6 +44,7 @@ const Home = () => {
     const [projectList, setProjectList] = useState('')
     const [reportCreateList, setreportCreateList] = useState('')
 
+    const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
 
     const [filteredList, setFilteredList] = useState([])
@@ -59,12 +60,15 @@ const Home = () => {
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setProjectList(res.data.data.list)
+            setCurrentLastPage(res.data.data.tcnt)
+            // console.log(res.data.data, '데이터')
         }).catch(err => {
             console.log(err);
         })
         const fetchData = async () => {
             axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
                 setProjectList(res.data.data.list)
+                setCurrentLastPage(res.data.data.tcnt)
             }).catch(err => {
                 console.log(err);
             })
@@ -98,7 +102,8 @@ const Home = () => {
 
     const projectListArray = Object.values(projectList);
     const reportList = projectListArray.map(item => item.reportList);
-    console.log(reportList)
+
+    console.log(Math.floor(currentLastPage/10)+1)
 
 
     // 프로젝트 병합
@@ -137,12 +142,18 @@ const Home = () => {
         if (currentPageNumber > 1) {
             setCurrentPageNumber(currentPageNumber - 1);
         } else {
+            toastNoticeWarning('첫번째 페이지 입니다.')
             setCurrentPageNumber(1);
         }
     };
 
     const handleRightClick = () => {
-        setCurrentPageNumber(currentPageNumber + 1)
+        if(currentPageNumber === Math.floor(currentLastPage/10)+1) {
+            toastNoticeWarning('마지막 페이지 입니다.')
+        } else {
+            setCurrentPageNumber(currentPageNumber + 1)
+        }
+
     };
 
     return (
@@ -352,14 +363,6 @@ const Home = () => {
                                     ))
                             }
                         </ul>
-                        {/*<ul>*/}
-                        {/*    <li><Link to='/report_detail/0'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
-                        {/*    <li><Link to='/report_detail/1'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
-                        {/*    <li><Link to='/report_detail/2'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
-                        {/*    <li><Link to='/report_detail/3'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
-                        {/*    <li><Link to='/report_detail/4'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
-                        {/*    <li><Link to='/report_detail/5'>chocolate-candy-drinks brandnew survey legacy_rpt001</Link></li>*/}
-                        {/*</ul>*/}
                     </div>
 
                 </Modal>
