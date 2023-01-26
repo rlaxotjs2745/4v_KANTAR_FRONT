@@ -18,7 +18,7 @@ const FirstLogin = () => {
     const fCode = window.location.pathname.split('/').reverse()[0];
 
     useEffect(() => {
-        axios.get(SERVER_URL + 'user/' + `first_login?fCode=${fCode}`, AXIOS_OPTION)
+        axios.get(SERVER_URL + 'user/' + `first_login?fCode=${fCode}`)
             .then(res => {
                 if(res.data.success === '1'){
                     setUserInfo(res.data.data);
@@ -39,7 +39,7 @@ const FirstLogin = () => {
     }
 
     const submitFirstLogin = () => {
-        if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/.test(userInfo.user_pw)){
+        if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/.test(userInfo.user_pw)){
             return toastNoticeWarning('비밀번호 규칙에 맞지 않는 비밀번호입니다.');
         }
 
@@ -51,7 +51,7 @@ const FirstLogin = () => {
             return toastNoticeError('유효하지 않은 전화번호입니다.');
         }
 
-        axios.post(SERVER_URL + 'user/first_login_confirm', userInfo, AXIOS_OPTION)
+        axios.post(SERVER_URL + 'user/first_login_confirm', userInfo)
             .then(res => {
                 if(res.data.success === '1'){
                     toastNoticeSuccess(res.data.msg);
@@ -73,20 +73,20 @@ const FirstLogin = () => {
                                 <button onClick={() => navigate('/login')}>
                                     <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                                 </button>
-                                <h2>안녕하세요. {userInfo.user_name}님, 가입을 축하드립니다.</h2>
+                                <h2>회원 인증</h2>
                             </div>
                         </div>
                         <div className="profile_area">
                             <div className="profile_box">
-                                <h3>기본 정보</h3>
+                                <h3>안녕하세요. {userInfo.user_name}님, 가입을 축하드립니다.</h3>
                                 <div className="input_box">
                                     <label htmlFor="user_phone">휴대폰 번호</label>
-                                    <input onChange={(e) => changeInfo(e)} id="user_phone" type="tel" placeholder="숫자만 입력해주세요."/>
+                                    <input onChange={(e) => changeInfo(e)} id="user_phone" type="tel" maxLength="11" placeholder="숫자만 입력해주세요."/>
                                 </div>
 
                                 <div className="input_box">
                                     <label htmlFor="user_pw">비밀번호 설정</label>
-                                    <input onChange={(e) => changeInfo(e)} id="user_pw" type="password" placeholder="한글, 숫자, 영어, 특수기호 포함 8~12글자"/>
+                                    <input onChange={(e) => changeInfo(e)} id="user_pw" type="password" placeholder="한글, 숫자, 영어, 특수기호 포함 8자 이상"/>
                                 </div>
                                 <div className="input_box">
                                     <label htmlFor="user_pw_confirm">비밀번호 확인</label>
