@@ -36,7 +36,6 @@ const Login = () => {
                 // setloginMessage(res.data.result_str)
                 toastNoticeError(res.data.msg)
             } else if(res.data.success === '1') {
-                // axios.defaults.headers.common['X-AUTH-TOKEN'] = res.data.data.token;
                 setCookie('X-AUTH-TOKEN', res.data.data.token);
                 toastNoticeSuccess('로그인 되었습니다.')
                 navigate('/')

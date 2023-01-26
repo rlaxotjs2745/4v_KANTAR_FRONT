@@ -615,16 +615,18 @@ const ProjectDetail = () => {
     // 화자, 챕터, 서브챕터, 질문 공통 필터 모달 생성
     const handleModalFilter1 = () => {
         setShowFilterModal1(true)
+        setPersonsFilterModalOrigin([...selectedLabelsPersons])
         document.body.classList.add('fixed');
     };
 
     const handleModalFilterClose1 = () => {
         setShowFilterModal1(false)
-        // setSelectedLabelsPersons(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        setSelectedLabelsPersons([...personsFilterModalOrigin])
         document.body.classList.remove('fixed');
     };
 
     const handleCheckAll1 = (e) => {
+
         setCheckAll(e.target.checked);
         if(e.target.checked) {
             setSelectedLabelsPersons(persons);
@@ -633,9 +635,18 @@ const ProjectDetail = () => {
         }
     }
 
+
     const handleModalFilterSubmit1 = () => {
         setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         setShowFilterModal1(false)
+
+        let checkedBoxCount = 0;
+        uniquePersons.map(item => {
+            if(selectedLabelsPersons.includes(item)){
+                checkedBoxCount++;
+            }
+        });
+        console.log(checkedBoxCount, '화자 필터 선택된 개수');
     }
 
 
@@ -759,8 +770,6 @@ const ProjectDetail = () => {
         });
     },)
 
-
-
     // console.log(projectDetailListOrigin, '서버에서 보내준 오리지널 데이터')
     // console.log(persons, '화자')
     // console.log(chapters, '챕터')
@@ -775,18 +784,24 @@ const ProjectDetail = () => {
     const [selectedLabelsSubchapters, setSelectedLabelsSubchapters] = useState([]);
     const [selectedLabelsQuestions, setSelectedLabelsQuestions] = useState([]);
 
+    const [personsFilterModalOrigin, setPersonsFilterModalOrigin] = useState([])
+
+
     const handleCheckboxChangePersons = (e, label) => {
         if (e.target.checked) {
             setSelectedLabelsPersons([...selectedLabelsPersons, label]);
         } else {
             setSelectedLabelsPersons(selectedLabelsPersons.filter(item => item !== label));
         }
-        setCheckAll(false);
     }// 화자 체크박스 선택한거 setState해주는 함수
 
     useEffect(() => {
         setSelectedLabelsPersons(persons);
     }, [persons]);
+
+    useEffect(()=> {
+        setCheckAll(persons.every(item => selectedLabelsPersons.includes(item)))
+    },[selectedLabelsPersons]) // 체크박스 전체 선택 되어있는지 안되어있는지 ture false 반환해서 setCheckAll State 관리
 
     const handleCheckboxChangeChapters = (e, label) => {
         if (e.target.checked) {
@@ -864,7 +879,7 @@ const ProjectDetail = () => {
                     </div>
                     <div className="project_detail_area">
                         <div className="filter_btn_box">
-                            <button onClick={handleModalFilter1} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자<span className="count">2</span></button>
+                            <button onClick={handleModalFilter1} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자<span className="count">{selectedLabelsPersons.includes().length}</span></button>
                             <button onClick={handleModalFilter2}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터</button>
                             <button onClick={handleModalFilter3}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터<span className="count">2</span></button>
                             <button onClick={handleModalFilter4}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문<span className="count">2</span></button>

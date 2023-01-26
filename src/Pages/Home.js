@@ -103,8 +103,6 @@ const Home = () => {
     const projectListArray = Object.values(projectList);
     const reportList = projectListArray.map(item => item.reportList);
 
-    console.log(Math.floor(currentLastPage/10)+1)
-
 
     // 프로젝트 병합
     const handleButtonClick = () => {

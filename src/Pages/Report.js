@@ -65,7 +65,6 @@ const Report = () => {
 
     };
 
-    console.log(Math.floor(currentLastPage/10)+1, '페이지 개수')
 
 
 
