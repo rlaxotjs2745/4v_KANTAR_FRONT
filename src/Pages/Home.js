@@ -60,7 +60,13 @@ const Home = () => {
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setProjectList(res.data.data.list)
-            setCurrentLastPage(res.data.data.tcnt)
+            setCurrentLastPage(() => {
+                if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
+                    return Math.floor(res.data.data.tcnt/10)
+                } else {
+                    return Math.floor(res.data.data.tcnt/10)+1
+                }
+            })
             // console.log(res.data.data, '데이터')
         }).catch(err => {
             console.log(err);
@@ -68,7 +74,13 @@ const Home = () => {
         const fetchData = async () => {
             axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
                 setProjectList(res.data.data.list)
-                setCurrentLastPage(res.data.data.tcnt)
+                setCurrentLastPage(() => {
+                    if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
+                        return Math.floor(res.data.data.tcnt/10)
+                    } else {
+                        return Math.floor(res.data.data.tcnt/10)+1
+                    }
+                })
             }).catch(err => {
                 console.log(err);
             })
@@ -146,13 +158,27 @@ const Home = () => {
     };
 
     const handleRightClick = () => {
-        if(currentPageNumber === Math.floor(currentLastPage/10)+1) {
+        if(currentPageNumber === currentLastPage) {
             toastNoticeWarning('마지막 페이지 입니다.')
         } else {
             setCurrentPageNumber(currentPageNumber + 1)
         }
 
     };
+
+    // useEffect(()=> {
+    //     setCurrentLastPage(prev => {
+    //         if(Math.ceil(prev/10) * 10 - prev === 0) {
+    //             console.log(prev)
+    //             return Math.floor(prev/10)
+    //         } else {
+    //             return Math.floor(prev/10)+1
+    //         }
+    //     })
+    // },[currentLastPage])
+
+    console.log(currentLastPage)
+
 
     return (
         <>
