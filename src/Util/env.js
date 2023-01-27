@@ -1,16 +1,17 @@
 
 import {getCookie} from "./cookie";
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from "axios";
 
 
 // export const SERVER_URL = "http://192.168.0.13:10000/api/project/"
 // export const SERVER_URL = "http://swdev2.dynu.net:3000/api"
-// export const SERVER_URL = "http://localhost:10000/api/";
+// export const SERVER_DICT_URL = "http://localhost:10000/api/dict/";
+export const SERVER_URL = "http://localhost:10000/api/";
 
-export const SERVER_URL = "http://13.125.43.62:10000/api/";
+// export const SERVER_URL = "https://477a-211-221-71-139.jp.ngrok.io/api/project/";
 // export const SERVER_URL = "https://477a-211-221-71-139.jp.ngrok.io/api/";
 
-const userid = getCookie('user_id')
+// const userid = getCookie('user_id')
 
 // export const headers = {
 //     'X-AUTH-TOKEN': getCookie('X-AUTH-TOKEN')
