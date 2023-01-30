@@ -1046,14 +1046,13 @@ const ProjectDetail = () => {
     // console.log(uniquePersons, '화자필터 리스트')
     const handlePresetLoad = () => {
         setFilterPresetLoad(filterPresetList.filter(item => item.idx_filter === selectedFilter)[0]);
-
     };
 
     useEffect(() => {
-        setFilterPresetLoadData1(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[0].filterDataArray.map(item => item.filter_data) : []);
-        setFilterPresetLoadData2(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[1].filterDataArray.map(item => item.filter_data) : []);
-        setFilterPresetLoadData3(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[2].filterDataArray.map(item => item.filter_data) : []);
-        setFilterPresetLoadData4(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[3].filterDataArray.map(item => item.filter_data) : []);
+        setFilterPresetLoadData1(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[0] ? filterPresetLoad.filterDataList[0].filterDataArray.map(item => item.filter_data) : []);
+        setFilterPresetLoadData2(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[1] ? filterPresetLoad.filterDataList[1].filterDataArray.map(item => item.filter_data) : []);
+        setFilterPresetLoadData3(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[2] ? filterPresetLoad.filterDataList[2].filterDataArray.map(item => item.filter_data) : []);
+        setFilterPresetLoadData4(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[3] ? filterPresetLoad.filterDataList[3].filterDataArray.map(item => item.filter_data) : []);
     }, [filterPresetLoad]);
 
     useEffect(()=> {
@@ -1066,16 +1065,13 @@ const ProjectDetail = () => {
 
     useEffect(()=> {
         console.log(selectedLabelsQuestions)
-
         setProjectDetailList(projectDetailListOrigin.filter(item =>
-            (selectedLabelsPersons.length === 0 || selectedLabelsPersons.some(selectedLabel => item.person === selectedLabel)) &&
-            (selectedLabelsChapters.length === 0 || selectedLabelsChapters.includes(item.chapter)) &&
-            (selectedLabelsSubchapters.length === 0 || selectedLabelsSubchapters.includes(item.subchapter)) &&
-            (selectedLabelsQuestions.length === 0 || selectedLabelsQuestions.includes(item.question))
+            (!selectedLabelsPersons || selectedLabelsPersons.length === 0 || selectedLabelsPersons.some(selectedLabel => item.person === selectedLabel)) &&
+            (!selectedLabelsChapters || selectedLabelsChapters.length === 0 || selectedLabelsChapters.includes(item.chapter)) &&
+            (!selectedLabelsSubchapters || selectedLabelsSubchapters.length === 0 || selectedLabelsSubchapters.includes(item.subchapter)) &&
+            (!selectedLabelsQuestions || selectedLabelsQuestions.length === 0 || selectedLabelsQuestions.includes(item.question))
         ));
     },[presetOn])
-
-
 
     // console.log(filterPresetLoadData1, '화자 데이터')
     // console.log(filterPresetLoadData2, '챕터 데이터')
