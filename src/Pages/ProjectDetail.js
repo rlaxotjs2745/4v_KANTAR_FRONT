@@ -600,7 +600,7 @@ const ProjectDetail = () => {
         axios.post(SERVER_URL + 'filter/get', {"idx_project_job_projectid" : pathSplit, "idx_filter" : null}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
                 setFilterPresetList(res.data.data)
-                console.log(res.data.data, '서버에서 오는 원본 필터 정보')
+                // console.log(res.data.data, '서버에서 오는 원본 필터 정보')
             } else {
             }
         }).catch(err => {
@@ -982,9 +982,6 @@ const ProjectDetail = () => {
         setCheckBoxCount4(checkedBoxCount)
     },[selectedLabelsQuestions])
 
-    useEffect(()=> {
-        // console.log(projectDetailList, '디테일 리스트') // 리스트 값 바뀐것 확인은 여기서
-    }, [projectDetailList])
 
     const [filterPresetTitle, setFilterPresetTitle] = useState('');
 
@@ -1049,7 +1046,7 @@ const ProjectDetail = () => {
     // console.log(uniquePersons, '화자필터 리스트')
     const handlePresetLoad = () => {
         setFilterPresetLoad(filterPresetList.filter(item => item.idx_filter === selectedFilter)[0]);
-        setPresetOn(!presetOn)
+
     };
 
     useEffect(() => {
@@ -1057,33 +1054,40 @@ const ProjectDetail = () => {
         setFilterPresetLoadData2(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[1].filterDataArray.map(item => item.filter_data) : []);
         setFilterPresetLoadData3(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[2].filterDataArray.map(item => item.filter_data) : []);
         setFilterPresetLoadData4(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[3].filterDataArray.map(item => item.filter_data) : []);
-    }, [presetOn]);
+    }, [filterPresetLoad]);
 
     useEffect(()=> {
         setSelectedLabelsPersons(filterPresetLoadData1);
         setSelectedLabelsChapters(filterPresetLoadData2);
         setSelectedLabelsSubchapters(filterPresetLoadData3);
         setSelectedLabelsQuestions(filterPresetLoadData4);
+        setPresetOn(!presetOn)
     }, [filterPresetLoadData1, filterPresetLoadData2, filterPresetLoadData3, filterPresetLoadData4])
 
     useEffect(()=> {
-        // console.log(filterPresetLoadData1, '화자 데이터')
-        // console.log(filterPresetLoadData2, '챕터 데이터')
-        // console.log(filterPresetLoadData3, '서브챕터 데이터')
-        // console.log(filterPresetLoadData4, '질문 데이터')
+        console.log(selectedLabelsQuestions)
+
         setProjectDetailList(projectDetailListOrigin.filter(item =>
-            (selectedLabelsPersons.length === 0 || selectedLabelsPersons.includes(item.person)) &&
+            (selectedLabelsPersons.length === 0 || selectedLabelsPersons.some(selectedLabel => item.person === selectedLabel)) &&
             (selectedLabelsChapters.length === 0 || selectedLabelsChapters.includes(item.chapter)) &&
             (selectedLabelsSubchapters.length === 0 || selectedLabelsSubchapters.includes(item.subchapter)) &&
             (selectedLabelsQuestions.length === 0 || selectedLabelsQuestions.includes(item.question))
         ));
-    },[filterPresetLoad, selectedLabelsPersons, selectedLabelsChapters, selectedLabelsSubchapters, selectedLabelsQuestions])
+    },[presetOn])
 
 
-    console.log(selectedLabelsPersons, '화자')
-    console.log(selectedLabelsChapters, '챕터')
-    console.log(selectedLabelsSubchapters, '서브챕터')
-    console.log(selectedLabelsQuestions, '질문')
+
+    // console.log(filterPresetLoadData1, '화자 데이터')
+    // console.log(filterPresetLoadData2, '챕터 데이터')
+    // console.log(filterPresetLoadData3, '서브챕터 데이터')
+    // console.log(filterPresetLoadData4, '질문 데이터')
+
+    // console.log(selectedLabelsPersons, '화자')
+    // console.log(selectedLabelsChapters, '챕터')
+    // console.log(selectedLabelsSubchapters, '서브챕터')
+    // console.log(selectedLabelsQuestions, '질문')
+
+    console.log(projectDetailList, '디테일 리스트 변하는거 확인')
 
     return(
         <>
