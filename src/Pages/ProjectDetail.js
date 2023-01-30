@@ -569,7 +569,7 @@ const ProjectDetail = () => {
             const topElement = document.querySelector('.btn_select');
             const contentElement = document.querySelector('.filter_preset');
             if (!event.target.closest('.filter_preset') && !event.target.closest('.btn_select')) {
-                console.log('Click outside');
+                // console.log('Click outside');
                 topElement.classList.remove('on');
                 contentElement.classList.remove('on');
             }
@@ -600,7 +600,7 @@ const ProjectDetail = () => {
         axios.post(SERVER_URL + 'filter/get', {"idx_project_job_projectid" : pathSplit, "idx_filter" : null}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
                 setFilterPresetList(res.data.data)
-                // console.log(res.data.data, '필터 정보')
+                console.log(res.data.data, '서버에서 오는 원본 필터 정보')
             } else {
             }
         }).catch(err => {
@@ -1017,6 +1017,14 @@ const ProjectDetail = () => {
         })
     }
 
+    const [selectedFilter, setSelectedFilter] = useState(''); // console.log(selectedFilter, '라디오 버튼 선택된거')
+    const [filterPresetLoad, setFilterPresetLoad] = useState('');
+    const [filterPresetLoadData1, setFilterPresetLoadData1] = useState([])
+    const [filterPresetLoadData2, setFilterPresetLoadData2] = useState([])
+    const [filterPresetLoadData3, setFilterPresetLoadData3] = useState([])
+    const [filterPresetLoadData4, setFilterPresetLoadData4] = useState([])
+
+    const [presetOn, setPresetOn] = useState(false)
 
     const DeleteFilterPreset = (but) => {
         // let idx = but.target.parentElement.previousElementSibling.id; // 클릭한 요소의 이전형제 요소
@@ -1036,8 +1044,46 @@ const ProjectDetail = () => {
         })
     }
 
+    // console.log(filterPresetList, '필터 정보값')
+    // console.log(selectedFilter, '라디오 선택된 번호')
+    // console.log(uniquePersons, '화자필터 리스트')
+    const handlePresetLoad = () => {
+        setFilterPresetLoad(filterPresetList.filter(item => item.idx_filter === selectedFilter)[0]);
+        setPresetOn(!presetOn)
+    };
+
+    useEffect(() => {
+        setFilterPresetLoadData1(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[0].filterDataArray.map(item => item.filter_data) : []);
+        setFilterPresetLoadData2(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[1].filterDataArray.map(item => item.filter_data) : []);
+        setFilterPresetLoadData3(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[2].filterDataArray.map(item => item.filter_data) : []);
+        setFilterPresetLoadData4(filterPresetLoad.filterDataList ? filterPresetLoad.filterDataList[3].filterDataArray.map(item => item.filter_data) : []);
+    }, [presetOn]);
+
+    useEffect(()=> {
+        setSelectedLabelsPersons(filterPresetLoadData1);
+        setSelectedLabelsChapters(filterPresetLoadData2);
+        setSelectedLabelsSubchapters(filterPresetLoadData3);
+        setSelectedLabelsQuestions(filterPresetLoadData4);
+    }, [filterPresetLoadData1, filterPresetLoadData2, filterPresetLoadData3, filterPresetLoadData4])
+
+    useEffect(()=> {
+        // console.log(filterPresetLoadData1, '화자 데이터')
+        // console.log(filterPresetLoadData2, '챕터 데이터')
+        // console.log(filterPresetLoadData3, '서브챕터 데이터')
+        // console.log(filterPresetLoadData4, '질문 데이터')
+        setProjectDetailList(projectDetailListOrigin.filter(item =>
+            (selectedLabelsPersons.length === 0 || selectedLabelsPersons.includes(item.person)) &&
+            (selectedLabelsChapters.length === 0 || selectedLabelsChapters.includes(item.chapter)) &&
+            (selectedLabelsSubchapters.length === 0 || selectedLabelsSubchapters.includes(item.subchapter)) &&
+            (selectedLabelsQuestions.length === 0 || selectedLabelsQuestions.includes(item.question))
+        ));
+    },[filterPresetLoad, selectedLabelsPersons, selectedLabelsChapters, selectedLabelsSubchapters, selectedLabelsQuestions])
 
 
+    console.log(selectedLabelsPersons, '화자')
+    console.log(selectedLabelsChapters, '챕터')
+    console.log(selectedLabelsSubchapters, '서브챕터')
+    console.log(selectedLabelsQuestions, '질문')
 
     return(
         <>
@@ -1083,7 +1129,13 @@ const ProjectDetail = () => {
                                             :
                                             filterPresetList.map(item => (
                                                 <div className="input_box" key={item.idx_filter}>
-                                                    <div className="checkbox"><input type="radio" name="preset_radio" id={item.idx_filter}/><label htmlFor={item.idx_filter}>{item.filter_title}</label></div>
+                                                    <div className="checkbox">
+                                                        <input type="radio" name="preset_radio" id={item.idx_filter}
+                                                               onChange={() => setSelectedFilter(item.idx_filter)}
+                                                               checked={selectedFilter === item.idx_filter}
+                                                        />
+                                                        <label htmlFor={item.idx_filter}>{item.filter_title}</label>
+                                                    </div>
                                                     <button type="button" onClick={DeleteFilterPreset} className="chk_delete"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
                                                 </div>
                                             ))
@@ -1091,8 +1143,11 @@ const ProjectDetail = () => {
 
                                     </div>
                                     <div className="btn_box">
-                                        <button type="button" onClick={handleButtonClick}>프리셋 만들기</button>
-                                        <button type="button">불러오기</button>
+                                        {selectedFilter === '' ?
+                                            <button type="button" onClick={handleButtonClick}>프리셋 만들기</button>
+                                            :
+                                            <button type="button" onClick={handlePresetLoad}>불러오기</button>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -1760,7 +1815,9 @@ const ProjectDetail = () => {
                                 <>
                                     {uniquePersons.map(item => (
                                         <div className="input_box">
-                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangePersons(e, item)} checked={selectedLabelsPersons.includes(item)}/>
+                                            <input id={item} type="checkbox"
+                                                   onChange={(e) => handleCheckboxChangePersons(e, item)}
+                                                   checked={selectedLabelsPersons.includes(item)}/>
                                             <label htmlFor={item}>{item}</label>
                                         </div>
                                     ))}

@@ -47,16 +47,20 @@ const Home = () => {
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
 
+
+
     const [filteredList, setFilteredList] = useState([])
     // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i])
     const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10));
     // console.log(checkedIndexes, '체크된 배열값')
     const filteredProjects = Object.values(projectList).filter(project =>
-        checkedIndexes.includes(project.idx_project)
+        checkedIndexes.includes(project.idx_report) //checkedIndexes 가 idx_report 값을 뽑아오는거라 변경
     );
     // console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
     // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
-
+    // console.log(projectList, '프로젝트 리스트 확인')
+    // console.log(checkedIndexes, '체크된 idx값')
+    // console.log(filteredProjects)
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setProjectList(res.data.data.list)
@@ -88,28 +92,6 @@ const Home = () => {
         const intervalId = setInterval(fetchData, 10000);
         return () => clearInterval(intervalId);
 
-        setreportCreateList([
-            {
-                idx: 0,
-                type: 'A20',
-                code: 'P0001',
-                name: 'chat-hitories_00',
-                user_name: '김설문',
-                date: '2022.10.25 11:07',
-                state: 'Raw data',
-                status: '생성중',
-             },
-            {
-                idx: 1,
-                type: 'A20',
-                code: 'P0001',
-                name: 'chat-hitories_01',
-                user_name: '김설문',
-                date: '2022.10.25 11:07',
-                state: 'Raw data',
-                status: '생성중',
-            },
-        ])
     },[currentPageNumber])
 
     const projectListArray = Object.values(projectList);
@@ -178,6 +160,32 @@ const Home = () => {
     // },[currentLastPage])
 
     console.log(currentLastPage)
+
+    const handleMerge = () => {
+
+
+        const mergeForm = document.querySelector("#merge_form")
+        let selectedTrs = document.querySelectorAll("#merge_modal tr.selected");
+        let ids = [];
+        for (let i = 0; i < selectedTrs.length; i++) {
+            ids.push(selectedTrs[i].id);
+        }
+
+        console.log(ids.join(','))
+
+        let param = {
+            "job_no" : mergeForm.merge_job_no.value,
+            "project_name" : mergeForm.merge_project_name.value,
+            "project_merge_idx" : ids.join(',') // console.log(ids, '병합배열');
+        }
+
+        axios.post(SERVER_URL + 'report/merge_report', param, AXIOS_OPTION).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err);
+        })
+
+    }
 
 
     return (
@@ -296,78 +304,80 @@ const Home = () => {
                         <h3 className="tit">새 병합 프로젝트</h3>
                         <button onClick={handleModalClose}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
                     </div>
-                    <div className="input_text_area">
-                        <div className="flex">
-                            <div className="input_box fb30">
-                                <label htmlFor="job_no"><em className="title required">Job No</em></label>
-                                <input  type="text" id="job_no" maxLength="10"/>
-                            </div>
-                            <div className="input_box">
-                                <label htmlFor="project_name required"><em className="title required">파일명</em></label>
-                                <input type="text" id="project_name" maxLength="50"/>
-                                <p className="tip">* 기본 파일명은 가장 먼저 생성된 파일명으로 설정됩니다.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="table_area">
-                        <div className={checkedCount2 > 0 ? ' table_option_box' : 'hide table_option_box'}>
-                            <div className="left">
-                                <p className="info">{checkedCount2}개의 파일이 선택되었습니다.</p>
+                    <form id="merge_form">
+                        <div className="input_text_area">
+                            <div className="flex">
+                                <div className="input_box fb30">
+                                    <label htmlFor="job_no"><em className="title required">Job No</em></label>
+                                    <input name="merge_job_no" type="text" id="job_no" maxLength="10"/>
+                                </div>
+                                <div className="input_box">
+                                    <label htmlFor="project_name required"><em className="title required">파일명</em></label>
+                                    <input name="merge_project_name" type="text" id="project_name" maxLength="50"/>
+                                    <p className="tip">* 기본 파일명은 가장 먼저 생성된 파일명으로 설정됩니다.</p>
+                                </div>
                             </div>
                         </div>
-                        <table className="table_type1">
-                            <colgroup>
-                                <col/>
-                                <col/>
-                                <col/>
-                                <col/>
-                                <col/>
-                                <col/>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th className="table_in_chk"><input type="checkbox"
-                                           checked={isAllChecked2}
-                                           onChange={() => handleAllCheck2()}/></th>
-                                <th>Job No</th>
-                                <th>Project ID</th>
-                                <th>파일명</th>
-                                <th>생성자</th>
-                                <th>프로젝트 생성 일자</th>
-                            </tr>
-                            </thead>
-                            <tbody>
 
-                            {
-                                !filteredProjects || !filteredProjects.length ?
-                                    <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
-                                    :
-                                    filteredProjects.map((item) => (
-                                        <tr id={item.idx_report} key={item.idx_report}>
-                                            <td className="table_in_chk">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={checkedState2[item.idx_report]}
-                                                    onChange={() => handleMonoCheck2(item.idx_report)}
-                                                />
-                                            </td>
-                                            <td>{item.job_no}</td>
-                                            <td>{item.project_id}</td>
-                                            <td>{item.filename}</td>
-                                            <td>{item.user_name}</td>
-                                            <td>{item.create_dt}</td>
-                                        </tr>
-                                    ))
-                            }
-                            </tbody>
-                        </table>
-                    </div>
+                        <div className="table_area">
+                            <div className={checkedCount2 > 0 ? ' table_option_box' : 'hide table_option_box'}>
+                                <div className="left">
+                                    <p className="info">{checkedCount2}개의 파일이 선택되었습니다.</p>
+                                </div>
+                            </div>
+                            <table id="merge_modal" className="table_type1">
+                                <colgroup>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th className="table_in_chk"><input type="checkbox"
+                                               checked={isAllChecked2}
+                                               onChange={() => handleAllCheck2()}/></th>
+                                    <th>Job No</th>
+                                    <th>Project ID</th>
+                                    <th>파일명</th>
+                                    <th>생성자</th>
+                                    <th>프로젝트 생성 일자</th>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-                    <div className="fixed_btn_box">
-                        <button onClick={handleModalClose} type="button">취소</button>
-                        <button type="button" className="co1">병합하기</button>
-                    </div>
+                                {
+                                    !filteredProjects || !filteredProjects.length ?
+                                        <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
+                                        :
+                                        filteredProjects.map((item) => (
+                                            <tr id={item.idx_project} key={item.idx_project}>
+                                                <td className="table_in_chk">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={checkedState2[item.idx_report]}
+                                                        onChange={() => handleMonoCheck2(item.idx_report)}
+                                                    />
+                                                </td>
+                                                <td>{item.job_no}</td>
+                                                <td>{item.project_id}</td>
+                                                <td>{item.filename}</td>
+                                                <td>{item.user_name}</td>
+                                                <td>{item.create_dt}</td>
+                                            </tr>
+                                        ))
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="fixed_btn_box">
+                            <button onClick={handleModalClose} type="button">취소</button>
+                            <button onClick={handleMerge} type="button" className="co1">병합하기</button>
+                        </div>
+                    </form>
                 </Modal>
             )}
 
