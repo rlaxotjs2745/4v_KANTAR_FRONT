@@ -761,20 +761,23 @@ const ProjectDetail = () => {
 
 
 
+
     const handleModalFilter5 = () => {
         setShowFilterModal5(true)
         document.body.classList.add('fixed');
-    };
+    }; // 키워드 필터 오픈
 
     const handleModalFilterClose5 = () => {
         setShowFilterModal5(false)
         document.body.classList.remove('fixed');
-    };
+    }; // 키워드 필터 닫힘
 
     const handleModalFilterSubmit5 = () => {
+        // 리스트 셋팅해주는 스테이트
         // setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) ))
+
         setShowFilterModal5(false)
-    }
+    } // 키워드 필터 선택완료 버튼
 
 
 
