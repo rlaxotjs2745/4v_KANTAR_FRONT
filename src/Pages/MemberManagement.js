@@ -11,7 +11,7 @@ const MemberManagement = () => {
         toastNoticeInfo
     } = useToastAlert();
 
-    const idx_user = 1;
+    const [idx_user, setIdx_user] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [searchWord, setSearchWord] = useState('');
     const [userList, setUserList] = useState([]);
@@ -22,22 +22,28 @@ const MemberManagement = () => {
     }, [currentPage, isSearched])
 
     const getListMember = (curPage) => {
-        let param = `list_member?idx_user=${idx_user}`;
+        let endpoint = `list_member`;
+        let param = '';
         if(curPage){
-            param = param + `&currentPage=${currentPage}`;
+            param = `?currentPage=${currentPage}`;
         }
         if(isSearched){
-            param = param + `&user_name=${searchWord}`;
+            param = param === '' ? `user_name=${searchWord}` : param + `&user_name=${searchWord}`;
         }
 
-        axios.get(SERVER_URL + 'user/' + param, AXIOS_OPTION)
+        if(param !== ''){
+            endpoint += param;
+        }
+
+        axios.get(SERVER_URL + 'user/' + endpoint, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
-                    if(res.data.data.length === 0 && currentPage !== 0){
+                    if(res.data.data.userList.length === 0 && currentPage !== 0){
                         setCurrentPage(currentPage - 1);
                         return toastNoticeInfo('마지막 페이지입니다.');
                     }
-                    setUserList(res.data.data);
+                    setUserList(res.data.data.userList);
+                    setIdx_user(res.data.data.idx_user);
                 }
             })
 

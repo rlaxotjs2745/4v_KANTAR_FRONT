@@ -16,8 +16,6 @@ const DictionaryCreate = () => {
     } = useToastAlert();
     const [file, setFile] = useState(null);
 
-    const idx_user = 1; // 토큰 처리 방법 및 idx 값을 구할 수 있는 방법이 생기면 수정 예정
-
     const handleFileDrop = (file) => {
         setFile(file);
     }
@@ -31,10 +29,6 @@ const DictionaryCreate = () => {
     const handleSubmit = () => {
         let formData = new FormData();
 
-        if(!idx_user){
-            return toastNoticeError('다시 로그인하고 시도해주세요.')
-        }
-
         if(!file){
             return toastNoticeError('파일을 업로드하고 다시 시도해주세요.')
         }
@@ -43,7 +37,6 @@ const DictionaryCreate = () => {
             return toastNoticeError('.csv 파일만 업로드 가능합니다. 확인 후 다시 시도해주세요.')
         }
 
-        formData.append('idx_user', idx_user);
         formData.append('file', file);
         formData.append('title', input1.value);
 

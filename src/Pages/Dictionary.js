@@ -11,18 +11,18 @@ const Dictionary = () => {
         toastNoticeSuccess,
     } = useToastAlert();
 
-    const idx_user = 1; // 토큰 처리 방법 및 idx 값을 구할 수 있는 방법이 생기면 수정 예정
     const [tableData, setTableData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [searchWord, setSearchWord] = useState('');
     const [isSearched, setIsSearched] = useState(false);
+    const [idx_user, setIdx_user] = useState(null)
 
     useEffect(() => {
         getListDictionary(currentPage);
     }, [currentPage, isSearched]);
 
     const getListDictionary = (curPage) => {
-        let param = `dict/list_dictionary?idx_user=${idx_user}`;
+        let param = `dict/list_dictionary?idx_user=1`;
         if(curPage){
             param = param + `&currentPage=${currentPage}`;
         }
@@ -32,11 +32,12 @@ const Dictionary = () => {
         axios.get(SERVER_URL + param, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
-                    if(res.data.data.length === 0 && currentPage !== 0){
+                    if(res.data.data.dictList.length === 0 && currentPage !== 0){
                         setCurrentPage(currentPage - 1);
                         return toastNoticeInfo('마지막 페이지입니다.');
                     }
-                    setTableData(res.data.data);
+                    setTableData(res.data.data.dictList);
+                    setIdx_user(res.data.data.idx_user);
                 }
             })
     }
@@ -59,6 +60,7 @@ const Dictionary = () => {
                 if(res.data.success === '1'){
                     toastNoticeSuccess('사전이 삭제되었습니다.');
                     setTableData(tableData.filter(dt => dt.idx_dictionary !== idx));
+                    getListDictionary(true);
                 }
             })
     }
