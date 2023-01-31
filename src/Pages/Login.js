@@ -83,10 +83,27 @@ const Login = () => {
         }
     });
 
-
     const onError = (errors) => {
         console.log(errors);
     };
+
+    const findPw = (data) => {
+        let loginForm = document.querySelector("#loginForm")
+
+        console.log(loginForm.user_id.value, '클릭 시 데이터')
+
+        axios.post(SERVER_URL + 'user/find_pw', {'user_id' : loginForm.user_id.value}).then(res => {
+            console.log(res)
+            if(res.data.success === "0"){
+                toastNoticeError(res.data.msg)
+            } else if(res.data.success === '1') {
+                toastNoticeSuccess(res.data.msg)
+            }
+        })
+            .catch((error)=> {
+                console.log(error)
+            })
+    }
 
 
     return(
@@ -98,16 +115,16 @@ const Login = () => {
                             <h2>로그인</h2>
                             <div className="input_box">
                                 <label htmlFor="user_id">이메일</label>
-                                <input id="user_id" type="text" placeholder="your@example.com" {...register('user_id')}/>
+                                <input id="user_id" name="user_id" type="text" placeholder="your@example.com" {...register('user_id')}/>
                                 {errors.user_id && <p className="tip">{errors.user_id.message}</p>}
                             </div>
                             <div className="input_box">
                                 <label htmlFor="user_pw">비밀번호</label>
-                                <input id="user_pw" type="password" placeholder="비밀번호" {...register('user_pw')}/>
+                                <input id="user_pw" name="user_pw" type="password" placeholder="비밀번호" {...register('user_pw')}/>
                                 {errors.user_pw && <p className="tip">{errors.user_pw.message}</p>}
                             </div>
                             <div className="btn_box">
-                                <button type="button">비밀번호 재설정 &gt;</button>
+                                <button onClick={findPw} type="button">비밀번호 재설정 &gt;</button>
                                 <button className="co1">로그인 &gt;</button>
                             </div>
                         </div>
