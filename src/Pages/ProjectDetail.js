@@ -781,6 +781,8 @@ const ProjectDetail = () => {
 
         setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
         setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+
+        setSelectedFilter('') // 필터프리셋 선택 해제
         toastNoticeSuccess('필터를 초기화 하였습니다.')
     }
 
