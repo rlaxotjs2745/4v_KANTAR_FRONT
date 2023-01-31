@@ -12,6 +12,10 @@ import {useToastAlert} from "../Util/toastAlert";
 import {getCookie} from "../Util/cookie";
 
 const Home = () => {
+    const [checkBoxListData, setCheckBoxListData] = useState(0)
+
+    console.log(checkBoxListData)
+
     const navigate = useNavigate()
 
     const {
@@ -28,7 +32,7 @@ const Home = () => {
         handleAllCheck,
         handleMonoCheck,
         handleResetCheck
-    } = useCheckbox();
+    } = useCheckbox(checkBoxListData + 1);
 
     const {
         isAllChecked2,
@@ -36,7 +40,8 @@ const Home = () => {
         checkedCount2,
         handleAllCheck2,
         handleMonoCheck2,
-    } = useCheckbox2();
+    } = useCheckbox2(checkBoxListData + 1);
+
 
     const [showModal, setShowModal] = useState(false); // 프로젝트 병합 버튼 누르면 나오는 모달
     const [showModal2, setShowModal2] = useState(false); // 바로가기 버튼 누르면 나오는 모달
@@ -47,10 +52,9 @@ const Home = () => {
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
 
-
-
     const [filteredList, setFilteredList] = useState([])
     // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i])
+    // console.log(checkedState, '체크 스테이트 확인')
     const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10));
     // console.log(checkedIndexes, '체크된 배열값')
     const filteredProjects = Object.values(projectList).filter(project =>
@@ -61,9 +65,12 @@ const Home = () => {
     // console.log(projectList, '프로젝트 리스트 확인')
     // console.log(checkedIndexes, '체크된 idx값')
     // console.log(filteredProjects)
+
+
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setProjectList(res.data.data.list)
+            setCheckBoxListData(res.data.data.list[0].idx_report)
             setCurrentLastPage(() => {
                 if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
                     return Math.floor(res.data.data.tcnt/10)
@@ -77,7 +84,7 @@ const Home = () => {
         })
         const fetchData = async () => {
             axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
-                setProjectList(res.data.data.list)
+                setProjectList(res.data.data.list) // idx_report 최대값 저장 해서 써야함. * 필수
                 setCurrentLastPage(() => {
                     if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
                         return Math.floor(res.data.data.tcnt/10)
@@ -159,7 +166,7 @@ const Home = () => {
     //     })
     // },[currentLastPage])
 
-    console.log(currentLastPage)
+    // console.log(currentLastPage)
 
     const handleMerge = () => {
 
@@ -171,7 +178,7 @@ const Home = () => {
             ids.push(selectedTrs[i].id);
         }
 
-        console.log(ids.join(','))
+        // console.log(ids.join(','))
 
         let param = {
             "job_no" : mergeForm.merge_job_no.value,
@@ -186,6 +193,8 @@ const Home = () => {
         })
 
     }
+
+    console.log(projectList, '리스트 전체')
 
 
     return (
@@ -212,7 +221,7 @@ const Home = () => {
                             <button onClick={handleResetCheck} type="button" className="border_left">선택 취소</button>
                         </div>
                     </div>
-                    <table className="table_type1">
+                    <table id="merge_list" className="table_type1">
                         <colgroup>
                             <col/>
                             <col/>
@@ -353,7 +362,7 @@ const Home = () => {
                                         <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                         :
                                         filteredProjects.map((item) => (
-                                            <tr id={item.idx_project} key={item.idx_project}>
+                                            <tr id={item.idx_report} key={item.idx_report}>
                                                 <td className="table_in_chk">
                                                     <input
                                                         type="checkbox"

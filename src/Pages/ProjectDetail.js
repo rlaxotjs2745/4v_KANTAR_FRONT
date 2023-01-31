@@ -721,6 +721,9 @@ const ProjectDetail = () => {
     }
     // 서브챕터 필터 모달 끝
 
+
+
+
     // console.log(projectDetailListFilterOrigin2, '여기서 퀘스쳔 뽑아내야함')
 
 
@@ -768,6 +771,20 @@ const ProjectDetail = () => {
         document.body.classList.remove('fixed');
     };
 
+    const handleFilterReset = () => {
+        setProjectDetailList(projectDetailListOrigin) // 리스트 초기화
+
+        setSelectedLabelsPersons(persons); // 화자 필터 라벨 초기화 (전체 선택되어있는 상태로)
+        setSelectedLabelsChapters([]); // 챕터 필터 라벨 초기화
+        setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
+        setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+
+        setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
+        setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+
+        setSelectedFilter('') // 필터프리셋 선택 해제
+        toastNoticeSuccess('필터를 초기화 하였습니다.')
+    }
 
 
     const [input, setInput] = useState({ value: '', characters: 0 }); // 리포트 생성 리포트 이름 0/50 글자 개수제한
@@ -933,6 +950,7 @@ const ProjectDetail = () => {
 
 
 
+
     useEffect(()=> {
         // setCheckAll2(chapters.every(item => selectedLabelsChapters.includes(item)))
         let checkedBoxCount = 0;
@@ -1046,6 +1064,7 @@ const ProjectDetail = () => {
     // console.log(uniquePersons, '화자필터 리스트')
     const handlePresetLoad = () => {
         setFilterPresetLoad(filterPresetList.filter(item => item.idx_filter === selectedFilter)[0]);
+        toastNoticeSuccess('필터프리셋이 적용되었습니다.')
     };
 
     useEffect(() => {
@@ -1061,6 +1080,11 @@ const ProjectDetail = () => {
         setSelectedLabelsSubchapters(filterPresetLoadData3);
         setSelectedLabelsQuestions(filterPresetLoadData4);
         setPresetOn(!presetOn)
+        // setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person))) // 화자 필터로 선택된 것으로 불러오기 누를때 서브챕터, 질문 보여주기
+        // setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person))) // 화자 필터로 선택된 것으로 불러오기 누를때 서브챕터, 질문 보여주기
+        setProjectDetailListFilterOrigin(projectDetailListOrigin)
+        setProjectDetailListFilterOrigin2(projectDetailListOrigin)
+
     }, [filterPresetLoadData1, filterPresetLoadData2, filterPresetLoadData3, filterPresetLoadData4])
 
     useEffect(()=> {
@@ -1071,6 +1095,11 @@ const ProjectDetail = () => {
             (!selectedLabelsSubchapters || selectedLabelsSubchapters.length === 0 || selectedLabelsSubchapters.includes(item.subchapter)) &&
             (!selectedLabelsQuestions || selectedLabelsQuestions.length === 0 || selectedLabelsQuestions.includes(item.question))
         ));
+        setCheckBoxCount(filterPresetLoadData1.length) // 화자 개수 설정
+        setCheckBoxCount2(filterPresetLoadData2.length) // 챕터 개수 설정
+        setCheckBoxCount3(filterPresetLoadData3.length) // 서브챕터 개수 설정
+        setCheckBoxCount4(filterPresetLoadData4.length) // 질문 개수 설정
+
     },[presetOn])
 
     // console.log(filterPresetLoadData1, '화자 데이터')
@@ -1115,7 +1144,7 @@ const ProjectDetail = () => {
                             <button onClick={handleModalFilter3}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터 {checkBoxCount3 > 0 ? <span className="count">{checkBoxCount3}</span> : null}</button>
                             <button onClick={handleModalFilter4}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문 {checkBoxCount4 > 0 ? <span className="count">{checkBoxCount4}</span> : null}</button>
                             <button  onClick={handleModalFilter5} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드</button>
-                            <button type="button" className="refresh"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh_blue.svg'}/></button>
+                            <button type="button" onClick={handleFilterReset} className="refresh"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh_blue.svg'}/></button>
                             <div className="btn_select_box">
                                 <button type="button" onClick={toggleClass} className="btn_select">필터값 저장 / 불러오기</button>
                                 <div className="filter_preset" >
