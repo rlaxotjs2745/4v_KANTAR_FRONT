@@ -771,6 +771,13 @@ const ProjectDetail = () => {
         document.body.classList.remove('fixed');
     };
 
+    const handleModalFilterSubmit5 = () => {
+        // setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) ))
+        setShowFilterModal5(false)
+    }
+
+
+
     const handleFilterReset = () => {
         setProjectDetailList(projectDetailListOrigin) // 리스트 초기화
 
@@ -1545,20 +1552,172 @@ const ProjectDetail = () => {
             {/*화자, 챕터, 서브챕터, 질문 공통 필터 + 키워드 필터 모달 */}
             {showModal3 && (
                 <Modal in_fixed_btn="in_fixed_btn">
-                    <div className="modal_title_box baseline">
-                        <div className="title_box">
-                            <h3 className="tit">{filterTitle} 필터</h3>
-                            {
-                                filterTitle === '키워드' ? null
-                                    :
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                            }
-                        </div>
-                        <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+
+
+
+                    <div className="fixed_btn_box">
+                        <button type="button">취소</button>
+                        <button type="button" className="co1">선택완료</button>
                     </div>
 
-                    {
-                        filterTitle === '키워드' ?
+                </Modal>
+            )}
+
+
+            {/*  화자 모달  */}
+            <div onClick={handleModalFilterClose1} className={showFilterModal1? 'modal_area on' : 'modal_area off'}>
+                <div className="modal_layout">
+                    <div className="modal">
+                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
+                            <div className="modal_title_box baseline">
+                                <div className="title_box">
+                                    <h3 className="tit">화자 필터</h3>
+                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
+                                </div>
+                                <button onClick={handleModalFilterClose1}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                            </div>
+                            <div className="filter_check_box">
+                                <div className="input_box end">
+                                    <input type="checkbox" id="filter1" onChange={handleCheckAll1} checked={checkAll}/>
+                                    <label htmlFor="filter1">전체선택</label>
+                                </div>
+                                <>
+                                    {uniquePersons.map(item => (
+                                        <div className="input_box">
+                                            <input id={item} type="checkbox"
+                                                   onChange={(e) => handleCheckboxChangePersons(e, item)}
+                                                   checked={selectedLabelsPersons.includes(item)}/>
+                                            <label htmlFor={item}>{item}</label>
+                                        </div>
+                                    ))}
+                                </>
+                            </div>
+                            <div className="fixed_btn_box">
+                                <button onClick={handleModalFilterClose1} type="button">취소</button>
+                                <button onClick={handleModalFilterSubmit1} type="button" className="co1">선택완료</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*  챕터 모달  */}
+            <div onClick={handleModalFilterClose2} className={showFilterModal2? 'modal_area on' : 'modal_area off'}>
+                <div className="modal_layout">
+                    <div className="modal">
+                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
+                            <div className="modal_title_box baseline">
+                                <div className="title_box">
+                                    <h3 className="tit">챕터 필터</h3>
+                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
+                                </div>
+                                <button onClick={handleModalFilterClose2}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                            </div>
+                            <div className="filter_check_box">
+                                <div className="input_box end">
+                                    <input type="checkbox" id="filter2" onChange={handleCheckAll2} checked={checkAll2}/>
+                                    <label htmlFor="filter2">전체선택</label>
+                                </div>
+                                <>
+                                    {uniqueChapters.map(item => (
+                                        <div className="input_box">
+                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeChapters(e, item)} checked={selectedLabelsChapters.includes(item)}/>
+                                            <label htmlFor={item}>{item}</label>
+                                        </div>
+                                    ))}
+                                </>
+                            </div>
+                            <div className="fixed_btn_box">
+                                <button onClick={handleModalFilterClose2} type="button">취소</button>
+                                <button onClick={handleModalFilterSubmit2} type="button" className="co1">선택완료</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*  서브챕터 모달  */}
+            <div onClick={handleModalFilterClose3} className={showFilterModal3? 'modal_area on' : 'modal_area off'}>
+                <div className="modal_layout">
+                    <div className="modal"  >
+                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
+                            <div className="modal_title_box baseline">
+                                <div className="title_box">
+                                    <h3 className="tit">서브챕터 필터</h3>
+                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
+                                </div>
+                                <button onClick={handleModalFilterClose3}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                            </div>
+                            <div className="filter_check_box">
+                                <div className="input_box end">
+                                    <input type="checkbox" id="filter3" onChange={handleCheckAll3} checked={checkAll3}/>
+                                    <label htmlFor="filter3">전체선택</label>
+                                </div>
+                                <>
+                                    {uniqueSubchapters.map(item => (
+                                        <div className="input_box">
+                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeSubchapters(e, item)} checked={selectedLabelsSubchapters.includes(item)}/>
+                                            <label htmlFor={item}>{item}</label>
+                                        </div>
+                                    ))}
+                                </>
+                            </div>
+                            <div className="fixed_btn_box">
+                                <button onClick={handleModalFilterClose3} type="button">취소</button>
+                                <button onClick={handleModalFilterSubmit3} type="button" className="co1">선택완료</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*  질문 모달  */}
+            <div onClick={handleModalFilterClose4} className={showFilterModal4? 'modal_area on' : 'modal_area off'}>
+                <div className="modal_layout">
+                    <div className="modal"  >
+                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
+                            <div className="modal_title_box baseline">
+                                <div className="title_box">
+                                    <h3 className="tit">질문 필터</h3>
+                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
+                                </div>
+                                <button onClick={handleModalFilterClose4}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                            </div>
+                            <div className="filter_check_box">
+                                <div className="input_box end">
+                                    <input type="checkbox" id="filter4" onChange={handleCheckAll4} checked={checkAll4}/>
+                                    <label htmlFor="filter4">전체선택</label>
+                                </div>
+                                <>
+                                    {uniqueQuestions.map(item => (
+                                        <div className="input_box">
+                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeQuestions(e, item)} checked={selectedLabelsQuestions.includes(item)}/>
+                                            <label htmlFor={item}>{item}</label>
+                                        </div>
+                                    ))}
+                                </>
+                            </div>
+                            <div className="fixed_btn_box">
+                                <button onClick={handleModalFilterClose4} type="button">취소</button>
+                                <button onClick={handleModalFilterSubmit4} type="button" className="co1">선택완료</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*  키워드 모달  */}
+            <div onClick={handleModalFilterClose5} className={showFilterModal5? 'modal_area on' : 'modal_area off'}>
+                <div className="modal_layout">
+                    <div className="modal"  >
+                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
+                            <div className="modal_title_box baseline">
+                                <div className="title_box">
+                                    <h3 className="tit">키워드 필터</h3>
+                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
+                                </div>
+                                <button onClick={handleModalFilterClose5}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
+                            </div>
                             <div className="keyword_filter_area">
                                 <div className="keyword_filter_box">
                                     <strong className="tit">사용할 사전 선택</strong>
@@ -1764,210 +1923,14 @@ const ProjectDetail = () => {
                                     </div>
                                 </div>
                             </div>
-                            :
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter1"/>
-                                    <label htmlFor="filter1">전체선택</label>
-                                </div>
-                                {filterTitle === '화자' ?
-                                    <>
-                                        {persons.map(item => (
-                                            <div className="input_box">
-                                                <input type="checkbox" onChange={(e) => handleCheckboxChangePersons(e, item)}/>
-                                                <label>{item}</label>
-                                            </div>
-                                        ))}
-                                    </>
-                                    :
-                                    filterTitle === '챕터' ?
-                                        <>
-                                            {chapters.map(item => (
-                                                <div className="input_box">
-                                                    <input type="checkbox"/>
-                                                    <label>{item}</label>
-                                                </div>
-                                            ))}
-                                        </>
-                                        :
-                                        filterTitle === '서브챕터' ?
-                                            <>
-                                                {subchapters.map(item => (
-                                                    <div className="input_box">
-                                                        <input type="checkbox"/>
-                                                        <label>{item}</label>
-                                                    </div>
-                                                ))}
-                                            </>
-                                            :
-                                            filterTitle === '질문' ?
-                                                <>
-                                                    {questions.map(item => (
-                                                        <div className="input_box">
-                                                            <input type="checkbox"/>
-                                                            <label>{item}</label>
-                                                        </div>
-                                                    ))}
-                                                </>
-                                                : null
-                                }
-
-                            </div>
-                    }
-
-                    <div className="fixed_btn_box">
-                        <button type="button">취소</button>
-                        <button type="button" className="co1">선택완료</button>
-                    </div>
-
-                </Modal>
-            )}
-
-
-            {/*  화자 모달  */}
-            <div onClick={handleModalFilterClose1} className={showFilterModal1? 'modal_area on' : 'modal_area off'}>
-                <div className="modal_layout">
-                    <div className="modal">
-                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
-                            <div className="modal_title_box baseline">
-                                <div className="title_box">
-                                    <h3 className="tit">화자 필터</h3>
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                                </div>
-                                <button onClick={handleModalFilterClose1}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                            </div>
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter1" onChange={handleCheckAll1} checked={checkAll}/>
-                                    <label htmlFor="filter1">전체선택</label>
-                                </div>
-                                <>
-                                    {uniquePersons.map(item => (
-                                        <div className="input_box">
-                                            <input id={item} type="checkbox"
-                                                   onChange={(e) => handleCheckboxChangePersons(e, item)}
-                                                   checked={selectedLabelsPersons.includes(item)}/>
-                                            <label htmlFor={item}>{item}</label>
-                                        </div>
-                                    ))}
-                                </>
-                            </div>
                             <div className="fixed_btn_box">
-                                <button onClick={handleModalFilterClose1} type="button">취소</button>
-                                <button onClick={handleModalFilterSubmit1} type="button" className="co1">선택완료</button>
+                                <button onClick={handleModalFilterClose5} type="button">취소</button>
+                                <button onClick={handleModalFilterSubmit5} type="button" className="co1">선택완료</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/*  챕터 모달  */}
-            <div onClick={handleModalFilterClose2} className={showFilterModal2? 'modal_area on' : 'modal_area off'}>
-                <div className="modal_layout">
-                    <div className="modal">
-                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
-                            <div className="modal_title_box baseline">
-                                <div className="title_box">
-                                    <h3 className="tit">챕터 필터</h3>
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                                </div>
-                                <button onClick={handleModalFilterClose2}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                            </div>
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter2" onChange={handleCheckAll2} checked={checkAll2}/>
-                                    <label htmlFor="filter2">전체선택</label>
-                                </div>
-                                <>
-                                    {uniqueChapters.map(item => (
-                                        <div className="input_box">
-                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeChapters(e, item)} checked={selectedLabelsChapters.includes(item)}/>
-                                            <label htmlFor={item}>{item}</label>
-                                        </div>
-                                    ))}
-                                </>
-                            </div>
-                            <div className="fixed_btn_box">
-                                <button onClick={handleModalFilterClose2} type="button">취소</button>
-                                <button onClick={handleModalFilterSubmit2} type="button" className="co1">선택완료</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/*  서브챕터 모달  */}
-            <div onClick={handleModalFilterClose3} className={showFilterModal3? 'modal_area on' : 'modal_area off'}>
-                <div className="modal_layout">
-                    <div className="modal"  >
-                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
-                            <div className="modal_title_box baseline">
-                                <div className="title_box">
-                                    <h3 className="tit">서브챕터 필터</h3>
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                                </div>
-                                <button onClick={handleModalFilterClose3}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                            </div>
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter3" onChange={handleCheckAll3} checked={checkAll3}/>
-                                    <label htmlFor="filter3">전체선택</label>
-                                </div>
-                                <>
-                                    {uniqueSubchapters.map(item => (
-                                        <div className="input_box">
-                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeSubchapters(e, item)} checked={selectedLabelsSubchapters.includes(item)}/>
-                                            <label htmlFor={item}>{item}</label>
-                                        </div>
-                                    ))}
-                                </>
-                            </div>
-                            <div className="fixed_btn_box">
-                                <button onClick={handleModalFilterClose3} type="button">취소</button>
-                                <button onClick={handleModalFilterSubmit3} type="button" className="co1">선택완료</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/*  질문 모달  */}
-            <div onClick={handleModalFilterClose4} className={showFilterModal4? 'modal_area on' : 'modal_area off'}>
-                <div className="modal_layout">
-                    <div className="modal"  >
-                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
-                            <div className="modal_title_box baseline">
-                                <div className="title_box">
-                                    <h3 className="tit">질문 필터</h3>
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                                </div>
-                                <button onClick={handleModalFilterClose4}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                            </div>
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter4" onChange={handleCheckAll4} checked={checkAll4}/>
-                                    <label htmlFor="filter4">전체선택</label>
-                                </div>
-                                <>
-                                    {uniqueQuestions.map(item => (
-                                        <div className="input_box">
-                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeQuestions(e, item)} checked={selectedLabelsQuestions.includes(item)}/>
-                                            <label htmlFor={item}>{item}</label>
-                                        </div>
-                                    ))}
-                                </>
-                            </div>
-                            <div className="fixed_btn_box">
-                                <button onClick={handleModalFilterClose4} type="button">취소</button>
-                                <button onClick={handleModalFilterSubmit4} type="button" className="co1">선택완료</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/*  키워드 모달  */}
-
         </>
     )
 
