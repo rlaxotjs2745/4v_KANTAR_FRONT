@@ -1045,7 +1045,9 @@ const ProjectDetail = () => {
     // console.log(selectedFilter, '라디오 선택된 번호')
     // console.log(uniquePersons, '화자필터 리스트')
     const handlePresetLoad = () => {
+
         setFilterPresetLoad(filterPresetList.filter(item => item.idx_filter === selectedFilter)[0]);
+
     };
 
     useEffect(() => {
@@ -1071,6 +1073,10 @@ const ProjectDetail = () => {
             (!selectedLabelsSubchapters || selectedLabelsSubchapters.length === 0 || selectedLabelsSubchapters.includes(item.subchapter)) &&
             (!selectedLabelsQuestions || selectedLabelsQuestions.length === 0 || selectedLabelsQuestions.includes(item.question))
         ));
+        setCheckBoxCount(filterPresetLoadData1.length) // 화자 개수 설정
+        setCheckBoxCount2(filterPresetLoadData2.length) // 챕터 개수 설정
+        setCheckBoxCount3(filterPresetLoadData3.length) // 서브챕터 개수 설정
+        setCheckBoxCount4(filterPresetLoadData4.length) // 질문 개수 설정
     },[presetOn])
 
     // console.log(filterPresetLoadData1, '화자 데이터')

@@ -1,17 +1,17 @@
 import {useEffect, useState} from "react";
-export function useCheckbox() {
+export function useCheckbox(dataCount) {
     const [isAllChecked, setAllChecked] = useState(false);
-    const [checkedState, setCheckedState] = useState(new Array(99).fill(false));
+    const [checkedState, setCheckedState] = useState(new Array(dataCount).fill(false));
     const [checkedCount, setCheckedCount] = useState(0);
 
     useEffect(()=>{
         getCheckedRows()
         getCheckedRowsCount()
-    })
+    }, [checkedState])
 
     const handleAllCheck = () => {
         setAllChecked((prev) => !prev);
-        let array = new Array(99).fill(!isAllChecked);
+        let array = new Array(dataCount).fill(!isAllChecked);
         setCheckedState(array);
     };
 
@@ -30,10 +30,10 @@ export function useCheckbox() {
     };
 
     const getCheckedRows = () => {
-        const rows = document.querySelectorAll(".page tbody tr");
+        const rows = document.querySelectorAll("#merge_list tbody tr");
         let checkedRows = 0;
         rows.forEach((row, index) => {
-            const checkbox = row.querySelector(".page input[type='checkbox']");
+            const checkbox = row.querySelector("input[type='checkbox']");
             if (checkbox.checked) {
                 row.classList.add("selected");
                 checkedRows++;
@@ -51,7 +51,7 @@ export function useCheckbox() {
 
     const handleResetCheck = () => {
         setAllChecked(false);
-        setCheckedState(new Array(99).fill(false));
+        setCheckedState(new Array(dataCount).fill(false));
     };
 
     return {
@@ -67,43 +67,60 @@ export function useCheckbox() {
 
 }
 
-export function useCheckbox2() {
-    // const [isAllChecked2, setAllChecked2] = useState(true); // 기본 값으로 체크 다 안되어있게
-    const [isAllChecked2, setAllChecked2] = useState(true); // 기본 값으로 체크 다 되어있게
-    // const [checkedState2, setCheckedState2] = useState(new Array(99).fill(false)); // 기본 값으로 체크 다 안되어있게
-    const [checkedState2, setCheckedState2] = useState(new Array(99).fill(true)); // 기본 값으로 체크 다 되어 있게
+export function useCheckbox2(dataCount) {
+    const [isAllChecked2, setAllChecked2] = useState(true);
+    const [checkedState2, setCheckedState2] = useState(new Array(dataCount).fill(false));
     const [checkedCount2, setCheckedCount2] = useState(0);
+
+    useEffect(() => {
+        const newCheckedState = new Array(dataCount).fill(isAllChecked2);
+        setCheckedState2(newCheckedState);
+    }, [isAllChecked2, dataCount]);
 
     useEffect(()=>{
         getCheckedRows2()
         getCheckedRowsCount2()
-    })
+    });
+
+    useEffect(() => {
+        const newCheckedState = new Array(checkedState2.length).fill(isAllChecked2);
+        setCheckedState2(newCheckedState);
+    }, [isAllChecked2]);
 
     const handleAllCheck2 = () => {
-        setAllChecked2((prev) => !prev);
-        let array = new Array(99).fill(!isAllChecked2);
+        setAllChecked2(!isAllChecked2);
+        const array = new Array(checkedState2.length).fill(!isAllChecked2);
         setCheckedState2(array);
     };
 
+
     const handleMonoCheck2 = (position) => {
-        const updatedCheckedState2 = checkedState2.map((item, index) =>
+        const updatedCheckedState = checkedState2.map((item, index) =>
             index === position ? !item : item
         );
-        setCheckedState2(updatedCheckedState2);
-        const checkedLength2 = updatedCheckedState2.reduce((sum, currentState2) => {
-            if (currentState2 === true) {
+        setCheckedState2(updatedCheckedState);
+        const checkedLength = updatedCheckedState.reduce((sum, currentState) => {
+            if (currentState === true) {
                 return sum + 1;
             }
             return sum;
         }, 0);
-        setAllChecked2(checkedLength2 === updatedCheckedState2.length);
+        // setAllChecked2(checkedLength === updatedCheckedState.length);
     };
 
+    // const handleMonoCheck2 = (position) => {
+    //     const updatedCheckedState = checkedState2.map((item, index) =>
+    //         index === position ? !item : item
+    //     );
+    //     setCheckedState2(updatedCheckedState);
+    //     setAllChecked2(updatedCheckedState.every(state => state));
+    // };
+
     const getCheckedRows2 = () => {
-        const rows = document.querySelectorAll(".modal tbody tr");
+        const rows = document.querySelectorAll("#merge_modal tbody tr");
         let checkedRows = 0;
         rows.forEach((row, index) => {
-            const checkbox = row.querySelector(".modal input[type='checkbox']");
+            const checkbox = row.querySelector("input[type='checkbox']");
             if (checkbox.checked) {
                 row.classList.add("selected");
                 checkedRows++;
@@ -121,7 +138,7 @@ export function useCheckbox2() {
 
     const handleResetCheck2 = () => {
         setAllChecked2(false);
-        setCheckedState2(new Array(99).fill(false));
+        setCheckedState2([]);
     };
 
     return {
