@@ -1126,6 +1126,12 @@ const ProjectDetail = () => {
 
     console.log(projectDetailList, '디테일 리스트 변하는거 확인')
 
+    const [selectedDict, setSelectedDict] = useState([]);
+    const [dictData, setDictData] = useState([]);
+    const [selectedDictData, setSelectedDictData] = useState([]);
+    const [dictAll, setDictAll] = useState(false);
+    const [dictDataAll, setDictDataAll] = useState(false);
+
     return(
         <>
             <div className="page">
@@ -1713,7 +1719,18 @@ const ProjectDetail = () => {
 
             {/*  키워드 모달  */}
             {
-                showFilterModal5 ? <ProjectKeywordFilterModal handleModalFilterClose5={handleModalFilterClose5} showFilterModal5={showFilterModal5} handleModalFilterSubmit5={handleModalFilterSubmit5} /> : null
+                showFilterModal5 ? <ProjectKeywordFilterModal handleModalFilterClose5={handleModalFilterClose5} showFilterModal5={showFilterModal5} handleModalFilterSubmit5={handleModalFilterSubmit5}
+                                                              setSelectedDict={setSelectedDict}
+                                                              setDictData={setDictData}
+                                                              setSelectedDictData={setSelectedDictData}
+                                                              setDictAll={setDictAll}
+                                                              setDictDataAll={setDictDataAll}
+                                                              selectedDict={selectedDict}
+                                                              dictData={dictData}
+                                                              selectedDictData={selectedDictData}
+                                                              dictAll={dictAll}
+                                                              dictDataAll={dictDataAll}
+                /> : null
             }
         </>
     )

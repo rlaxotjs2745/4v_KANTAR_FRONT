@@ -2,14 +2,24 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../../Util/env";
 
-const ProjectKeywordFilterModal = ({handleModalFilterClose5, showFilterModal5, handleModalFilterSubmit5}) => {
+const ProjectKeywordFilterModal = ({
+                                       handleModalFilterClose5,
+                                       showFilterModal5,
+                                       handleModalFilterSubmit5,
+                                       setSelectedDict,
+                                       setDictData,
+                                       setSelectedDictData,
+                                       setDictAll,
+                                       setDictDataAll,
+                                       selectedDict,
+                                       dictData,
+                                       selectedDictData,
+                                       dictAll,
+                                       dictDataAll
+}) => {
 
     const [dictionaryList, setDictionaryList] = useState([]);
-    const [selectedDict, setSelectedDict] = useState([]);
-    const [dictData, setDictData] = useState([]);
-    const [selectedDictData, setSelectedDictData] = useState([]);
-    const [dictAll, setDictAll] = useState(false);
-    const [dictDataAll, setDictDataAll] = useState(false);
+
 
     useEffect(() => {
         axios.get(SERVER_URL + 'dict/list_dictionary?recordCountPerPage=99999', AXIOS_OPTION)
