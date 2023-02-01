@@ -6,19 +6,24 @@ const ProjectKeywordFilterModal = ({
                                        handleModalFilterClose5,
                                        showFilterModal5,
                                        handleModalFilterSubmit5,
-                                       setSelectedDict,
-                                       setDictData,
-                                       setSelectedDictData,
-                                       setDictAll,
-                                       setDictDataAll,
-                                       selectedDict,
-                                       dictData,
-                                       selectedDictData,
-                                       dictAll,
-                                       dictDataAll
+                                       setSelectedDictR,
+                                       setDictDataR,
+                                       setSelectedDictDataR,
+                                       setDictAllR,
+                                       setDictDataAllR,
+                                       selectedDictR,
+                                       dictDataR,
+                                       selectedDictDataR,
+                                       dictAllR,
+                                       dictDataAllR
 }) => {
 
     const [dictionaryList, setDictionaryList] = useState([]);
+    const [selectedDict, setSelectedDict] = useState(selectedDictR);
+    const [dictData, setDictData] = useState(dictDataR);
+    const [selectedDictData, setSelectedDictData] = useState(selectedDictDataR);
+    const [dictAll, setDictAll] = useState(dictAllR);
+    const [dictDataAll, setDictDataAll] = useState(dictDataAllR);
 
 
     useEffect(() => {
@@ -88,6 +93,15 @@ const ProjectKeywordFilterModal = ({
         }
     }
 
+    const submitKeyword = () => {
+        setSelectedDictR(selectedDict);
+        setDictDataR(dictData);
+        setSelectedDictDataR(selectedDictData);
+        setDictAllR(dictAll);
+        setDictDataAllR(dictDataAll);
+        handleModalFilterSubmit5();
+    }
+
     return (
         <div onClick={handleModalFilterClose5} className={showFilterModal5? 'modal_area on' : 'modal_area off'}>
             <div className="modal_layout">
@@ -147,7 +161,7 @@ const ProjectKeywordFilterModal = ({
                         </div>
                         <div className="fixed_btn_box">
                             <button onClick={handleModalFilterClose5} type="button">취소</button>
-                            <button onClick={handleModalFilterSubmit5} type="button" className="co1">선택완료</button>
+                            <button onClick={submitKeyword} type="button" className="co1">선택완료</button>
                         </div>
                     </div>
                 </div>

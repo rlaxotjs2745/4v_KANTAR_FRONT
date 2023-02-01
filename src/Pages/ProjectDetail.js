@@ -1126,11 +1126,11 @@ const ProjectDetail = () => {
 
     console.log(projectDetailList, '디테일 리스트 변하는거 확인')
 
-    const [selectedDict, setSelectedDict] = useState([]);
-    const [dictData, setDictData] = useState([]);
-    const [selectedDictData, setSelectedDictData] = useState([]);
-    const [dictAll, setDictAll] = useState(false);
-    const [dictDataAll, setDictDataAll] = useState(false);
+    const [selectedDictR, setSelectedDictR] = useState([]);
+    const [dictDataR, setDictDataR] = useState([]);
+    const [selectedDictDataR, setSelectedDictDataR] = useState([]);
+    const [dictAllR, setDictAllR] = useState(false);
+    const [dictDataAllR, setDictDataAllR] = useState(false);
 
     return(
         <>
@@ -1720,16 +1720,16 @@ const ProjectDetail = () => {
             {/*  키워드 모달  */}
             {
                 showFilterModal5 ? <ProjectKeywordFilterModal handleModalFilterClose5={handleModalFilterClose5} showFilterModal5={showFilterModal5} handleModalFilterSubmit5={handleModalFilterSubmit5}
-                                                              setSelectedDict={setSelectedDict}
-                                                              setDictData={setDictData}
-                                                              setSelectedDictData={setSelectedDictData}
-                                                              setDictAll={setDictAll}
-                                                              setDictDataAll={setDictDataAll}
-                                                              selectedDict={selectedDict}
-                                                              dictData={dictData}
-                                                              selectedDictData={selectedDictData}
-                                                              dictAll={dictAll}
-                                                              dictDataAll={dictDataAll}
+                                                              setSelectedDictR={setSelectedDictR}
+                                                              setDictDataR={setDictDataR}
+                                                              setSelectedDictDataR={setSelectedDictDataR}
+                                                              setDictAllR={setDictAllR}
+                                                              setDictDataAllR={setDictDataAllR}
+                                                              selectedDictR={selectedDictR}
+                                                              dictDataR={dictDataR}
+                                                              selectedDictDataR={selectedDictDataR}
+                                                              dictAllR={dictAllR}
+                                                              dictDataAllR={dictDataAllR}
                 /> : null
             }
         </>
