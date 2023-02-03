@@ -10,12 +10,8 @@ const Header = (props) => {
     const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     axios.get()
-    // })
-
     const logOut = () => {
-        removeCookie("X-AUTH-TOKEN", {path: "/", domain: "localhost"}) // path랑 domain 입력 해야
+        removeCookie("X-AUTH-TOKEN", {path: "/", domain: window.location.hostname}) // path랑 domain 입력 해야
         navigate('/login'); // 로그인 페이지로 이동
     };
 
