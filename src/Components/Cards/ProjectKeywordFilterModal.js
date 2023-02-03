@@ -35,9 +35,11 @@ const ProjectKeywordFilterModal = ({
             })
     },[])
 
+    console.log(selectedDictData, '적용된 키워드')
+
 
     const checkDict = (idx, e) => {
-        console.log(e.target.checked)
+        // console.log(e.target.checked)
         if(selectedDict.filter(dt => dt.idx_dictionary === idx).length !== 0){ //체크 해제경우
             setSelectedDict(selectedDict.filter(dt => dt.idx_dictionary !== idx));
             setSelectedDictData(selectedDictData.filter(dt => dt.idx_dictionary !== idx));

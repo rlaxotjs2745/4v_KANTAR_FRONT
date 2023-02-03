@@ -1,8 +1,19 @@
 import React, {useEffect} from "react";
 import { DatePicker, DatePickerInput } from '@carbon/react';
 import $ from "jquery";
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {useToastAlert} from "../Util/toastAlert";
 
 const UsageStatistics = () => {
+
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
+
     function toggleClass() {
         const topElement = document.querySelector('.top');
         const contentElement = document.querySelector('.content');
@@ -10,6 +21,32 @@ const UsageStatistics = () => {
         topElement.classList.toggle('on');
         contentElement.classList.toggle('on');
     }
+
+    useEffect(()=> {
+        axios.post(SERVER_URL + 'statistics/system_statistics', AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                console.log(res.data)
+            } else {
+
+            }
+        }).catch(err => {
+            console.log(err);
+            toastNoticeError('에러가 발생했습니다.', '', '')
+        })
+
+        axios.post(SERVER_URL + 'statistics/api_user', AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                console.log(res.data)
+            } else {
+
+            }
+        }).catch(err => {
+            console.log(err);
+            toastNoticeError('에러가 발생했습니다.', '', '')
+        })
+
+
+    },[])
 
     return (
         <>
@@ -105,7 +142,7 @@ const UsageStatistics = () => {
                         </div>
                     </div>
                     <div className="usage_box">
-                        <h2>시스탬 사용 현황</h2>
+                        <h2>시스템 사용 현황</h2>
                         <div className="usage_table max600">
                             <table>
                                 <colgroup>
@@ -132,7 +169,7 @@ const UsageStatistics = () => {
                                     <td className="tgr">775,453,546 mb</td>
                                 </tr>
                                 <tr>
-                                    <td>누적 생성 레포트 수</td>
+                                    <td>누적 생성 리포트 수</td>
                                     <td className="tgr">54,234 ea</td>
                                 </tr>
                                 </tbody>
