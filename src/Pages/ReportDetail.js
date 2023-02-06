@@ -38,8 +38,6 @@ const ReportDetail = () => {
             toastNoticeError('에러가 발생했습니다.')
             console.log(err);
         })
-
-
     },[])
 
     console.log(reportDetailContent)
@@ -48,7 +46,7 @@ const ReportDetail = () => {
             <div className="page">
                 <div className="file_upload_area">
                     <div className="head type2">
-                        <h2>{reportDetailContent ? reportDetailContent.report.title :''}</h2>
+                        <h2>{reportDetailContent && reportDetailContent.report.length ? reportDetailContent.report[0].title :''}</h2>
                         <button onClick={() => navigate('/report')}>
                             <img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
                         </button>
@@ -58,16 +56,16 @@ const ReportDetail = () => {
                             <div className="flex">
                                 <div className="input_box">
                                     <label htmlFor="detail_name">프로젝트 이름</label>
-                                    <input id="detail_name" type="text" defaultValue={reportDetailContent ? reportDetailContent.project.project_name :''}/>
+                                    <input id="detail_name" type="text" defaultValue={reportDetailContent && reportDetailContent.report.length ? reportDetailContent.project.project_name :''}/>
                                 </div>
                                 <div className="input_box">
                                     <label htmlFor="detail_time">생성 일자</label>
-                                    <input id="detail_time" type="text" readOnly defaultValue={reportDetailContent ? reportDetailContent.report.create_dt : ''}/>
+                                    <input id="detail_time" type="text" readOnly defaultValue={reportDetailContent && reportDetailContent.report.length ? reportDetailContent.report[0].create_dt : ''}/>
                                 </div>
                             </div>
                             <div className="input_box">
                                 <label htmlFor="detail_content">프로젝트 세부내용</label>
-                                <textarea id="detail_content" className="h200" readOnly defaultValue={reportDetailContent ? reportDetailContent.project.summary0 : ''}/>
+                                <textarea id="detail_content" className="h200" readOnly defaultValue={reportDetailContent && reportDetailContent.report.length ? reportDetailContent.report[0].summary0 : ''}/>
                             </div>
                             {!reportDetailContent || reportDetailContent.project.title === null ? null :
                                 <div className="input_box">

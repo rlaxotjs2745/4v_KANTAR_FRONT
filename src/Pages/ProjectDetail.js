@@ -554,7 +554,6 @@ const ProjectDetail = () => {
 
     const [showModal, setShowModal] = useState(false); // 프리셋 만들기
     const [showModal2, setShowModal2] = useState(false); // 리포트 생성
-    const [showModal3, setShowModal3] = useState(false); // 화자, 챕터, 서브챕터, 질문 공통 필터 모달 생성
     const [showModal4, setShowModal4] = useState(false); // 워드 클라우드 생성 모달
     const [showModal5, setShowModal5] = useState(false); // 워드 클라우드 상세페이지 모달
 
@@ -1262,7 +1261,7 @@ const ProjectDetail = () => {
                             <button onClick={handleModalFilter2}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터 {checkBoxCount2 > 0 ? <span className="count">{checkBoxCount2}</span> : null}</button>
                             <button onClick={handleModalFilter3}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터 {checkBoxCount3 > 0 ? <span className="count">{checkBoxCount3}</span> : null}</button>
                             <button onClick={handleModalFilter4}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문 {checkBoxCount4 > 0 ? <span className="count">{checkBoxCount4}</span> : null}</button>
-                            <button  onClick={handleModalFilter5} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드</button>
+                            <button onClick={handleModalFilter5} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드</button>
                             <button type="button" onClick={handleFilterReset} className="refresh"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh_blue.svg'}/></button>
                             <div className="btn_select_box">
                                 <button type="button" onClick={toggleClass} className="btn_select">필터값 저장 / 불러오기</button>
@@ -1657,22 +1656,6 @@ const ProjectDetail = () => {
                     </div>
 
                 </div>
-            )}
-
-
-
-            {/*화자, 챕터, 서브챕터, 질문 공통 필터 + 키워드 필터 모달 */}
-            {showModal3 && (
-                <Modal in_fixed_btn="in_fixed_btn">
-
-
-
-                    <div className="fixed_btn_box">
-                        <button type="button">취소</button>
-                        <button type="button" className="co1">선택완료</button>
-                    </div>
-
-                </Modal>
             )}
 
 

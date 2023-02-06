@@ -175,20 +175,34 @@ const Home = () => {
             ids.push(selectedTrs[i].id);
         }
 
-
         let param = {
             "job_no" : mergeForm.merge_job_no.value,
             "project_name" : mergeForm.merge_project_name.value,
             "project_merge_idx" : ids.join(',') // console.log(ids, '병합배열');
         }
 
-        axios.post(SERVER_URL + 'report/merge_report', param, AXIOS_OPTION).then(res => {
-            // console.log(res)
-            toastNoticeSuccess(res.data.msg)
-            setShowModal(false);
-        }).catch(err => {
-            console.log(err);
-        })
+        if(param.job_no === '') {
+            return toastNoticeWarning('job No를 입력해주세요.')
+        } else if(param.project_name === '') {
+            return toastNoticeWarning('파일명을 입력해주세요.')
+        } else if (param.project_merge_idx.split(",").length < 2) {
+            return toastNoticeWarning('병합할 파일을 2개 이상 선택해주세요.')
+        } else {
+            axios.post(SERVER_URL + 'report/merge_report', param, AXIOS_OPTION).then(res => {
+                // console.log(res)
+                if(res.data.success === "0") {
+                    toastNoticeWarning(res.data.msg)
+                } else if (res.data.success === "1") {
+                    toastNoticeSuccess(res.data.msg)
+                    setShowModal(false);
+                }
+
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+
+
 
     }
 
