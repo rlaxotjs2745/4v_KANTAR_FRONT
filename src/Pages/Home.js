@@ -63,7 +63,7 @@ const Home = () => {
     // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
     // console.log(projectList, '프로젝트 리스트 확인')
     // console.log(checkedIndexes, '체크된 idx값')
-    console.log(filteredProjects)
+    console.log(filteredList)
 
 
     useEffect(()=> {
@@ -100,10 +100,11 @@ const Home = () => {
 
     },[currentPageNumber])
 
+
     const projectListArray = Object.values(projectList);
     const reportList = projectListArray.map(item => item.reportList);
 
-
+    console.log(reportList)
     // 프로젝트 병합
     const handleButtonClick = () => {
         if(checkedCount < 2) {
@@ -126,8 +127,10 @@ const Home = () => {
 
     const handleButtonClick3 = (but) => {
         let idx = Number(but.target.parentElement.parentElement.id);
-        // setFilteredList(reportList.filter(item => item.find(report => report.idx_report === idx)))
-        setFilteredList(reportList.flatMap(item => item.filter(report => report.idx_report === idx)))
+        let filteredList = reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))]
+        console.log(reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))], '필터된 리스트')
+
+        setFilteredList(filteredList)
         setShowModal2(true);
     };
 
