@@ -16,6 +16,9 @@ import ProjectKeywordFilterModal from "../Components/Cards/ProjectKeywordFilterM
 
 const ProjectDetail = () => {
 
+    const [selectedToggle, setSelectedToggle] = useState(null);
+
+
     const {
         toastNoticeInfo,
         toastNoticeSuccess,
@@ -551,6 +554,7 @@ const ProjectDetail = () => {
     const [projectDetailListOrigin, setProjectDetailListOrigin] = useState([])
     const [projectDetailListFilterOrigin, setProjectDetailListFilterOrigin] = useState([]) // 화자랑 챕터에서 고른 후에 있는 서브챕터 리스트 원본용
     const [projectDetailListFilterOrigin2, setProjectDetailListFilterOrigin2] = useState([]) // 화자랑 챕터에서 고른 후에 있는 질문 리스트 원본용
+    const [projectInfo, setProjectInfo] = useState([])
 
     const [showModal, setShowModal] = useState(false); // 프리셋 만들기
     const [showModal2, setShowModal2] = useState(false); // 리포트 생성
@@ -562,9 +566,7 @@ const ProjectDetail = () => {
     const [showFilterModal3, setShowFilterModal3] = useState(false) // 서브챕터 모달
     const [showFilterModal4, setShowFilterModal4] = useState(false) // 질문 모달
     const [showFilterModal5, setShowFilterModal5] = useState(false) // 키워드 모달
-
     const [filterPresetList, setFilterPresetList] = useState([])
-
     useEffect(() => {
         const handleClick = (event) => {
             const topElement = document.querySelector('.btn_select');
@@ -585,8 +587,9 @@ const ProjectDetail = () => {
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/project_view', {"idx_project" : pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                setProjectDetailList(res.data.data)
-                setProjectDetailListOrigin(res.data.data)
+                setProjectDetailList(res.data.data[1])
+                setProjectDetailListOrigin(res.data.data[1])
+                setProjectInfo(res.data.data[0])
             } else {
             }
         }).catch(err => {
@@ -1224,13 +1227,73 @@ const ProjectDetail = () => {
     // console.log(selectedLabelsSubchapters, '서브챕터')
     // console.log(selectedLabelsQuestions, '질문')
 
-    console.log(projectDetailList, '디테일 리스트 변하는거 확인')
 
     const [selectedDictR, setSelectedDictR] = useState([]);
     const [dictDataR, setDictDataR] = useState([]);
     const [selectedDictDataR, setSelectedDictDataR] = useState([]);
     const [dictAllR, setDictAllR] = useState(false);
     const [dictDataAllR, setDictDataAllR] = useState(false);
+
+
+    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([2, 2, 2]);
+    const handleCheckboxChange = (index, event) => {
+        const newCheckboxes = [...createReportCheckboxes];
+        newCheckboxes[index] = event.target.checked ? 1 : 2;
+        setCreateReportCheckboxes(newCheckboxes);
+    };
+
+
+
+    const createReport = () => {
+        // if(selectedLabelsPersons.join("//") === '') {
+        //     return toastNoticeWarning('화자 필터를 선택해주세요.')
+        // }
+        // if(selectedLabelsChapters.join("//") === '') {
+        //     return toastNoticeWarning('챕터 필터를 선택해주세요.')
+        // }
+        // if(selectedLabelsSubchapters.join("//") === '') {
+        //     return toastNoticeWarning('서브챕터 필터를 선택해주세요.')
+        // }
+        // if(selectedLabelsQuestions.join("//") === '') {
+        //     return toastNoticeWarning('질문 필터를 선택해주세요.')
+        // }
+
+        const radioButtons = document.getElementsByName('switch');
+        let selectedValue;
+        for (const radioButton of radioButtons) {
+            if (radioButton.checked) {
+                selectedValue = radioButton.value;
+                break;
+            }
+        }
+
+
+        let param = {
+            "idx_project" : projectInfo.idx_project,
+            "idx_project_job_projectid" : projectInfo.idx_project_job_projectid,
+            "report_name" : input.value,
+            "filter_op1" : Number(selectedValue),
+            "filter_op2" : createReportCheckboxes[0],
+            // "filter_op3" : `${createReportCheckboxes[1]+'//'+createReportCheckboxes[2]}`,
+            "tp1" : selectedLabelsPersons.join("//"),
+            "tp2" : selectedLabelsChapters.join("//"),
+            "tp3" : selectedLabelsSubchapters.join("//"),
+            "tp4" : selectedLabelsQuestions.join("//"),
+            // "tp5" : selectedDictDataR.map(item => item.keyword).join("//")
+        }
+
+        axios.post(SERVER_URL + 'report/save_filter_report', param, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                console.log(res.data.msg)
+                setShowFilterModal5(true)
+            } else {
+            }
+        }).catch(err => {
+            console.log(err);
+            // toastNoticeError('에러가 발생했습니다.', '', '')
+        })
+
+    }
 
     return(
         <>
@@ -1241,7 +1304,7 @@ const ProjectDetail = () => {
                             <button onClick={() => navigate('/')}>
                                 <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                             </button>
-                            <h2>SL00001_PJ002_chat-hitories13_김설문</h2>
+                            <h2>{projectInfo.project_name}</h2>
                         </div>
                         <div className="title_section pd0">
                             <div className="title_box">
@@ -1376,56 +1439,61 @@ const ProjectDetail = () => {
                     <div className="toggle_check_box">
                         <div className="left">
                             <strong className="tit">[요약할 영역을 선택해주세요.]</strong>
-                            <Toggle
-                                size="sm"
-                                labelText=''
-                                labelA="전체 요약을 포함 할까요?"
-                                labelB="전체 요약을 포함 할까요?"
-                                defaultToggled={false}
-                                id="toggle-1"
-                            />
-                            <Toggle
-                                size="sm"
-                                labelText=''
-                                labelA="챕터별 요약을 포함 할까요? (기본값 *)"
-                                labelB="챕터별 요약을 포함 할까요? (기본값 *)"
-                                defaultToggled={false}
-                                id="toggle-2"
-                            />
-                            <Toggle
-                                size="sm"
-                                labelText=''
-                                labelA="서브 챕터별 요약을 포함 할까요?"
-                                labelB="서브 챕터별 요약을 포함 할까요?"
-                                defaultToggled={false}
-                                id="toggle-3"
-                            />
-                            <Toggle
-                                size="sm"
-                                labelText=''
-                                labelA="질문별 요약을 포함 할까요?"
-                                labelB="질문별 요약을 포함 할까요?"
-                                defaultToggled={false}
-                                id="toggle-4"
-                            />
+                            <div className="switch_box">
+                                <p className="info">전체 요약을 포함할까요?</p>
+                                <input type="radio" value="1" id="switch1" name="switch" className="input__on-off"/>
+                                <label htmlFor="switch1" className="label__on-off">
+                                    <span className="marble"></span>
+                                    <span className="on"></span>
+                                    <span className="off"></span>
+                                </label>
+                            </div>
+                            <div className="switch_box">
+                                <p className="info">챕터별 요약을 포함 할까요? (기본값 *)</p>
+                                <input type="radio" value="2" id="switch2" name="switch" defaultChecked className="input__on-off"/>
+                                <label htmlFor="switch2" className="label__on-off">
+                                    <span className="marble"></span>
+                                    <span className="on"></span>
+                                    <span className="off"></span>
+                                </label>
+                            </div>
+                            <div className="switch_box">
+                                <p className="info">서브 챕터별 요약을 포함 할까요?</p>
+                                <input type="radio" value="3" id="switch3" name="switch" className="input__on-off"/>
+                                <label htmlFor="switch3" className="label__on-off">
+                                    <span className="marble"></span>
+                                    <span className="on"></span>
+                                    <span className="off"></span>
+                                </label>
+                            </div>
+                            <div className="switch_box">
+                                <p className="info">질문별 요약을 포함 할까요?</p>
+                                <input type="radio" value="4" id="switch4" name="switch" className="input__on-off"/>
+                                <label htmlFor="switch4" className="label__on-off">
+                                    <span className="marble"></span>
+                                    <span className="on"></span>
+                                    <span className="off"></span>
+                                </label>
+                            </div>
                         </div>
                         <div className="right">
                             <strong className="tit">[추가 옵션을 선택해 주세요.]</strong>
-                            <Toggle
-                                size="sm"
-                                labelText=''
-                                labelA="키워드 추출시 한 글자는 제외 하겠습니까?"
-                                labelB="키워드 추출시 한 글자는 제외 하겠습니까?"
-                                defaultToggled={false}
-                                id="toggle-5"
-                            />
+                            <div className="switch_box">
+                                <p className="info">키워드 추출시 한 글자는 제외 하겠습니까?</p>
+                                <input type="checkbox" id="switch5" name="switch2" className="input__on-off" checked={createReportCheckboxes[0] === 1} onChange={(event) => handleCheckboxChange(0, event)}/>
+                                <label htmlFor="switch5" className="label__on-off">
+                                    <span className="marble"></span>
+                                    <span className="on"></span>
+                                    <span className="off"></span>
+                                </label>
+                            </div>
                             <div className="label_box">
                                 <div className="left">
                                     <span>키워드 품사 형태를 선택하여 보겠습니까?</span>
                                 </div>
                                 <div className="right">
-                                    <div className="input_box"><input id="chk11" type="checkbox"/><label htmlFor="chk11">명사</label></div>
-                                    <div className="input_box"><input id="chk22" type="checkbox"/><label htmlFor="chk22">형용사</label></div>
+                                    <div className="input_box"><input id="chk11" type="checkbox" checked={createReportCheckboxes[1] === 1} onChange={(event) => handleCheckboxChange(1, event)}/><label htmlFor="chk11">명사</label></div>
+                                    <div className="input_box"><input id="chk22" type="checkbox" checked={createReportCheckboxes[2] === 1} onChange={(event) => handleCheckboxChange(2, event)}/><label htmlFor="chk22">형용사</label></div>
                                 </div>
                             </div>
                         </div>
@@ -1434,7 +1502,7 @@ const ProjectDetail = () => {
                     <div className="fixed_btn_box">
                         <p className="tip">* 항목들은 선택된 필터에 따라 활성화 혹은 비활성화 될 수 있습니다.</p>
                         <button onClick={handleModalClose2} type="button">취소</button>
-                        <button type="button" className="co1">생성하기</button>
+                        <button onClick={createReport} type="button" className="co1">생성하기</button>
                     </div>
 
                 </Modal>

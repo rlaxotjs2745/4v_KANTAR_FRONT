@@ -371,7 +371,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .toggle_check_box > div .tit {font-size:12px; font-weight: 700; color:#161616;}
 .toggle_check_box .cds--toggle__appearance {display: flex; flex-direction: row-reverse; min-width: 300px; justify-content: space-between;}
 .toggle_check_box .cds--toggle__text {font-size:12px; color:#525252;}
-.toggle_check_box .label_box {margin-top: 13px; display: flex; align-items: baseline; justify-content: space-between; min-width: 318px;}
+.toggle_check_box .label_box {margin-top: 13px; display: flex; align-items: baseline; justify-content: space-between; min-width: 270px;}
 .toggle_check_box .label_box .input_box + .input_box {margin-top: 10px;}
 .toggle_check_box .label_box .input_box label {font-size:12px; color:#161616; margin-left:10px;}
 
@@ -460,4 +460,17 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .validation_box .chapter .title + .answer {display: none; padding-left:50px;}
 
 
-
+/* 스위치 */
+.switch_box {display: flex; align-items: center; min-width: 250px; justify-content: space-between; margin-top: 10px;}
+.switch_box + .switch_box {margin-top:10px;}
+.switch_box .info {font-size:12px; color:#525252;}
+input[type="radio"].input__on-off, input[type="checkbox"].input__on-off {display: none; width:auto; height:auto;}
+.label__on-off {overflow: hidden; position: relative; display: inline-block; width: 32px; height: 16px; -webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px; background-color: #8d8d8d; cursor: pointer; -webkit-transition: all .3s; -moz-transition: all .3s; -ms-transition: all .3s; -o-transition: all .3s; transition: all .3s;}
+.label__on-off > * {vertical-align: sub; -webkit-transition: all .3s; -moz-transition: all .3s; -ms-transition: all .3s; -o-transition: all .3s; transition: all .3s;}
+.label__on-off .marble {position: absolute; top: 50%; transform: translateY(-50%); left: 2px; display: block; width: 12px; height: 12px; background-color: #fff; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .3); -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .3); box-shadow: 0 0 10px rgba(0, 0, 0, .3);}
+.label__on-off .on {display: none;padding-left: 12px;}
+.label__on-off .off {padding-left: 30px; line-height: 25px;}
+.input__on-off:checked + .label__on-off {background-color: #24a148;}
+.input__on-off:checked + .label__on-off .on {display: inline-block;}
+.input__on-off:checked + .label__on-off .off {display: none;}
+.input__on-off:checked + .label__on-off .marble {left: 17px;}
