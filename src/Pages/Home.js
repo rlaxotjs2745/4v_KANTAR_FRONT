@@ -61,6 +61,7 @@ const Home = () => {
         checkedIndexes.includes(project.idx_report) //checkedIndexes 가 idx_report 값을 뽑아오는거라 변경
     );
     // console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
+    // console.log(projectList, '리스트 전체')
     // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
     // console.log(projectList, '프로젝트 리스트 확인')
     // console.log(checkedIndexes, '체크된 idx값')
@@ -169,8 +170,6 @@ const Home = () => {
     // console.log(currentLastPage)
 
     const handleMerge = () => {
-
-
         const mergeForm = document.querySelector("#merge_form")
         let selectedTrs = document.querySelectorAll("#merge_modal tr.selected");
         let ids = [];
@@ -178,7 +177,6 @@ const Home = () => {
             ids.push(selectedTrs[i].id);
         }
 
-        // console.log(ids.join(','))
 
         let param = {
             "job_no" : mergeForm.merge_job_no.value,
@@ -187,14 +185,16 @@ const Home = () => {
         }
 
         axios.post(SERVER_URL + 'report/merge_report', param, AXIOS_OPTION).then(res => {
-            console.log(res)
+            // console.log(res)
+            toastNoticeSuccess(res.data.msg)
+            setShowModal(false);
         }).catch(err => {
             console.log(err);
         })
 
     }
 
-    console.log(projectList, '리스트 전체')
+
 
 
     return (

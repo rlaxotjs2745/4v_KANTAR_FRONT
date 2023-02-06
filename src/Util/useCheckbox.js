@@ -9,6 +9,11 @@ export function useCheckbox(dataCount) {
         getCheckedRowsCount()
     }, [checkedState])
 
+    useEffect(()=> {
+        let array = new Array(dataCount).fill(false)
+        setCheckedState(array);
+    },[dataCount])
+
     const handleAllCheck = () => {
         setAllChecked((prev) => !prev);
         let array = new Array(dataCount).fill(!isAllChecked);
