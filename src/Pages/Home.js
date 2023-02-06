@@ -14,8 +14,6 @@ import {getCookie} from "../Util/cookie";
 const Home = () => {
     const [checkBoxListData, setCheckBoxListData] = useState(0)
 
-    console.log(checkBoxListData)
-
     const navigate = useNavigate()
 
     const {
@@ -65,7 +63,7 @@ const Home = () => {
     // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
     // console.log(projectList, '프로젝트 리스트 확인')
     // console.log(checkedIndexes, '체크된 idx값')
-    // console.log(filteredProjects)
+    console.log(filteredProjects)
 
 
     useEffect(()=> {
@@ -362,7 +360,7 @@ const Home = () => {
                                         <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                         :
                                         filteredProjects.map((item) => (
-                                            <tr id={item.idx_report} key={item.idx_report}>
+                                            <tr id={item.idx_project} key={item.idx_project}>
                                                 <td className="table_in_chk">
                                                     <input
                                                         type="checkbox"
