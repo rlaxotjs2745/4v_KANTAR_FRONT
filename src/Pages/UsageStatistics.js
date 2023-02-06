@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { DatePicker, DatePickerInput } from '@carbon/react';
 import $ from "jquery";
 import axios from "axios";
@@ -6,7 +6,6 @@ import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
 
 const UsageStatistics = () => {
-
     const {
         toastNoticeInfo,
         toastNoticeSuccess,
@@ -14,18 +13,50 @@ const UsageStatistics = () => {
         toastNoticeWarning,
     } = useToastAlert();
 
-    function toggleClass() {
-        const topElement = document.querySelector('.top');
-        const contentElement = document.querySelector('.content');
+    const [inputFocus, setInputFocus] = useState(false);
+    const [statistics, setStatistics] = useState('')
+    const [userListOrigin, setUserListOrigin] = useState([])
+    const [userList, setUserList] = useState([])
+    const [inputValue, setInputValue] = useState('');
+    const [userIdx, setUserIdx] = useState('');
+    const [filteredList, setFilteredList] = useState(userList);
+    const [checkboxChecked, setCheckboxChecked] = useState(true);
 
-        topElement.classList.toggle('on');
-        contentElement.classList.toggle('on');
+    const handleChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleClick = (item) => {
+        setInputValue(`${item.user_id}(${item.user_name})`);
+        setUserIdx(item.idx_user)
+        setInputFocus(false)
+        setFilteredList(userListOrigin)
     }
 
+    const handleCheckboxChange = (event) => {
+        setCheckboxChecked(event.target.checked);
+        if (event.target.checked) {
+            setInputValue('');
+            setUserIdx('')
+            document.getElementById('searchUserIdx').disabled = true;
+            document.getElementById('date-picker-range-start').disabled = true;
+            document.getElementById('date-picker-range-end').disabled = true;
+            $('#date-picker-range-start').val('')
+            $('#date-picker-range-end').val('')
+        } else {
+            document.getElementById('searchUserIdx').disabled = false;
+            document.getElementById('date-picker-range-start').disabled = false;
+            document.getElementById('date-picker-range-end').disabled = false;
+        }
+    };
+
+    useEffect(()=>{
+        setFilteredList(userList.filter(item => item.user_name.includes(inputValue) || item.user_id.includes(inputValue)));
+    },[inputValue])
     useEffect(()=> {
         axios.post(SERVER_URL + 'statistics/system_statistics', AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                console.log(res.data)
+                setStatistics(res.data.data)
             } else {
 
             }
@@ -36,7 +67,8 @@ const UsageStatistics = () => {
 
         axios.post(SERVER_URL + 'statistics/api_user', AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                console.log(res.data)
+                setUserListOrigin(res.data.data)
+
             } else {
 
             }
@@ -44,9 +76,42 @@ const UsageStatistics = () => {
             console.log(err);
             toastNoticeError('에러가 발생했습니다.', '', '')
         })
-
-
     },[])
+    useEffect(()=>{
+        setUserList(userListOrigin)
+    },[userListOrigin])
+    useEffect(()=>{
+        setFilteredList(userList)
+    },[userList])
+
+    function toggleClass() {
+        const topElement = document.querySelector('.top');
+        const contentElement = document.querySelector('.content');
+
+        topElement.classList.toggle('on');
+        contentElement.classList.toggle('on');
+    }
+
+    const handleStatistics = () => {
+        let start = $('#date-picker-range-start').val()
+        let startDate = new Date(`${start} GMT`).toISOString().substr(0, 10);
+        let end = $('#date-picker-range-end').val()
+        let endDate = new Date(`${end} GMT`).toISOString().substr(0, 10);
+
+        const param = {
+            "idx_user" : userIdx === '' ? null : userIdx,
+            "startDate" : startDate,
+            "endDate" : endDate,
+        }
+        axios.post(SERVER_URL + 'statistics/api_statistics', param, AXIOS_OPTION).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+
+
 
     return (
         <>
@@ -62,13 +127,26 @@ const UsageStatistics = () => {
                                 <div className="box">
                                     <strong className="tit">멤버 이름</strong>
                                     <div className="input_box">
-                                        <input type="checkbox" id="chk_all_member"/>
+                                        <input type="checkbox" id="chk_all_member" checked={checkboxChecked} onChange={handleCheckboxChange} />
                                         <label htmlFor="chk_all_member">전체</label>
                                     </div>
                                     <div className="search_section">
                                         <div className="input_box">
-                                            <input type="text" placeholder="멤버 이름을 입력하세요."/>
+                                            <input value={inputValue} onChange={(e) => {setInputValue(e.target.value); setUserIdx('')}}  type="text" id="searchUserIdx" placeholder="멤버 이름을 입력하세요." onInput={handleChange} onFocus={() => setInputFocus(true)} disabled/>
                                             <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                                        </div>
+                                        <div className={`user_list ${inputFocus ? 'on' : ''}`}>
+                                            <ul>
+                                                {
+                                                    filteredList.map(item => {
+                                                        return (
+                                                            <li key={item.idx_user} id={item.idx_user} onClick={() => handleClick(item)}>
+                                                                {item.user_id}({item.user_name})
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -80,20 +158,23 @@ const UsageStatistics = () => {
                                             placeholder="mm/dd/yyyy"
                                             labelText="시작 날짜"
                                             type="text"
+                                            disabled
                                         />
                                         <DatePickerInput
                                             id="date-picker-range-end"
                                             placeholder="mm/dd/yyyy"
                                             labelText="종료 날짜"
                                             type="text"
+                                            disabled
                                         />
                                     </DatePicker>
                                 </div>
                                 <div className="btn_box">
-                                    <button className="no_ico cds--btn">조회하기</button>
+                                    <button type="button" onClick={handleStatistics} className="no_ico cds--btn">조회하기</button>
                                 </div>
                             </div>
                         </div>
+
                         <div className="usage_table">
                             <table>
                                 <colgroup>
@@ -115,12 +196,6 @@ const UsageStatistics = () => {
                                     <td>다글로 API</td>
                                     <td className="tgr">24,343,646 chars</td>
                                     <td className="tgr">325,554 chars</td>
-                                    <td className="tgr">-</td>
-                                </tr>
-                                <tr>
-                                    <td>네이버 API</td>
-                                    <td className="tgr">243,366 chars</td>
-                                    <td className="tgr">3,244,433 chars</td>
                                     <td className="tgr">-</td>
                                 </tr>
                                 <tr>
@@ -158,19 +233,19 @@ const UsageStatistics = () => {
                                 <tbody>
                                 <tr>
                                     <td>누적 데이터 건수(파일수)</td>
-                                    <td className="tgr">1,234,234,234 ea</td>
+                                    <td className="tgr">{statistics.file_cnt} ea</td>
                                 </tr>
                                 <tr>
                                     <td>누적 데이터 량(글자수)</td>
-                                    <td className="tgr">234,234 chars.</td>
+                                    <td className="tgr">{statistics.word_length} chars.</td>
                                 </tr>
                                 <tr>
                                     <td>누적 데이터 량(용량,Mb)</td>
-                                    <td className="tgr">775,453,546 mb</td>
+                                    <td className="tgr">{statistics.file_size} mb</td>
                                 </tr>
                                 <tr>
                                     <td>누적 생성 리포트 수</td>
-                                    <td className="tgr">54,234 ea</td>
+                                    <td className="tgr">{statistics.report_cnt} ea</td>
                                 </tr>
                                 </tbody>
                             </table>

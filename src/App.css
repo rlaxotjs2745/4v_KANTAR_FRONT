@@ -156,7 +156,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .search_section {}
 .search_section .sub_tit {font-size:14px; line-height:18px; margin-bottom:7px; display: block;}
 .search_section .input_box {position: relative; display: flex; align-items: center;}
-.search_section .input_box input {width: 100%; height:44px; background: #f4f4f4; border:none; border-bottom:1px solid #dadada; font-size:14px; color: #161616; padding-left:48px; padding-right:20px;}
+.search_section .input_box input {width: 100%; height:44px; background: #f4f4f4; border:none; border-bottom:1px solid #dadada; font-size:14px; color: #161616; padding-left:48px; padding-right:20px; outline: none;}
 .search_section .input_box button {position: absolute; top:50%; transform: translateY(-50%); left:14px;}
 .search_section + .title_section {margin-top: 20px;}
 
@@ -300,18 +300,22 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .search_filter_box > div.top button:after {content:''; display: block; width: 10px; height:6px; position: absolute; top:50%; transform: translateY(-50%); right:16px; background: url("../public/assets/image/ico_dropdown.svg") no-repeat center;}
 .search_filter_box > div.top.on button:after { transform: translateY(-50%) rotate(180deg);}
 
-.search_filter_box > div.content {padding:0px 20px 0px; height: 0px; overflow: hidden; transition: 0.3s ease-in-out;}
-.search_filter_box > div.content.on {height:336px; padding:22px 20px 30px;}
+.search_filter_box > div.content {padding:0px 20px 0px; height: 0px; overflow: hidden; }
+.search_filter_box > div.content.on {height:336px; overflow: inherit; padding:22px 20px 30px;}
 .search_filter_box > div.content > .box + .box {margin-top:32px;}
 .search_filter_box > div.content > .box .tit {font-size:12px; color:#525252; line-height: 16px; font-weight: 400; display: block; margin-bottom: 11px;}
 .search_filter_box > div.content > .box .input_box input[type="checkbox"] {width:16px; height:16px; margin: 0 3px 0 10px;}
 .search_filter_box > div.content > .box .input_box input[type="checkbox"] + label {padding-left:11px; font-size:14px; color:#161616;}
-.search_filter_box > div.content > .box .search_section {margin-top:15px;}
+.search_filter_box > div.content > .box .search_section {margin-top:15px; position: relative;}
 .search_filter_box > div.content .cds--form-item {margin-top:11px;}
 .search_filter_box > div.content .cds--label {font-size:14px; color:#161616;}
 .search_filter_box > div.content .cds--date-picker__input {border: none; border-bottom:1px solid #8d8d8d}
 .search_filter_box > div.content .cds--date-picker-container + .cds--date-picker-container {margin-left:10px;}
 .search_filter_box > div.content .btn_box {margin-top:11px; text-align: right;}
+.search_filter_box .user_list {position: absolute; display: none; z-index: 9; width: 100%; top: 100%; max-height: 132px; overflow: scroll;filter: drop-shadow(0px 2px 6px rgba(0, 0, 0, 0.25));}
+.search_filter_box .user_list.on {display: block;}
+.search_filter_box .user_list li {position: relative; background: #f4f4f4; padding:13px 16px; font-size:14px; font-weight: 400; color:#525252; cursor: pointer;}
+.search_filter_box .user_list li + li:before {content:''; position: absolute; top:0; left:50%; transform: translateX(-50%); display: block; width: 96%; margin:0 auto; height: 1px; background: #E0E0E0;}
 
 .project_detail_area {margin-top:30px;}
 
@@ -454,5 +458,6 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .validation_box .chapter .title + .person {display: none; padding-left:50px;}
 .validation_box .chapter .title + .person > .flex {display: flex; align-items: center;}
 .validation_box .chapter .title + .answer {display: none; padding-left:50px;}
+
 
 
