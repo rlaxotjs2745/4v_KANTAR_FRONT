@@ -394,7 +394,6 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .keyword_check_box {position: relative; padding:16px 12px;}
 .keyword_check_box.type2 {background:#F4F4F4; margin-top: 10px;}
 .keyword_check_box.type2 .checklist_box {height: 192px; overflow: scroll; padding-top: 5px;}
-.keyword_check_box.type2 label {cursor: inherit;}
 .keyword_check_box .all_chk_box {position: absolute; top:-10px; right:0;}
 .keyword_check_box.type2 .all_chk_box {position: absolute; top:-25px; right:0;}
 

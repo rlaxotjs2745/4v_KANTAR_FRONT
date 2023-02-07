@@ -141,8 +141,8 @@ const ProjectKeywordFilterModal = ({
                                 <p className="info">선택한 사전의 대표 키워드들로 묶인 상태로 키워드가 포함/제외 필터에 노출됩니다.</p>
                                 <div className="keyword_check_box type2">
                                     <div className="all_chk_box">
-                                        <input type="checkbox" onChange={checkAllDict} checked={dictAll}/>
-                                        <label>전체선택</label>
+                                        <input id="dict" type="checkbox" onChange={checkAllDict} checked={dictAll}/>
+                                        <label htmlFor="dict">전체선택</label>
                                     </div>
                                     <div className="checklist_box">
                                     {
@@ -150,8 +150,8 @@ const ProjectKeywordFilterModal = ({
                                             return (
                                                 <div key={dict.idx_dictionary} className="check_box_list">
                                                     <div className="input_box">
-                                                        <input type="checkbox" onChange={(e) => checkDict(dict.idx_dictionary, e)} checked={selectedDict.filter(dt => dt.idx_dictionary === dict.idx_dictionary).length > 0}/>
-                                                        <label>{dict.title}</label>
+                                                        <input id={dict.idx_dictionary}  type="checkbox" onChange={(e) => checkDict(dict.idx_dictionary, e)} checked={selectedDict.filter(dt => dt.idx_dictionary === dict.idx_dictionary).length > 0}/>
+                                                        <label htmlFor={dict.idx_dictionary}>{dict.title}</label>
                                                     </div>
                                                 </div>
                                             )
@@ -164,16 +164,16 @@ const ProjectKeywordFilterModal = ({
                                 <strong className="tit">적용할 키워드 선택</strong>
                                 <div className="keyword_check_box">
                                     <div className="all_chk_box">
-                                        <input type="checkbox" onChange={checkAllDictData} checked={dictDataAll}/>
-                                        <label>전체선택</label>
+                                        <input id="dict2" type="checkbox" onChange={checkAllDictData} checked={dictDataAll}/>
+                                        <label htmlFor="dict2">전체선택</label>
                                     </div>
                                     <div className="check_box_list">
                                         {
                                             dictData.map(dt => {
                                                 return (
                                                     <div key={dt.idx_dictionary_data} className="input_box">
-                                                        <input type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />
-                                                        <label>{dt.keyword}</label>
+                                                        <input id={dt.keyword} type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />
+                                                        <label htmlFor={dt.keyword}>{dt.keyword}</label>
                                                     </div>
                                                 )
                                             })

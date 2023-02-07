@@ -1110,11 +1110,14 @@ const ProjectDetail = () => {
 
     const handleModalFilter5 = () => {
         setShowFilterModal5(true)
+        console.log(selectedDictDataR, '요게 뭐니')
+        setkeywordsFilterModalOrigin([...selectedDictDataR])
         document.body.classList.add('fixed');
     }; // 키워드 필터 오픈
 
     const handleModalFilterClose5 = () => {
         setShowFilterModal5(false)
+        setSelectedDictDataR([...keywordsFilterModalOrigin])
         document.body.classList.remove('fixed');
     }; // 키워드 필터 닫힘
 
@@ -1301,6 +1304,8 @@ const ProjectDetail = () => {
     const [chaptersFilterModalOrigin, setChaptersFilterModalOrigin] = useState([])
     const [subchaptersFilterModalOrigin, setSubchaptersFilterModalOrigin] = useState([])
     const [questionsFilterModalOrigin, setQuestionsFilterModalOrigin] = useState([])
+    const [keywordsFilterModalOrigin, setkeywordsFilterModalOrigin] = useState([])
+
 
     const [checkBoxCount, setCheckBoxCount] = useState(0)
     const [checkBoxCount2, setCheckBoxCount2] = useState(0)
