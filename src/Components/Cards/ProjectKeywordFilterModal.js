@@ -34,7 +34,12 @@ const ProjectKeywordFilterModal = ({
             })
     },[])
 
-    console.log(selectedDictData, '이게 뭐야')
+    useEffect(() => {
+        if(selectedDict.length === 0){
+            setSelectedDictData([]);
+            setDictData([]);
+        }
+    }, [selectedDict])
 
 
     const checkDict = (idx, e) => {
@@ -42,7 +47,13 @@ const ProjectKeywordFilterModal = ({
         if(selectedDict.filter(dt => dt.idx_dictionary === idx).length !== 0){ //체크 해제경우
             setSelectedDict(selectedDict.filter(dt => dt.idx_dictionary !== idx));
             setSelectedDictData(selectedDictData.filter(dt => dt.idx_dictionary !== idx));
-            setDictData(dictData.filter(dt => dt.idx_dictionary !== idx));
+
+            axios.post(SERVER_URL + 'dict/get_bulk_dictionary_data', selectedDict.filter(dt => dt.idx_dictionary !== idx).map(dict => dict.idx_dictionary), AXIOS_OPTION)
+                .then(res => {
+                    if(res.data.success === '1'){
+                        setDictData(res.data.data.filter((dt,idx) => res.data.data.findIndex(d => dt.keyword === d.keyword) === idx));
+                    }
+                })
             setDictAll(false);
         } else { //체크 했을경우
             const dict = dictionaryList.filter(dt => dt.idx_dictionary === idx)[0];
@@ -50,7 +61,11 @@ const ProjectKeywordFilterModal = ({
             axios.get(SERVER_URL + `dict/dictionary_detail?idx_dictionary=${idx}`, AXIOS_OPTION)
                 .then(res => {
                     if(res.data.success === '1'){
-                        setDictData([...dictData, ...res.data.data.dictDataList]);
+                        // const oriDictData = dictData.map(dt => dt.keyword);
+                        // const realDictData = res.data.data.dictDataList.filter(dt => !oriDictData.includes(dt.keyword));
+                        const newData = dictData.concat(res.data.data.dictDataList);
+                        // setDictData([...dictData, ...realDictData]);
+                        setDictData(newData.filter((dt,idx) => newData.findIndex(d => dt.keyword === d.keyword) === idx));
                     }
                 });
         }
@@ -75,7 +90,7 @@ const ProjectKeywordFilterModal = ({
             axios.post(SERVER_URL + 'dict/get_bulk_dictionary_data', idxArr, AXIOS_OPTION)
                 .then(res => {
                     if(res.data.success === '1'){
-                        setDictData(res.data.data);
+                        setDictData(res.data.data.filter((dt,idx) => res.data.data.findIndex(d => dt.keyword === d.keyword) === idx));
                     }
                 })
         } else {
@@ -129,20 +144,18 @@ const ProjectKeywordFilterModal = ({
                                         <input type="checkbox" onChange={checkAllDict} checked={dictAll}/>
                                         <label>전체선택</label>
                                     </div>
-                                    <div className="checklist_box">
-                                        {
-                                            dictionaryList.map(dict => {
-                                                return (
-                                                    <div key={dict.idx_dictionary} className="check_box_list">
-                                                        <div className="input_box">
-                                                            <input type="checkbox" onChange={(e) => checkDict(dict.idx_dictionary, e)} checked={selectedDict.filter(dt => dt.idx_dictionary === dict.idx_dictionary).length > 0}/>
-                                                            <label>{dict.title}</label>
-                                                        </div>
+                                    {
+                                        dictionaryList.map(dict => {
+                                            return (
+                                                <div key={dict.idx_dictionary} className="check_box_list">
+                                                    <div className="input_box">
+                                                        <input type="checkbox" onChange={(e) => checkDict(dict.idx_dictionary, e)} checked={selectedDict.filter(dt => dt.idx_dictionary === dict.idx_dictionary).length > 0}/>
+                                                        <label>{dict.title}</label>
                                                     </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
                                 </div>
                             </div>
                             <div className="keyword_filter_box">
@@ -153,27 +166,15 @@ const ProjectKeywordFilterModal = ({
                                         <label>전체선택</label>
                                     </div>
                                     <div className="check_box_list">
-                                        {/*{*/}
-                                        {/*    dictData.map(dt => {*/}
-                                        {/*        return (*/}
-                                        {/*            <div key={dt.idx_dictionary_data} className="input_box">*/}
-                                        {/*                <input type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />*/}
-                                        {/*                <label>{dt.keyword}</label>*/}
-                                        {/*            </div>*/}
-                                        {/*        )*/}
-                                        {/*    })*/}
-                                        {/*}*/}
                                         {
-                                            dictData
-                                                .filter((dt, index, self) => self.findIndex(t => t.keyword === dt.keyword) === index)
-                                                .map(dt => {
-                                                    return (
-                                                        <div key={dt.idx_dictionary_data} className="input_box">
-                                                            <input type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />
-                                                            <label>{dt.keyword}</label>
-                                                        </div>
-                                                    )
-                                                })
+                                            dictData.map(dt => {
+                                                return (
+                                                    <div key={dt.idx_dictionary_data} className="input_box">
+                                                        <input type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />
+                                                        <label>{dt.keyword}</label>
+                                                    </div>
+                                                )
+                                            })
                                         }
                                     </div>
                                 </div>

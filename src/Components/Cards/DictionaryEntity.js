@@ -1,8 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-const DictionaryEntity = ({entity, deleteDictionary, num, isOwn}) => {
-
+const DictionaryEntity = ({entity, deleteDictionary, num, isOwn, userType}) => {
 
     return (
         <tr>
@@ -13,7 +12,7 @@ const DictionaryEntity = ({entity, deleteDictionary, num, isOwn}) => {
             <td>{entity.create_dt ? `${entity.create_dt.split(' ')[0].replaceAll('-', '.')} ${entity.create_dt.split(' ')[1].split(':')[0]}:${entity.create_dt.split(' ')[1].split(':')[1]}` : null}</td>
             <td style={{textAlign:"center"}}>
                 {
-                    isOwn ?
+                    isOwn || userType === 99 ?
                         <>
                             <Link to={`/dictionary_update/${entity.idx_dictionary}`} className="co1">수정</Link>
                             <button type="button" onClick={() => deleteDictionary(entity.idx_dictionary)} className="co3">삭제</button>

@@ -15,7 +15,9 @@ const Dictionary = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [searchWord, setSearchWord] = useState('');
     const [isSearched, setIsSearched] = useState(false);
-    const [idx_user, setIdx_user] = useState(null)
+    const [idx_user, setIdx_user] = useState(null);
+    const [userType, setUserType] = useState(1);
+
 
     useEffect(() => {
         getListDictionary(currentPage);
@@ -38,6 +40,7 @@ const Dictionary = () => {
                     }
                     setTableData(res.data.data.dictList);
                     setIdx_user(res.data.data.idx_user);
+                    setUserType(res.data.data.user_type);
                 }
             })
     }
@@ -122,7 +125,7 @@ const Dictionary = () => {
                         </thead>
                         <tbody>
                         {
-                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(currentPage+1) * 10 - (9 - idx)} deleteDictionary={modalDictionaryDelete} entity={dt} isOwn={idx_user === dt.idx_user} />)
+                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(currentPage+1) * 10 - (9 - idx)} deleteDictionary={modalDictionaryDelete} entity={dt} isOwn={idx_user === dt.idx_user} userType={userType} />)
                         }
                         </tbody>
                     </table>
