@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../../Util/env";
+import {calculateNewValue} from "@testing-library/user-event/dist/utils";
 
 const ProjectKeywordFilterModal = ({
                                        handleModalFilterClose5,
@@ -16,6 +17,8 @@ const ProjectKeywordFilterModal = ({
                                        selectedDictDataR,
                                        dictAllR,
                                        dictDataAllR,
+                                       dictDataRaw,
+                                       setDictDataRaw
 }) => {
 
     const [dictionaryList, setDictionaryList] = useState([]);
@@ -24,6 +27,7 @@ const ProjectKeywordFilterModal = ({
     const [selectedDictData, setSelectedDictData] = useState(selectedDictDataR);
     const [dictAll, setDictAll] = useState(dictAllR);
     const [dictDataAll, setDictDataAll] = useState(dictDataAllR);
+    const [rawDictData, setRawDictData] = useState(dictDataRaw);
 
     useEffect(() => {
         axios.get(SERVER_URL + 'dict/list_dictionary?recordCountPerPage=99999', AXIOS_OPTION)
@@ -37,23 +41,22 @@ const ProjectKeywordFilterModal = ({
     useEffect(() => {
         if(selectedDict.length === 0){
             setSelectedDictData([]);
+            setRawDictData([]);
             setDictData([]);
         }
     }, [selectedDict])
 
 
     const checkDict = (idx, e) => {
-        // console.log(e.target.checked)
         if(selectedDict.filter(dt => dt.idx_dictionary === idx).length !== 0){ //체크 해제경우
             setSelectedDict(selectedDict.filter(dt => dt.idx_dictionary !== idx));
-            setSelectedDictData(selectedDictData.filter(dt => dt.idx_dictionary !== idx));
+            const filterRawData = rawDictData.filter(dt => dt.idx_dictionary !== idx);
+            setRawDictData(filterRawData);
 
-            axios.post(SERVER_URL + 'dict/get_bulk_dictionary_data', selectedDict.filter(dt => dt.idx_dictionary !== idx).map(dict => dict.idx_dictionary), AXIOS_OPTION)
-                .then(res => {
-                    if(res.data.success === '1'){
-                        setDictData(res.data.data.filter((dt,idx) => res.data.data.findIndex(d => dt.keyword === d.keyword) === idx));
-                    }
-                })
+            const newDD = [...new Set(filterRawData.map(d => d.keyword))];
+            setDictData(newDD);
+            setSelectedDictData(selectedDictData.filter(dt => newDD.includes(dt)));
+
             setDictAll(false);
         } else { //체크 했을경우
             const dict = dictionaryList.filter(dt => dt.idx_dictionary === idx)[0];
@@ -61,22 +64,20 @@ const ProjectKeywordFilterModal = ({
             axios.get(SERVER_URL + `dict/dictionary_detail?idx_dictionary=${idx}`, AXIOS_OPTION)
                 .then(res => {
                     if(res.data.success === '1'){
-                        // const oriDictData = dictData.map(dt => dt.keyword);
-                        // const realDictData = res.data.data.dictDataList.filter(dt => !oriDictData.includes(dt.keyword));
-                        const newData = dictData.concat(res.data.data.dictDataList);
-                        // setDictData([...dictData, ...realDictData]);
-                        setDictData(newData.filter((dt,idx) => newData.findIndex(d => dt.keyword === d.keyword) === idx));
+                        setRawDictData([...rawDictData, ...res.data.data.dictDataList]);
+                        const newData = res.data.data.dictDataList.map(dt => dt.keyword);
+                        setDictData([...new Set([...dictData, ...newData])]);
                     }
                 });
         }
     }
 
-    const checkDictData = (idx) => {
-        if(selectedDictData.filter(dt => dt.idx_dictionary_data === idx).length !== 0){
-            setSelectedDictData(selectedDictData.filter(dt => dt.idx_dictionary_data !== idx));
+    const checkDictData = (keyword) => {
+        if(selectedDictData.filter(dt => dt === keyword).length !== 0){
+            setSelectedDictData(selectedDictData.filter(dt => dt !== keyword));
             setDictDataAll(false);
         } else {
-            const thisDictData = dictData.filter(dt => dt.idx_dictionary_data === idx)[0];
+            const thisDictData = dictData.filter(dt => dt === keyword)[0];
             setSelectedDictData([...selectedDictData, thisDictData]);
         }
     }
@@ -90,12 +91,14 @@ const ProjectKeywordFilterModal = ({
             axios.post(SERVER_URL + 'dict/get_bulk_dictionary_data', idxArr, AXIOS_OPTION)
                 .then(res => {
                     if(res.data.success === '1'){
-                        setDictData(res.data.data.filter((dt,idx) => res.data.data.findIndex(d => dt.keyword === d.keyword) === idx));
+                        setRawDictData(res.data.data);
+                        setDictData([...new Set(res.data.data.map(dt => dt.keyword))]);
                     }
                 })
         } else {
             setSelectedDict([]);
             setDictData([]);
+            setRawDictData([]);
             setSelectedDictData([]);
         }
     }
@@ -115,6 +118,7 @@ const ProjectKeywordFilterModal = ({
         setSelectedDictDataR(selectedDictData);
         setDictAllR(dictAll);
         setDictDataAllR(dictDataAll);
+        setDictDataRaw(rawDictData);
         handleModalFilterSubmit5();
     }
 
@@ -171,9 +175,9 @@ const ProjectKeywordFilterModal = ({
                                         {
                                             dictData.map(dt => {
                                                 return (
-                                                    <div key={dt.idx_dictionary_data} className="input_box">
-                                                        <input id={dt.keyword} type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />
-                                                        <label htmlFor={dt.keyword}>{dt.keyword}</label>
+                                                    <div key={dt} className="input_box">
+                                                        <input id={dt} type="checkbox" onChange={() => checkDictData(dt)} checked={selectedDictData.includes(dt)} />
+                                                        <label htmlFor={dt}>{dt}</label>
                                                     </div>
                                                 )
                                             })

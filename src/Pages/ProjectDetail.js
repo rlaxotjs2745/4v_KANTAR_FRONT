@@ -1319,6 +1319,7 @@ const ProjectDetail = () => {
     const [selectedDictDataR, setSelectedDictDataR] = useState([]);
     const [dictAllR, setDictAllR] = useState(false);
     const [dictDataAllR, setDictDataAllR] = useState(false);
+    const [dictDataRaw, setDictDataRaw] = useState([]);
 
 
     const [createReportCheckboxes, setCreateReportCheckboxes] = useState([2, 2, 2]);
@@ -1628,7 +1629,7 @@ const ProjectDetail = () => {
 
     useEffect(()=>{
         console.log('바뀌는중')
-        setSelectedLabelsKeywords(selectedDictDataR.map(item => item.keyword))
+        // setSelectedLabelsKeywords(selectedDictDataR.map(item => item.keyword))
     },[selectedDictDataR])
 
 
@@ -2219,6 +2220,8 @@ const ProjectDetail = () => {
                                                               selectedDictDataR={selectedDictDataR}
                                                               dictAllR={dictAllR}
                                                               dictDataAllR={dictDataAllR}
+                                                              dictDataRaw={dictDataRaw}
+                                                              setDictDataRaw={setDictDataRaw}
                 /> : null
             }
         </>
