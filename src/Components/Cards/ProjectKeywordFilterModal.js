@@ -15,7 +15,7 @@ const ProjectKeywordFilterModal = ({
                                        dictDataR,
                                        selectedDictDataR,
                                        dictAllR,
-                                       dictDataAllR
+                                       dictDataAllR,
 }) => {
 
     const [dictionaryList, setDictionaryList] = useState([]);
@@ -24,7 +24,6 @@ const ProjectKeywordFilterModal = ({
     const [selectedDictData, setSelectedDictData] = useState(selectedDictDataR);
     const [dictAll, setDictAll] = useState(dictAllR);
     const [dictDataAll, setDictDataAll] = useState(dictDataAllR);
-
 
     useEffect(() => {
         axios.get(SERVER_URL + 'dict/list_dictionary?recordCountPerPage=99999', AXIOS_OPTION)
@@ -35,7 +34,7 @@ const ProjectKeywordFilterModal = ({
             })
     },[])
 
-    console.log(selectedDictData, '적용된 키워드')
+    console.log(selectedDictData, '이게 뭐야')
 
 
     const checkDict = (idx, e) => {
@@ -104,6 +103,11 @@ const ProjectKeywordFilterModal = ({
         handleModalFilterSubmit5();
     }
 
+    useEffect(()=>{
+        setSelectedDictDataR(selectedDictData);
+    },[selectedDictData])
+
+
     return (
         <div onClick={handleModalFilterClose5} className={showFilterModal5? 'modal_area on' : 'modal_area off'}>
             <div className="modal_layout">
@@ -125,18 +129,20 @@ const ProjectKeywordFilterModal = ({
                                         <input type="checkbox" onChange={checkAllDict} checked={dictAll}/>
                                         <label>전체선택</label>
                                     </div>
-                                    {
-                                        dictionaryList.map(dict => {
-                                            return (
-                                                <div key={dict.idx_dictionary} className="check_box_list">
-                                                    <div className="input_box">
-                                                        <input type="checkbox" onChange={(e) => checkDict(dict.idx_dictionary, e)} checked={selectedDict.filter(dt => dt.idx_dictionary === dict.idx_dictionary).length > 0}/>
-                                                        <label>{dict.title}</label>
+                                    <div className="checklist_box">
+                                        {
+                                            dictionaryList.map(dict => {
+                                                return (
+                                                    <div key={dict.idx_dictionary} className="check_box_list">
+                                                        <div className="input_box">
+                                                            <input type="checkbox" onChange={(e) => checkDict(dict.idx_dictionary, e)} checked={selectedDict.filter(dt => dt.idx_dictionary === dict.idx_dictionary).length > 0}/>
+                                                            <label>{dict.title}</label>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             </div>
                             <div className="keyword_filter_box">
@@ -147,15 +153,27 @@ const ProjectKeywordFilterModal = ({
                                         <label>전체선택</label>
                                     </div>
                                     <div className="check_box_list">
+                                        {/*{*/}
+                                        {/*    dictData.map(dt => {*/}
+                                        {/*        return (*/}
+                                        {/*            <div key={dt.idx_dictionary_data} className="input_box">*/}
+                                        {/*                <input type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />*/}
+                                        {/*                <label>{dt.keyword}</label>*/}
+                                        {/*            </div>*/}
+                                        {/*        )*/}
+                                        {/*    })*/}
+                                        {/*}*/}
                                         {
-                                            dictData.map(dt => {
-                                                return (
-                                                    <div key={dt.idx_dictionary_data} className="input_box">
-                                                        <input type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />
-                                                        <label>{dt.keyword}</label>
-                                                    </div>
-                                                )
-                                            })
+                                            dictData
+                                                .filter((dt, index, self) => self.findIndex(t => t.keyword === dt.keyword) === index)
+                                                .map(dt => {
+                                                    return (
+                                                        <div key={dt.idx_dictionary_data} className="input_box">
+                                                            <input type="checkbox" onChange={() => checkDictData(dt.idx_dictionary_data)} checked={selectedDictData.filter(d => d.idx_dictionary_data === dt.idx_dictionary_data).length > 0} />
+                                                            <label>{dt.keyword}</label>
+                                                        </div>
+                                                    )
+                                                })
                                         }
                                     </div>
                                 </div>

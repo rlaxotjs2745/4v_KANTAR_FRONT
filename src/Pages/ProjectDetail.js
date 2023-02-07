@@ -643,7 +643,44 @@ const ProjectDetail = () => {
 
     const handleModalFilterSubmit1 = () => {
 
-        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        // if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        // } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        // }  else if ( (checkBoxCount3 > 0 || checkBoxCount4 > 0) && checkBoxCount2 === 0) {
+        //     setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
+        //     setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+        //     setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
+        //     setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        //     toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
+        // }  else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
+        //     setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+        //     setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        //     toastNoticeWarning('질문이 초기화 됩니다.')
+        // } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        //     setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        // } else if(checkBoxCount2 > 0 && checkBoxCount3 ) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        //     setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        // } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        // } else if (checkBoxCount2 > 0) {
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        // } else if (checkBoxCount > 0) {
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        // } else {
+        //     setProjectDetailList(projectDetailListOrigin)
+        // }
+
+        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        }  else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
@@ -668,12 +705,28 @@ const ProjectDetail = () => {
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
         } else if (checkBoxCount > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        } else if(checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
@@ -714,7 +767,43 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
             toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
         }
-        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        // if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        // } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        // }  else if ( (checkBoxCount3 > 0 || checkBoxCount4 > 0) && checkBoxCount2 === 0) {
+        //     setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
+        //     setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+        //     setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
+        //     setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        //     toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
+        // }  else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
+        //     setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+        //     setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        //     toastNoticeWarning('질문이 초기화 됩니다.')
+        // } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        //     setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        // } else if(checkBoxCount2 > 0 && checkBoxCount3 ) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        //     setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        // } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        // } else if (checkBoxCount2 > 0) {
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        // } else if (checkBoxCount > 0) {
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        // } else {
+        //     setProjectDetailList(projectDetailListOrigin)
+        // }
+        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        }  else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
@@ -739,12 +828,28 @@ const ProjectDetail = () => {
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
         } else if (checkBoxCount > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        } else if(checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
@@ -790,7 +895,44 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
             toastNoticeWarning('질문이 초기화 됩니다.')
         }
-        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        // if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        // } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        // }  else if ( (checkBoxCount3 > 0 || checkBoxCount4 > 0) && checkBoxCount2 === 0) {
+        //     setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
+        //     setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+        //     setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
+        //     setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        //     toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
+        // }  else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
+        //     setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+        //     setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        //     toastNoticeWarning('질문이 초기화 됩니다.')
+        // } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        //     setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        // } else if(checkBoxCount2 > 0 && checkBoxCount3 ) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        //     setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        // } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        // } else if (checkBoxCount2 > 0) {
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        // } else if (checkBoxCount > 0) {
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        // } else {
+        //     setProjectDetailList(projectDetailListOrigin)
+        // }
+
+        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        }  else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
@@ -815,12 +957,28 @@ const ProjectDetail = () => {
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
         } else if (checkBoxCount > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        } else if(checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
@@ -865,7 +1023,44 @@ const ProjectDetail = () => {
     }
 
     const handleModalFilterSubmit4 = () => {
-        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        // if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        // } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        // }  else if ( (checkBoxCount3 > 0 || checkBoxCount4 > 0) && checkBoxCount2 === 0) {
+        //     setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
+        //     setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+        //     setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
+        //     setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        //     toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
+        // }  else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
+        //     setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+        //     setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        //     toastNoticeWarning('질문이 초기화 됩니다.')
+        // } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        //     setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        // } else if(checkBoxCount2 > 0 && checkBoxCount3 ) {
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        //     setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        // } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        // } else if (checkBoxCount2 > 0) {
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        // } else if (checkBoxCount > 0) {
+        //     setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        //     setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        // } else {
+        //     setProjectDetailList(projectDetailListOrigin)
+        // }
+
+        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        }  else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
@@ -890,12 +1085,28 @@ const ProjectDetail = () => {
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
         } else if (checkBoxCount > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        } else if(checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
@@ -916,9 +1127,58 @@ const ProjectDetail = () => {
     }; // 키워드 필터 닫힘
 
     const handleModalFilterSubmit5 = () => {
-        // 리스트 셋팅해주는 스테이트
-        // setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) ))
-
+        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        }  else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
+        }  else if ( (checkBoxCount3 > 0 || checkBoxCount4 > 0) && checkBoxCount2 === 0) {
+            setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
+            setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+            setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
+            setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
+        }  else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
+            setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+            setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            toastNoticeWarning('질문이 초기화 됩니다.')
+        } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+            setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 ) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+            setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        } else if (checkBoxCount > 0 && checkBoxCount2 > 0){
+            setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+        } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+        } else if (checkBoxCount2 > 0) {
+            setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        } else if (checkBoxCount > 0) {
+            setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+        } else if(checkBoxCount5 > 0) {
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
+        } else {
+            setProjectDetailList(projectDetailListOrigin)
+        }
         setShowFilterModal5(false)
     } // 키워드 필터 선택완료 버튼
 
@@ -1045,6 +1305,7 @@ const ProjectDetail = () => {
     const [selectedLabelsChapters, setSelectedLabelsChapters] = useState([]);
     const [selectedLabelsSubchapters, setSelectedLabelsSubchapters] = useState([]);
     const [selectedLabelsQuestions, setSelectedLabelsQuestions] = useState([]);
+    const [selectedLabelsKeywords, setSelectedLabelsKeywords] = useState([]);
 
     const [personsFilterModalOrigin, setPersonsFilterModalOrigin] = useState([])
     const [chaptersFilterModalOrigin, setChaptersFilterModalOrigin] = useState([])
@@ -1055,6 +1316,22 @@ const ProjectDetail = () => {
     const [checkBoxCount2, setCheckBoxCount2] = useState(0)
     const [checkBoxCount3, setCheckBoxCount3] = useState(0)
     const [checkBoxCount4, setCheckBoxCount4] = useState(0)
+    const [checkBoxCount5, setCheckBoxCount5] = useState(0)
+
+    const [selectedDictR, setSelectedDictR] = useState([]);
+    const [dictDataR, setDictDataR] = useState([]);
+    const [selectedDictDataR, setSelectedDictDataR] = useState([]);
+    const [dictAllR, setDictAllR] = useState(false);
+    const [dictDataAllR, setDictDataAllR] = useState(false);
+
+
+    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([2, 2, 2]);
+    const handleCheckboxChange = (index, event) => {
+        const newCheckboxes = [...createReportCheckboxes];
+        newCheckboxes[index] = event.target.checked ? 1 : 2;
+        setCreateReportCheckboxes(newCheckboxes);
+    };
+
 
     const handleCheckboxChangePersons = (e, label) => {
         if (e.target.checked) {
@@ -1151,6 +1428,9 @@ const ProjectDetail = () => {
         setCheckBoxCount4(checkedBoxCount)
     },[selectedLabelsQuestions])
 
+    useEffect(()=>{
+        setCheckBoxCount5(selectedDictDataR.length)
+    },[selectedDictDataR])
 
     const [filterPresetTitle, setFilterPresetTitle] = useState('');
 
@@ -1189,7 +1469,6 @@ const ProjectDetail = () => {
     const [filterPresetLoadData2, setFilterPresetLoadData2] = useState([])
     const [filterPresetLoadData3, setFilterPresetLoadData3] = useState([])
     const [filterPresetLoadData4, setFilterPresetLoadData4] = useState([])
-
     const [presetOn, setPresetOn] = useState(false)
 
     const DeleteFilterPreset = (but) => {
@@ -1274,19 +1553,6 @@ const ProjectDetail = () => {
     // console.log(selectedLabelsQuestions, '질문')
 
 
-    const [selectedDictR, setSelectedDictR] = useState([]);
-    const [dictDataR, setDictDataR] = useState([]);
-    const [selectedDictDataR, setSelectedDictDataR] = useState([]);
-    const [dictAllR, setDictAllR] = useState(false);
-    const [dictDataAllR, setDictDataAllR] = useState(false);
-
-
-    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([2, 2, 2]);
-    const handleCheckboxChange = (index, event) => {
-        const newCheckboxes = [...createReportCheckboxes];
-        newCheckboxes[index] = event.target.checked ? 1 : 2;
-        setCreateReportCheckboxes(newCheckboxes);
-    };
 
 
 
@@ -1325,7 +1591,7 @@ const ProjectDetail = () => {
             "tp2" : [...new Set(selectedLabelsChapters)].join("//"),
             "tp3" : [...new Set(selectedLabelsSubchapters)].join("//"),
             "tp4" : [...new Set(selectedLabelsQuestions)].join("//"),
-            // "tp5" : selectedDictDataR.map(item => item.keyword).join("//")
+            "tp5" : selectedDictDataR.map(item => item.keyword).join("//")
         }
 
         axios.post(SERVER_URL + 'report/save_filter_report', param, AXIOS_OPTION).then(res => {
@@ -1365,6 +1631,12 @@ const ProjectDetail = () => {
         }
     },[subchapterSubmitHandle])
 
+    useEffect(()=>{
+        console.log('바뀌는중')
+        setSelectedLabelsKeywords(selectedDictDataR.map(item => item.keyword))
+    },[selectedDictDataR])
+
+
     return(
         <>
             <div className="page">
@@ -1394,7 +1666,7 @@ const ProjectDetail = () => {
                             <button onClick={handleModalFilter2}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터 {checkBoxCount2 > 0 ? <span className="count">{checkBoxCount2}</span> : null}</button>
                             <button onClick={handleModalFilter3}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터 {checkBoxCount3 > 0 ? <span className="count">{checkBoxCount3}</span> : null}</button>
                             <button onClick={handleModalFilter4}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문 {checkBoxCount4 > 0 ? <span className="count">{checkBoxCount4}</span> : null}</button>
-                            <button onClick={handleModalFilter5} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드</button>
+                            <button onClick={handleModalFilter5} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드 {checkBoxCount5 > 0 ? <span className="count">{checkBoxCount5}</span> : null}</button>
                             <button type="button" onClick={handleFilterReset} className="refresh"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh_blue.svg'}/></button>
                             <div className="btn_select_box">
                                 <button type="button" onClick={toggleClass} className="btn_select">필터값 저장 / 불러오기</button>
