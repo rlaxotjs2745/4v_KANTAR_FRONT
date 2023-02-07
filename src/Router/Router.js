@@ -39,6 +39,7 @@ const Routers = () => {
                     <Route path="/dictionary" element={<Dictionary/>} />
                     <Route path="/dictionary_create" element={<DictionaryCreate/>} />
                     <Route path="/dictionary_update/:idx" element={<DictionaryUpdate/>} />
+                    <Route path="/dictionary_detail/:idx" element={<DictionaryUpdate/>} />
 
                     <Route path="/member_management" element={<MemberManagement/>} />
                     <Route path="/member_create" element={<MemberCreate/>} />

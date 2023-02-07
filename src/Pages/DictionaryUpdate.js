@@ -15,6 +15,7 @@ const DictionaryUpdate = () => {
     const navigate = useNavigate();
 
     const [dictionaryIdx, setDictionaryIdx] = useState(window.location.pathname.split('/').reverse()[0]);
+    const [typeofPage, setTypeofPage] = useState(window.location.pathname.split('/').reverse()[1]);
     const [dictionaryTitle, setDictionaryTitle] = useState('');
     const [dictionaryData, setDictionaryData] = useState([]);
     const [loadingBool, setLoadingBool] = useState(false);
@@ -120,15 +121,23 @@ const DictionaryUpdate = () => {
                         <button onClick={() => navigate('/dictionary')}>
                             <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                         </button>
-                        <h2>사전 수정하기</h2>
+                        {
+                            typeofPage === 'dictionary_update' ? <h2>사전 수정하기</h2> : <h2>사전 상세정보</h2>
+
+                        }
                     </div>
                     <div className="title_section pd0">
                         <div className="title_box">
                             <h3 className="title">{dictionaryTitle}</h3>
                         </div>
                         <div className="btn_box">
-                            <button onClick={dictionarySave} type="button" className="no_ico cds--btn">사전 저장</button>
-                            <a className="download2 cds--btn" href="/dictionary_create">사전 다운로드</a>
+                            {
+                                typeofPage === 'dictionary_update' ?
+                                    <>
+                                        <button onClick={dictionarySave} type="button" className="no_ico cds--btn">사전 저장</button>
+                                        <a className="download2 cds--btn" href="/dictionary_create">사전 다운로드</a>
+                                    </> : null
+                            }
                         </div>
                     </div>
                 </div>
@@ -164,13 +173,18 @@ const DictionaryUpdate = () => {
                         </thead>
                         <tbody>
                         {
-                            dictionaryData && dictionaryData.length > 0 ?
+                            dictionaryData && dictionaryData.length > 0 && typeofPage === 'dictionary_update' ?
                                 dictionaryData.map((dt,idx) => {
                                     return idx === 0 ?
-                                    <DictionaryUpdateEntity key={dt.idx_dictionary_data} entity={dt} deleteData={deleteDictionaryData} updateData={updateDictionaryData} newData={addDictionaryData} isFirst={true}/>
+                                    <DictionaryUpdateEntity key={dt.idx_dictionary_data} entity={dt} deleteData={deleteDictionaryData} updateData={updateDictionaryData} newData={addDictionaryData} isFirst={true} isUpdate={true}/>
                                         :
-                                    <DictionaryUpdateEntity key={dt.idx_dictionary_data} entity={dt} deleteData={deleteDictionaryData} updateData={updateDictionaryData} newData={addDictionaryData} isFirst={false}/>
+                                    <DictionaryUpdateEntity key={dt.idx_dictionary_data} entity={dt} deleteData={deleteDictionaryData} updateData={updateDictionaryData} newData={addDictionaryData} isFirst={false} isUpdate={true}/>
                                 }) : null
+                        }
+                        {
+                            typeofPage !== 'dictionary_update' ?
+                                dictionaryData.map((dt,idx) => <DictionaryUpdateEntity key={dt.idx_dictionary_data} entity={dt} deleteData={deleteDictionaryData} updateData={updateDictionaryData} newData={addDictionaryData} isFirst={false} isUpdate={false}/>)
+                                    : null
                         }
                         </tbody>
                     </table>

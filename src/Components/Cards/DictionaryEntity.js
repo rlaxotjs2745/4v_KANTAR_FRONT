@@ -16,7 +16,11 @@ const DictionaryEntity = ({entity, deleteDictionary, num, isOwn, userType}) => {
                         <>
                             <Link to={`/dictionary_update/${entity.idx_dictionary}`} className="co1">수정</Link>
                             <button type="button" onClick={() => deleteDictionary(entity.idx_dictionary)} className="co3">삭제</button>
-                        </> : null
+                        </>
+                        :
+                        <>
+                            <Link to={`/dictionary_detail/${entity.idx_dictionary}`} className="co1">상세보기</Link>
+                        </>
                 }
             </td>
         </tr>
