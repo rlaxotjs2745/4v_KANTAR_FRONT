@@ -20,16 +20,26 @@ const ReportDetail = () => {
     const pathSplit = Number(pathname.split('/')[2])
 
     const [reportDetailContent, setReportDetailContent] = useState('');
+    const [reportFilter, setReportFilter] = useState([])
+    const [reportKeyword, setReportKeyword] = useState([])
+    const [reportSummary, setReportSummary] = useState([])
 
     function copyToClipboard(event) {
         const textarea = event.target.previousSibling;
         navigator.clipboard.writeText(textarea.value);
     }
 
+    console.log(reportFilter, '필터 데이터')
+    console.log(reportKeyword, '키워드 데이터')
+    console.log(reportSummary, '요약문 데이터')
+
     useEffect(()=> {
         axios.post(SERVER_URL + 'report/report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1') {
                 setReportDetailContent(res.data.data)
+                setReportFilter(res.data.data.filter)
+                setReportKeyword(res.data.data.keyword)
+                setReportSummary(res.data.data.report)
             } else if (res.data.success === '0') {
                 toastNoticeError(res.data.msg)
                 navigate('/')
@@ -40,7 +50,6 @@ const ReportDetail = () => {
         })
     },[])
 
-    console.log(reportDetailContent)
     return(
         <>
             <div className="page">
@@ -109,7 +118,6 @@ const ReportDetail = () => {
 
 
                         <form id="frmData0">
-                            <input type="hidden" name="idx_report_data" value={reportDetailContent ? reportDetailContent.report.idx_report_data :''}></input>
                             <div className="input_box">
                                 <label>전체 요약문 (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>
                                 <div className="edit">

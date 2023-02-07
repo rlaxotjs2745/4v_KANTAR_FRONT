@@ -144,6 +144,7 @@ const ProjectKeywordFilterModal = ({
                                         <input type="checkbox" onChange={checkAllDict} checked={dictAll}/>
                                         <label>전체선택</label>
                                     </div>
+                                    <div className="checklist_box">
                                     {
                                         dictionaryList.map(dict => {
                                             return (
@@ -156,6 +157,7 @@ const ProjectKeywordFilterModal = ({
                                             )
                                         })
                                     }
+                                    </div>
                                 </div>
                             </div>
                             <div className="keyword_filter_box">
