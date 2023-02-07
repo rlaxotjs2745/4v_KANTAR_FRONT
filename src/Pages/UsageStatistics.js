@@ -21,6 +21,7 @@ const UsageStatistics = () => {
     const [userIdx, setUserIdx] = useState('');
     const [filteredList, setFilteredList] = useState(userList);
     const [checkboxChecked, setCheckboxChecked] = useState(true);
+    const [apiDataList, setApiDataList] = useState(null)
 
     const handleChange = (event) => {
         setInputValue(event.target.value);
@@ -94,21 +95,41 @@ const UsageStatistics = () => {
 
     const handleStatistics = () => {
         let start = $('#date-picker-range-start').val()
-        let startDate = new Date(`${start} GMT`).toISOString().substr(0, 10);
+        let startDate;
+        if (start) {
+            startDate = new Date(`${start} GMT`).toISOString().substr(0, 10);
+        } else {
+            startDate = ''
+        }
+
         let end = $('#date-picker-range-end').val()
-        let endDate = new Date(`${end} GMT`).toISOString().substr(0, 10);
+        console.log(end)
+        let endDate;
+        if (end) {
+            endDate = new Date(`${end} GMT`).toISOString().substr(0, 10);
+        } else {
+            endDate = ''
+        }
+
 
         const param = {
             "idx_user" : userIdx === '' ? null : userIdx,
-            "startDate" : startDate,
-            "endDate" : endDate,
+            "startDate" : startDate === '' ? null : startDate,
+            "endDate" : endDate === '' ? null : endDate,
         }
         axios.post(SERVER_URL + 'statistics/api_statistics', param, AXIOS_OPTION).then(res => {
-            console.log(res)
+            if(res.data.success === '1') {
+                setApiDataList(res.data.data)
+                toastNoticeSuccess('API 사용량을 조회합니다.')
+            } else {
+              toastNoticeWarning(res.data.msg)
+            }
         }).catch(err => {
-            console.log(err);
+            toastNoticeWarning('에러가 발생했습니다.')
         })
     }
+
+    console.log(apiDataList)
 
 
 
@@ -132,7 +153,7 @@ const UsageStatistics = () => {
                                     </div>
                                     <div className="search_section">
                                         <div className="input_box">
-                                            <input value={inputValue} onChange={(e) => {setInputValue(e.target.value); setUserIdx('')}}  type="text" id="searchUserIdx" placeholder="멤버 이름을 입력하세요." onInput={handleChange} onFocus={() => setInputFocus(true)} disabled/>
+                                            <input value={inputValue} onChange={(e) => {setInputValue(e.target.value); setUserIdx('')}}  type="text" id="searchUserIdx" placeholder="멤버 이름을 입력하세요." autoComplete="off" onInput={handleChange} onFocus={() => setInputFocus(true)} disabled/>
                                             <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                                         </div>
                                         <div className={`user_list ${inputFocus ? 'on' : ''}`}>
@@ -175,46 +196,49 @@ const UsageStatistics = () => {
                             </div>
                         </div>
 
-                        <div className="usage_table">
-                            <table>
-                                <colgroup>
-                                    <col/>
-                                    <col/>
-                                    <col/>
-                                    <col/>
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th className="tgl">API 종류</th>
-                                    <th className="tgr">요약 API 사용량</th>
-                                    <th className="tgr">키워드 추출 API 사용량</th>
-                                    <th className="tgr">데이터베이스 사용량</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>다글로 API</td>
-                                    <td className="tgr">24,343,646 chars</td>
-                                    <td className="tgr">325,554 chars</td>
-                                    <td className="tgr">-</td>
-                                </tr>
-                                <tr>
-                                    <td>AWS</td>
-                                    <td className="tgr">-</td>
-                                    <td className="tgr">-</td>
-                                    <td className="tgr">21,456 mb</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>합계</th>
-                                    <th className="tgr">24,565,342 chars</th>
-                                    <th className="tgr">3,574,537 chars</th>
-                                    <th className="tgr">21,456 mb</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                        {apiDataList === null ?
+                            null : <div className="usage_table">
+                                <table>
+                                    <colgroup>
+                                        <col/>
+                                        <col/>
+                                        <col/>
+                                        <col/>
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th className="tgl">API 종류</th>
+                                        <th className="tgr">요약 API 사용량</th>
+                                        <th className="tgr">키워드 추출 API 사용량</th>
+                                        <th className="tgr">데이터베이스 사용량</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>다글로 API</td>
+                                        <td className="tgr">{apiDataList.user_summary} chars</td>
+                                        <td className="tgr">{apiDataList.user_keyword} chars</td>
+                                        <td className="tgr">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AWS</td>
+                                        <td className="tgr">-</td>
+                                        <td className="tgr">-</td>
+                                        <td className="tgr">{apiDataList.user_data} mb</td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>합계</th>
+                                        <th className="tgr">{apiDataList.total_summary} chars</th>
+                                        <th className="tgr">{apiDataList.total_keyword} chars</th>
+                                        <th className="tgr">{apiDataList.total_data} mb</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        }
+
                     </div>
                     <div className="usage_box">
                         <h2>시스템 사용 현황</h2>
