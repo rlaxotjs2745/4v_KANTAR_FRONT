@@ -1330,9 +1330,10 @@ const ProjectDetail = () => {
 
         axios.post(SERVER_URL + 'report/save_filter_report', param, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                console.log(res.data.msg)
-                setShowFilterModal5(true)
+                toastNoticeSuccess(res.data.msg)
+                setShowModal2(false);
             } else {
+                toastNoticeWarning(res.data.msg)
             }
         }).catch(err => {
             console.log(err);
@@ -1510,7 +1511,7 @@ const ProjectDetail = () => {
                             <strong className="tit">[요약할 영역을 선택해주세요.]</strong>
                             <div className="switch_box">
                                 <p className="info">전체 요약을 포함할까요?</p>
-                                <input type="radio" value="1" id="switch1" name="switch" className="input__on-off"/>
+                                <input type="radio" value="1" id="switch1" name="switch" defaultChecked className="input__on-off"/>
                                 <label htmlFor="switch1" className="label__on-off">
                                     <span className="marble"></span>
                                     <span className="on"></span>
@@ -1519,7 +1520,7 @@ const ProjectDetail = () => {
                             </div>
                             <div className="switch_box">
                                 <p className="info">챕터별 요약을 포함 할까요? (기본값 *)</p>
-                                <input type="radio" value="2" id="switch2" name="switch" defaultChecked className="input__on-off"/>
+                                <input type="radio" value="2" id="switch2" name="switch" defaultChecked={checkBoxCount2 > 0} disabled={checkBoxCount2 === 0} className="input__on-off"/>
                                 <label htmlFor="switch2" className="label__on-off">
                                     <span className="marble"></span>
                                     <span className="on"></span>
@@ -1528,7 +1529,7 @@ const ProjectDetail = () => {
                             </div>
                             <div className="switch_box">
                                 <p className="info">서브 챕터별 요약을 포함 할까요?</p>
-                                <input type="radio" value="3" id="switch3" name="switch" className="input__on-off"/>
+                                <input type="radio" value="3" id="switch3" name="switch" className="input__on-off" disabled={checkBoxCount3 === 0}/>
                                 <label htmlFor="switch3" className="label__on-off">
                                     <span className="marble"></span>
                                     <span className="on"></span>
@@ -1537,7 +1538,7 @@ const ProjectDetail = () => {
                             </div>
                             <div className="switch_box">
                                 <p className="info">질문별 요약을 포함 할까요?</p>
-                                <input type="radio" value="4" id="switch4" name="switch" className="input__on-off"/>
+                                <input type="radio" value="4" id="switch4" name="switch" className="input__on-off" disabled={checkBoxCount4 === 0}/>
                                 <label htmlFor="switch4" className="label__on-off">
                                     <span className="marble"></span>
                                     <span className="on"></span>
