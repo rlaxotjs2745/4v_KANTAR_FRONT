@@ -642,6 +642,7 @@ const ProjectDetail = () => {
     }
 
     const handleModalFilterSubmit1 = () => {
+
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -684,15 +685,14 @@ const ProjectDetail = () => {
 
     // 챕터 필터 모달 시작
     const handleModalFilter2 = () => {
-
         setShowFilterModal2(true)
         setChaptersFilterModalOrigin([...selectedLabelsChapters])
         document.body.classList.add('fixed');
     };
 
     const handleModalFilterClose2 = () => {
-        setShowFilterModal2(false)
         setSelectedLabelsChapters([...chaptersFilterModalOrigin])
+        setShowFilterModal2(false)
         document.body.classList.remove('fixed');
     };
 
@@ -706,6 +706,14 @@ const ProjectDetail = () => {
     }
 
     const handleModalFilterSubmit2 = () => {
+        setShowFilterModal2(false)
+        if (JSON.stringify(selectedLabelsChapters) !== JSON.stringify(chaptersFilterModalOrigin)) {
+            setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
+            setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+            setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
+            setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+            toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
+        }
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -741,8 +749,11 @@ const ProjectDetail = () => {
             setProjectDetailList(projectDetailListOrigin)
         }
 
-        setShowFilterModal2(false)
+        setChapterSubmitHandle(!chapterSubmitHandle)
+
     }
+
+
 
     // 챕터 필터 모달 끝
 
@@ -774,6 +785,11 @@ const ProjectDetail = () => {
     }
 
     const handleModalFilterSubmit3 = () => {
+        if (JSON.stringify(selectedLabelsSubchapters) !== JSON.stringify(subchaptersFilterModalOrigin)) {
+            setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
+            setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
+            toastNoticeWarning('질문이 초기화 됩니다.')
+        }
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -811,6 +827,7 @@ const ProjectDetail = () => {
 
         // setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
         setShowFilterModal3(false)
+        setSubchapterSubmitHandle(!subchapterSubmitHandle)
     }
 
 
@@ -925,8 +942,6 @@ const ProjectDetail = () => {
 
     const [input, setInput] = useState({ value: '', characters: 0 }); // 리포트 생성 리포트 이름 0/50 글자 개수제한
     const [input2, setInput2] = useState({ value: '', characters: 0 }); // 워드 클라우드 이름 0/20 글자 개수제한
-
-    const [filterTitle, setFilterTitle] = useState('');
 
     function handleChange(setInputNumber, event) { // 리포트 생성 리포트 이름 0/50 글자 개수제한
         setInputNumber({ value: event.target.value, characters: event.target.value.length });
@@ -1066,7 +1081,7 @@ const ProjectDetail = () => {
     // }, [questions]);
 
     useEffect(()=> {
-        setCheckAll(persons.every(item => selectedLabelsPersons.includes(item)))
+        // setCheckAll(persons.every(item => selectedLabelsPersons.includes(item))) 화자 기본 전체선택 체크되게
         let checkedBoxCount = 0;
         uniquePersons.map(item => {
             if(selectedLabelsPersons.includes(item)){
@@ -1297,8 +1312,8 @@ const ProjectDetail = () => {
                 break;
             }
         }
-
-
+        // console.log(selectedLabelsPersons, '기본 리스트')
+        // console.log([...new Set(selectedLabelsPersons)], '중복 제거')
         let param = {
             "idx_project" : projectInfo.idx_project,
             "idx_project_job_projectid" : projectInfo.idx_project_job_projectid,
@@ -1306,10 +1321,10 @@ const ProjectDetail = () => {
             "filter_op1" : Number(selectedValue),
             "filter_op2" : createReportCheckboxes[0],
             // "filter_op3" : `${createReportCheckboxes[1]+'//'+createReportCheckboxes[2]}`,
-            "tp1" : selectedLabelsPersons.join("//"),
-            "tp2" : selectedLabelsChapters.join("//"),
-            "tp3" : selectedLabelsSubchapters.join("//"),
-            "tp4" : selectedLabelsQuestions.join("//"),
+            "tp1" : [...new Set(selectedLabelsPersons)].join("//"),
+            "tp2" : [...new Set(selectedLabelsChapters)].join("//"),
+            "tp3" : [...new Set(selectedLabelsSubchapters)].join("//"),
+            "tp4" : [...new Set(selectedLabelsQuestions)].join("//"),
             // "tp5" : selectedDictDataR.map(item => item.keyword).join("//")
         }
 
@@ -1323,8 +1338,31 @@ const ProjectDetail = () => {
             console.log(err);
             // toastNoticeError('에러가 발생했습니다.', '', '')
         })
-
     }
+
+    const [chapterSubmitHandle, setChapterSubmitHandle] = useState(false)
+    const [subchapterSubmitHandle, setSubchapterSubmitHandle] = useState(false)
+
+    useEffect(()=>{
+        if (checkBoxCount2 > 0 && checkBoxCount > 0) {
+            setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) ))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+        } else if (checkBoxCount2 > 0) {
+            setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+        }
+    },[chapterSubmitHandle])
+
+
+    useEffect(()=>{
+        if (checkBoxCount3 > 0 && checkBoxCount2 > 0 && checkBoxCount > 0) {
+            setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        } else if (checkBoxCount3 > 0 && checkBoxCount2 > 0) {
+            setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
+        }
+    },[subchapterSubmitHandle])
 
     return(
         <>
