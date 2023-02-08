@@ -19,7 +19,7 @@ const DictionaryEntity = ({entity, deleteDictionary, num, isOwn, userType}) => {
                         </>
                         :
                         <>
-                            <Link to={`/dictionary_detail/${entity.idx_dictionary}`} className="co1">상세보기</Link>
+                            <Link to={`/dictionary_detail/${entity.idx_dictionary}`} className="co2">상세보기</Link>
                         </>
                 }
             </td>
