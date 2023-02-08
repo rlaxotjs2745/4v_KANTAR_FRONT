@@ -50,7 +50,7 @@ const Report = () => {
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'file.csv');
+            link.setAttribute('download', 'file.xls');
             document.body.appendChild(link);
             link.click();
         }).catch(err => {
