@@ -9,6 +9,7 @@ const Dictionary = () => {
     const {
         toastNoticeInfo,
         toastNoticeSuccess,
+        toastNoticeWarning
     } = useToastAlert();
 
     const [tableData, setTableData] = useState([]);
@@ -69,7 +70,7 @@ const Dictionary = () => {
     }
 
     const modalDictionaryDelete = (idx) => {
-        toastNoticeInfo('이 사전을 삭제하시겠습니까?', null, () => deleteDictionary(idx));
+        toastNoticeWarning('이 사전을 삭제하시겠습니까?', null, () => deleteDictionary(idx));
     }
 
     const searchDictionary = () => {

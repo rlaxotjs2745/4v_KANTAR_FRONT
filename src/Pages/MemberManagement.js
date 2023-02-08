@@ -4,11 +4,13 @@ import {useToastAlert} from "../Util/toastAlert";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import MemberManagementEntity from "../Components/Cards/MemberManagementEntity";
+import {getMouseEventProps} from "@testing-library/user-event/dist/keyboard/getEventProps";
 
 const MemberManagement = () => {
 
     const {
-        toastNoticeInfo
+        toastNoticeInfo,
+        toastNoticeWarning
     } = useToastAlert();
 
     const [idx_user, setIdx_user] = useState(null);
@@ -16,6 +18,7 @@ const MemberManagement = () => {
     const [searchWord, setSearchWord] = useState('');
     const [userList, setUserList] = useState([]);
     const [isSearched, setIsSearched] = useState(false);
+    const [notAdmin, setNotadmin] = useState(true);
 
     useEffect(() => {
         getListMember(true)
@@ -37,6 +40,7 @@ const MemberManagement = () => {
 
         axios.get(SERVER_URL + 'user/' + endpoint, AXIOS_OPTION)
             .then(res => {
+                console.log(res.data)
                 if(res.data.success === '1'){
                     if(res.data.data.userList.length === 0 && currentPage !== 0){
                         setCurrentPage(currentPage - 1);
@@ -44,12 +48,19 @@ const MemberManagement = () => {
                     }
                     setUserList(res.data.data.userList);
                     setIdx_user(res.data.data.idx_user);
+                    setNotadmin(false);
+                } else {
+                    setNotadmin(true);
+                    return toastNoticeWarning(res.data.msg, '/home', null, '메인으로 돌아가기');
                 }
             })
 
     }
 
     const movePage = (type) => {
+        if(notAdmin){
+            return toastNoticeWarning('관리자만 가능한 기능입니다.', '/home', null, '메인으로 돌아가기');
+        }
         if(currentPage === 0 && type === 0){
             return toastNoticeInfo('첫 페이지입니다.');
         }
@@ -61,11 +72,17 @@ const MemberManagement = () => {
     }
 
     const searchUser = () => {
+        if(notAdmin){
+            return toastNoticeWarning('관리자만 가능한 기능입니다.', '/home', null, '메인으로 돌아가기');
+        }
         setIsSearched(true);
         getListMember(true);
     }
 
     const addEnterEventListener = () => {
+        if(notAdmin){
+            return toastNoticeWarning('관리자만 가능한 기능입니다.', '/home', null, '메인으로 돌아가기');
+        }
         if(window.event.keyCode === 13){
             searchUser();
         }
@@ -75,6 +92,8 @@ const MemberManagement = () => {
 
     return (
         <>
+            {
+                !notAdmin ?
             <div className="page">
                 <div className="search_section">
                     <div className="input_box">
@@ -88,7 +107,9 @@ const MemberManagement = () => {
                         <p className="info">멤버를 초대하고 관리해보세요.</p>
                     </div>
                     <div className="btn_box">
-                        <Link to="/member_create" className="no_ico cds--btn">멤버 등록하기</Link>
+                        {
+                            !notAdmin ? <Link to="/member_create" className="no_ico cds--btn">멤버 등록하기</Link> : null
+                        }
                     </div>
                 </div>
 
@@ -112,7 +133,7 @@ const MemberManagement = () => {
                         </thead>
                         <tbody>
                         {
-                            userList && userList.length !== 0 ? userList.map(dt => dt.user_status == 0 ? <MemberManagementEntity user={dt} isConfirmUser={false} /> : <MemberManagementEntity user={dt} isConfirmUser={true} />) : null
+                            !notAdmin && userList && userList.length !== 0 ? userList.map(dt => dt.user_status == 0 ? <MemberManagementEntity user={dt} isConfirmUser={false} /> : <MemberManagementEntity user={dt} isConfirmUser={true} />) : null
                         }
                         </tbody>
                     </table>
@@ -122,9 +143,8 @@ const MemberManagement = () => {
                         <button onClick={() => movePage(1)} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                     </div>
                 </div>
-            </div>
-
-
+            </div> : null
+            }
         </>
     )
 }
