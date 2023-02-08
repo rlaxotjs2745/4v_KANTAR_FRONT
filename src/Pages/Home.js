@@ -79,15 +79,22 @@ const Home = () => {
             params: { "idx_project_job_projectid" : projectIdsAsNumbers }
         }, AXIOS_OPTION).then(res => {
             console.log(res)
+            const disposition = res.headers['Content-Disposition'];
+            console.log(disposition, '응답헤더값')
+            let filename = 'file.csv';
+            if (disposition) {
+                filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
+            }
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'file.csv');
+            link.setAttribute('download', filename);
             document.body.appendChild(link);
             link.click();
         }).catch(err => {
             console.log(err);
         })
+
 
     }
 
