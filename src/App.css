@@ -476,3 +476,6 @@ input[type="radio"].input__on-off, input[type="checkbox"].input__on-off {display
 .input__on-off:checked + .label__on-off .on {display: inline-block;}
 .input__on-off:checked + .label__on-off .off {display: none;}
 .input__on-off:checked + .label__on-off .marble {left: 17px;}
+
+.reportSummaryBox {max-height: 480px; overflow: scroll;}
+.reportSummaryBox > div + div {margin-top: 20px;}

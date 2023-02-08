@@ -9,15 +9,6 @@ export const AXIOS_OPTION = ({
 })
 
 
-// axios.interceptors.request.use(
-//     (config) => {
-//         config.headers['X-AUTH-TOKEN'] = getCookie('X-AUTH-TOKEN');
-//         return config;
-//     },
-//     (error) => {
-//         return Promise.reject(error);
-//     }
-// );
 axios.defaults.headers.common = {};
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

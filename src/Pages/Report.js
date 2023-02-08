@@ -47,10 +47,16 @@ const Report = () => {
             params: { "idx_report" : projectIdsAsNumbers }
         }, AXIOS_OPTION).then(res => {
             console.log(res)
+            const disposition = res.headers['Content-Disposition'];
+            console.log(disposition, '응답헤더값')
+            let filename = 'file.xls';
+            if (disposition) {
+                filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
+            }
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'file.xls');
+            link.setAttribute('download', filename);
             document.body.appendChild(link);
             link.click();
         }).catch(err => {

@@ -40,6 +40,8 @@ const ReportDetail = () => {
     // console.log(reportMetaSpeaker, '응답자별 메타 데이터')
 
 
+
+
     useEffect(()=> {
         axios.post(SERVER_URL + 'report/report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1') {
@@ -203,21 +205,26 @@ const ReportDetail = () => {
                             null
                         }
 
-                        <form id="frmData0">
-                            <div className="input_box">
-                                <label>전체 요약문 (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>
-                                <div className="edit">
-                                    <textarea className="h200" readOnly defaultValue={reportDetailContent ? reportDetailContent.report.summary0 : ''}/>
-                                    <div className="edit_btn_box">
-                                        <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
-                                        <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
-                                        <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
+                        {/* 요약문 영역 */}
+                        <div className="reportSummaryBox">
+                            {reportSummary && reportSummary.length ?
+                                reportSummary.map(item => (
+                                    <div className="input_box" id={item.idx_report_data} key={item.idx_report_data}>
+                                        <label>{item.filter_tp} (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>
+                                        <div className="edit">
+                                            <textarea className="h200" readOnly defaultValue={item.summary0}/>
+                                            <div className="edit_btn_box">
+                                                <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
+                                                <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
+                                                <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </form>
-
-
+                                ))
+                                :
+                                null
+                            }
+                        </div>
 
 
                         {/*  키워드 빈도  */}
@@ -340,7 +347,7 @@ const ReportDetail = () => {
                                 </div>
                             </div>
                             <div className="btn_box">
-                                <button className="no_ico cds--btn">설정 저장</button>
+                                <button type="button" className="no_ico cds--btn">설정 저장</button>
                                 <button className="no_ico cds--btn">다운로드</button>
                             </div>
                         </form>

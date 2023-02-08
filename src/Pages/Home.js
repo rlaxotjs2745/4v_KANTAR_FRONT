@@ -45,35 +45,36 @@ const Home = () => {
     const [showModal2, setShowModal2] = useState(false); // 바로가기 버튼 누르면 나오는 모달
 
     const [projectList, setProjectList] = useState('')
-    const [reportCreateList, setreportCreateList] = useState('')
-
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
 
     const [filteredList, setFilteredList] = useState([]) // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]) // console.log(checkedState, '체크 스테이트 확인')
     const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10)); // console.log(checkedIndexes, '체크된 배열값')
     const filteredProjects = Object.values(projectList).filter(project =>
-        checkedIndexes.includes(project.idx_report) //checkedIndexes 가 idx_report 값을 뽑아오는거라 변경
+        checkedIndexes.includes(project.idx_project_job_projectid) //checkedIndexes 가 idx_report 값을 뽑아오는거라 변경
     );
-    // console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
+    console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
     // console.log(projectList, '리스트 전체')
     // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
     // console.log(projectList, '프로젝트 리스트 확인')
     // console.log(checkedIndexes, '체크된 idx값')
+    // console.log(checkBoxListData, '최대 숫자')
 
-    function getProjectIds(filteredProjects, checkedIndexes) {
-        return filteredProjects
-            .filter(project => checkedIndexes.includes(project.idx_report))
-            .map(project => project.idx_project_job_projectid);
-    } // 체크 해놓은 리스트만 추출한 리스트내에서, idx_report가 일치하는것만 필터링 한 후. idx_project_job_projectid만 반환
+    // console.log(filteredList, '뭐니 이게')
+
+    // function getProjectIds(filteredProjects, checkedIndexes) {
+    //     return filteredProjects
+    //         .filter(project => checkedIndexes.includes(project.idx_report))
+    //         .map(project => project.idx_project_job_projectid);
+    // } // 체크 해놓은 리스트만 추출한 리스트내에서, idx_report가 일치하는것만 필터링 한 후. idx_project_job_projectid만 반환
 
     const handleDownload = () => {
-        let projectIds = getProjectIds(filteredProjects, checkedIndexes);
-        console.log(projectIds, 'idx_project_job_projectid 값');
+        let projectIds = filteredProjects.filter(item => item.idx_project_job_projectid === item.idx_project_job_projectid)
+        // console.log(projectIds, 'idx_project_job_projectid 값');
         if(projectIds.length > 1) {
             return toastNoticeWarning('1개의 프로젝트만 선택하여 다운로드를 진행해주세요.')
         }
-        const projectIdsAsNumbers = projectIds.reduce((acc, cur) => acc + Number(cur), 0); // 배열에 담긴 숫자를 전체 합산
+        const projectIdsAsNumbers = projectIds[0].idx_project_job_projectid
 
         axios.get(SERVER_URL + 'project/download', {
             params: { "idx_project_job_projectid" : projectIdsAsNumbers }
@@ -102,7 +103,7 @@ const Home = () => {
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setProjectList(res.data.data.list)
-            setCheckBoxListData(res.data.data.list[0].idx_report)
+            setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid)
             setCurrentLastPage(() => {
                 if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
                     return Math.floor(res.data.data.tcnt/10)
@@ -153,14 +154,18 @@ const Home = () => {
 
     // 바로가기
     const handleButtonClick2 = (but) => {
-        let idx = but.target.parentElement.parentElement.id;
-        navigate(`/report_detail/${idx}`)
+        let idx = Number(but.target.parentElement.parentElement.id);
+        let filteredList = projectList.filter(item => item.idx_project_job_projectid === idx);
+        let path = filteredList[0].reportList[0].idx_report
+        navigate(`/report_detail/${path}`)
     };
 
     const handleButtonClick3 = (but) => {
         let idx = Number(but.target.parentElement.parentElement.id);
-        let filteredList = reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))]
-        console.log(reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))], '필터된 리스트')
+        let filteredList = reportList[reportList.findIndex(item => item.some(report => report.idx_project_job_projectid === idx))]
+        console.log(idx, '클릭된 값')
+        console.log(reportList, '필터 리스트')
+        console.log(reportList[reportList.findIndex(item => item.some(report => report.idx_project_job_projectid === idx))], '필터된 리스트')
         setFilteredList(filteredList)
         setShowModal2(true);
     };
@@ -187,19 +192,6 @@ const Home = () => {
         }
 
     };
-
-    // useEffect(()=> {
-    //     setCurrentLastPage(prev => {
-    //         if(Math.ceil(prev/10) * 10 - prev === 0) {
-    //             console.log(prev)
-    //             return Math.floor(prev/10)
-    //         } else {
-    //             return Math.floor(prev/10)+1
-    //         }
-    //     })
-    // },[currentLastPage])
-
-    // console.log(currentLastPage)
 
     const handleMerge = () => {
         const mergeForm = document.querySelector("#merge_form")
@@ -294,12 +286,12 @@ const Home = () => {
                                 <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                 :
                                 projectList.map((item) => (
-                                    <tr className={item.idx_project_job_projectid} id={item.idx_report} key={item.idx_report}>
+                                    <tr className={item.idx_project_job_projectid} id={item.idx_project_job_projectid} key={item.idx_project_job_projectid}>
                                         <td className="table_in_chk">
                                             <input
                                                 type="checkbox"
-                                                checked={checkedState[item.idx_report]}
-                                                onChange={() => handleMonoCheck(item.idx_report)}
+                                                checked={checkedState[item.idx_project_job_projectid]}
+                                                onChange={() => handleMonoCheck(item.idx_project_job_projectid)}
                                             />
                                         </td>
                                         <td>{item.job_no}</td>
@@ -310,19 +302,27 @@ const Home = () => {
                                         <td>{item.project_type_str}</td>
                                         <td><Link to={`/project_detail/${item.idx_project}`}>상세보기</Link> </td>
                                         <td>
-                                            {item.idx_report === null ?
-                                                <button className="co1 no_cursor">
-                                                    생성중
-                                                </button>
-                                                :
-                                                item.reportList.length > 1 ?
-                                                        <button onClick={handleButtonClick3} className="co2">
-                                                            바로가기
+                                            {item.reportList && item.reportList.length ?
+                                                item.reportList.length === 1 ?
+                                                    item.reportList.find(report => report.reportStatus === 0) ?
+                                                        <button className="co1 no_cursor">
+                                                            생성중
                                                         </button>
                                                         :
                                                         <button onClick={handleButtonClick2} className="co2">
                                                             바로가기
                                                         </button>
+                                                    :
+                                                    item.reportList.find(report => report.reportStatus === 0) ?
+                                                        <button className="co1 no_cursor">
+                                                            생성중
+                                                        </button>
+                                                        :
+                                                        <button onClick={handleButtonClick3} className="co2">
+                                                            바로가기
+                                                        </button> // 여러개 리포트 리스트로 가는 바로가기
+                                                :
+                                                null
 
                                             }
 
@@ -402,12 +402,12 @@ const Home = () => {
                                         <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                         :
                                         filteredProjects.map((item) => (
-                                            <tr id={item.idx_project} key={item.idx_project}>
+                                            <tr id={item.idx_project_job_projectid} key={item.idx_project_job_projectid}>
                                                 <td className="table_in_chk">
                                                     <input
                                                         type="checkbox"
-                                                        checked={checkedState2[item.idx_report]}
-                                                        onChange={() => handleMonoCheck2(item.idx_report)}
+                                                        checked={checkedState2[item.idx_project_job_projectid]}
+                                                        onChange={() => handleMonoCheck2(item.idx_project_job_projectid)}
                                                     />
                                                 </td>
                                                 <td>{item.job_no}</td>
