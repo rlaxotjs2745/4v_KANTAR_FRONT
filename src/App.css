@@ -274,10 +274,10 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .filter_area > * + * {margin-top:14px;}
 .filter_area > *.flex {display: flex; align-items: center;}
 .filter_area > *.flex > .filter_box + .filter_box {margin-left:33px;}
-.filter_area .filter_box {display: flex; align-items: center; flex-wrap: wrap;}
-.filter_area .filter_box .tit {font-size:14px; font-weight: 600; color:#161616; text-align: right; min-width: 50px; margin-right: 16px;}
+.filter_area .filter_box {display: flex; align-items: baseline; gap: 10px;}
+.filter_area .filter_box .keyword_box {display: flex; gap: 10px; flex-wrap: wrap;}
+.filter_area .filter_box .tit {font-size:14px; font-weight: 600; color:#161616; text-align: right; min-width: 50px;}
 .filter_area .filter_box .keyword {font-size:12px; line-height:16px; padding:4px 8px; color:#161616; font-weight: 400; background: #E0E0E0; border-radius: 25px;}
-.filter_area .filter_box .keyword + .keyword {margin-left:10px;}
 
 .usage_area {}
 

@@ -31,7 +31,7 @@ const ReportDetail = () => {
         navigator.clipboard.writeText(textarea.value);
     }
 
-    console.log(reportFilter, '필터 데이터')
+    // console.log(reportFilter, '필터 데이터')
     // console.log(reportKeyword, '키워드 데이터')
     console.log(reportSummary, '요약문 데이터')
     // console.log(reportMetaChapter, '챕터별 메타 데이터')
@@ -84,50 +84,118 @@ const ReportDetail = () => {
                         </div>
 
                         {/*  적용된 필터값  */}
-                        {reportFilter === undefined ?
-                            null
-                            :
-
+                        {reportFilter && reportKeyword.length ?
                             <div className="input_box">
                                 <label htmlFor="detail_filter">적용된 필터값</label>
                                 <div className="filter_area">
-                                    {reportFilter.filter(item => item.filter_type === 1).length > 0 ?
-                                        <div className="filter_box">
-                                            <strong className="tit">화자</strong>
-                                            <span className="keyword">화자 A</span>
-                                            <span className="keyword">화자 D</span>
-                                            <span className="keyword">화자 E</span>
-                                        </div>
+                                    {reportFilter && reportFilter.length ?
+                                        reportFilter.filter(item => item !== null && item.filter_type === 1).length > 0 ?
+                                            <div className="filter_box">
+                                                <strong className="tit">화자</strong>
+                                                <div className="keyword_box">
+                                                    {
+                                                        reportFilter.filter(item => item !== null && item.filter_type === 1)
+                                                            .map(filter => (
+                                                                filter.filterDataArray.map(filterData => (
+                                                                    <span className="keyword">{filterData.filter_data}</span>
+                                                                ))
+                                                            ))
+                                                    }
+                                                </div>
+                                            </div>
+                                            :
+                                            null
                                         :
                                         null
                                     }
 
-                                    <div className="filter_box">
-                                        <strong className="tit">챕터</strong>
-                                        <span className="keyword">챕터 A</span>
-                                        <span className="keyword">챕터 C</span>
-                                        <span className="keyword">챕터 R</span>
-                                    </div>
-                                    <div className="filter_box">
-                                        <strong className="tit">서브챕터</strong>
-                                        <span className="keyword">서브챕터 A-1</span>
-                                        <span className="keyword">서브챕터 C-1</span>
-                                    </div>
-                                    <div className="filter_box">
-                                        <strong className="tit">질문</strong>
-                                        <span className="keyword">질문 A-1-1</span>
-                                        <span className="keyword">질문 A-1-2</span>
-                                    </div>
-                                    <div className="filter_box">
-                                        <strong className="tit">키워드</strong>
-                                        <span className="keyword">키워드 01</span>
-                                        <span className="keyword">키워드 02</span>
-                                        <span className="keyword">키워드 03</span>
-                                        <span className="keyword">키워드 04</span>
-                                        <span className="keyword">키워드 05</span>
-                                    </div>
+                                    {reportFilter && reportFilter.length ?
+                                        reportFilter.filter(item => item !== null && item.filter_type === 2).length > 0 ?
+                                            <div className="filter_box">
+                                                <strong className="tit">챕터</strong>
+                                                <div className="keyword_box">
+                                                {
+                                                    reportFilter.filter(item => item !== null && item.filter_type === 2)
+                                                        .map(filter => (
+                                                            filter.filterDataArray.map(filterData => (
+                                                                <span className="keyword">{filterData.filter_data}</span>
+                                                            ))
+                                                        ))
+                                                }
+                                                </div>
+                                            </div>
+                                            :
+                                            null
+                                        :
+                                        null
+                                    }
+
+                                    {reportFilter && reportFilter.length ?
+                                        reportFilter.filter(item => item !== null && item.filter_type === 3).length > 0 ?
+                                            <div className="filter_box">
+                                                <strong className="tit">서브챕터</strong>
+                                                <div className="keyword_box">
+                                                {
+                                                    reportFilter.filter(item => item !== null && item.filter_type === 3)
+                                                        .map(filter => (
+                                                            filter.filterDataArray.map(filterData => (
+                                                                <span className="keyword">{filterData.filter_data}</span>
+                                                            ))
+                                                        ))
+                                                }
+                                                </div>
+                                            </div>
+                                            :
+                                            null
+                                        :
+                                        null
+                                    }
+
+                                    {reportFilter && reportFilter.length ?
+                                        reportFilter.filter(item => item !== null && item.filter_type === 4).length > 0 ?
+                                            <div className="filter_box">
+                                                <strong className="tit">질문</strong>
+                                                <div className="keyword_box">
+                                                {
+                                                    reportFilter.filter(item => item !== null && item.filter_type === 4)
+                                                        .map(filter => (
+                                                            filter.filterDataArray.map(filterData => (
+                                                                <span className="keyword">{filterData.filter_data}</span>
+                                                            ))
+                                                        ))
+                                                }
+                                                </div>
+                                            </div>
+                                            :
+                                            null
+                                        :
+                                        null
+                                    }
+
+                                    {reportFilter && reportFilter.length ?
+                                        reportFilter.filter(item => item !== null && item.filter_type === 5).length > 0 ?
+                                            <div className="filter_box">
+                                                <strong className="tit">키워드</strong>
+                                                <div className="keyword_box">
+                                                {
+                                                    reportFilter.filter(item => item !== null && item.filter_type === 5)
+                                                        .map(filter => (
+                                                            filter.filterDataArray.map(filterData => (
+                                                                <span className="keyword">{filterData.filter_data}</span>
+                                                            ))
+                                                        ))
+                                                }
+                                                </div>
+                                            </div>
+                                            :
+                                            null
+                                        :
+                                        null
+                                    }
                                 </div>
                             </div>
+                            :
+                            null
                         }
 
                         <form id="frmData0">
@@ -148,43 +216,41 @@ const ReportDetail = () => {
 
 
                         {/*  키워드 빈도  */}
-                        {reportKeyword === undefined ?
-                        null
-                        :
-                        <div className="input_box">
-                            <label>키워드 빈도 (그룹으로 등록된 키워드 이름은 파란색으로 표기됩니다.)</label>
-                            <table className="table_type1 center">
-                                <colgroup>
-                                    <col/>
-                                    <col/>
-                                    <col/>
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th>키워드 이름</th>
-                                    <th>형태</th>
-                                    <th>건수</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {
-                                    reportKeyword.map(item => (
-                                        <tr>
-                                            <td className={item.dic_yn === 1 ? 'co2' : ''}>{item.sum_keyword}</td>
-                                            <td>{item.keytype === 0 ? '명사' : item.key === 1 ? '형용사' : null}</td>
-                                            <td>{item.keycount}</td>
-                                        </tr>
-                                    ))
-                                }
-                                </tbody>
-                            </table>
-                        </div>
+                        {reportKeyword && reportKeyword.length ?
+                            <div className="input_box">
+                                <label>키워드 빈도 (그룹으로 등록된 키워드 이름은 파란색으로 표기됩니다.)</label>
+                                <table className="table_type1 center">
+                                    <colgroup>
+                                        <col/>
+                                        <col/>
+                                        <col/>
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>키워드 이름</th>
+                                        <th>형태</th>
+                                        <th>건수</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {
+                                        reportKeyword.map(item => (
+                                            <tr>
+                                                <td className={item.dic_yn === 1 ? 'co2' : ''}>{item.sum_keyword}</td>
+                                                <td>{item.keytype === 0 ? '명사' : item.key === 1 ? '형용사' : null}</td>
+                                                <td>{item.keycount}</td>
+                                            </tr>
+                                        ))
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                            :
+                            null
                         }
 
                         {/*  챕터별 메타 데이터  */}
-                        {reportMetaChapter === undefined ?
-                            null
-                            :
+                        {reportMetaChapter && reportMetaChapter.length ?
                             <div className="input_box">
                                 <label>챕터별 메타 데이터</label>
                                 <table className="table_type1 center">
@@ -216,12 +282,12 @@ const ReportDetail = () => {
                                     </tbody>
                                 </table>
                             </div>
+                            :
+                            null
                         }
 
                         {/* 응답자별 메타데이터 */}
-                        {reportMetaSpeaker === undefined ?
-                            null
-                            :
+                        {reportMetaSpeaker && reportMetaSpeaker.length ?
                             <div className="input_box">
                                 <label>응답자별 메타 데이터</label>
                                 <table className="table_type1 center">
@@ -251,11 +317,12 @@ const ReportDetail = () => {
                                     </tbody>
                                 </table>
                             </div>
+                            :
+                            null
                         }
 
 
                         <form id="frmData">
-                            <input type="hidden" name="idx_report" value={reportDetailContent ? reportDetailContent.report.idx_report :''}></input>
                             <div className="input_box">
                                 <label>메모 <span>edited <em className="required">*</em> 0/100</span></label>
                                 <div className="edit">
