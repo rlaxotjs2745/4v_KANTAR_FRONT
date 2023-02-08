@@ -64,6 +64,59 @@ const Home = () => {
     // console.log(projectList, '프로젝트 리스트 확인')
     // console.log(checkedIndexes, '체크된 idx값')
 
+    function getProjectIds(filteredProjects, checkedIndexes) {
+        return filteredProjects
+            .filter(project => checkedIndexes.includes(project.idx_report))
+            .map(project => project.idx_project_job_projectid);
+    } // 체크 해놓은 리스트만 추출한 리스트내에서, idx_report가 일치하는것만 필터링 한 후. idx_project_job_projectid만 반환
+
+    const handleDownload = () => {
+        const projectIds = getProjectIds(filteredProjects, checkedIndexes);
+        console.log(projectIds, 'idx_project_job_projectid 값');
+        if(projectIds.length > 1) {
+            return toastNoticeWarning('1개의 프로젝트 단위만 선택하여 다운로드를 진행해주세요.')
+        }
+        const projectIdsAsNumbers = projectIds.reduce((acc, cur) => acc + Number(cur), 0); // 배열에 담긴 숫자를 전체 합산
+
+        axios.get(SERVER_URL + 'project/download', {
+            params: { "idx_project_job_projectid" : projectIdsAsNumbers }
+        }, AXIOS_OPTION).then(res => {
+            console.log(res)
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.csv');
+            document.body.appendChild(link);
+            link.click();
+        }).catch(err => {
+            console.log(err);
+        })
+
+        // axios.get(SERVER_URL + 'project/download', {
+        //     params: { "idx_project_job_projectid" : projectIdsAsNumbers },
+        //     responseType: 'blob'
+        // }, AXIOS_OPTION).then(res => {
+        //     const contentDisposition = res.headers['content-disposition'];
+        //     console.log(contentDisposition)
+        //     let fileName = 'file.csv';
+        //     if (contentDisposition) {
+        //         const match = contentDisposition.match(/filename="(.+)"/);
+        //         if (match.length >= 2) {
+        //             fileName = match[1];
+        //         }
+        //     }
+        //     const url = window.URL.createObjectURL(new Blob([res.data]));
+        //     const link = document.createElement('a');
+        //     link.href = url;
+        //     link.setAttribute('download', fileName);
+        //     document.body.appendChild(link);
+        //     link.click();
+        // }).catch(err => {
+        //     console.log(err);
+        // })
+
+    }
+
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
@@ -126,7 +179,7 @@ const Home = () => {
     const handleButtonClick3 = (but) => {
         let idx = Number(but.target.parentElement.parentElement.id);
         let filteredList = reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))]
-        // console.log(reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))], '필터된 리스트')
+        console.log(reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))], '필터된 리스트')
 
         setFilteredList(filteredList)
         setShowModal2(true);
@@ -224,7 +277,7 @@ const Home = () => {
                         </div>
                         <div className="right">
                             <button onClick={handleButtonClick} type="button">프로젝트 병합<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_plus.svg'}/></button>
-                            <button type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
+                            <button onClick={handleDownload} type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
                             <button onClick={handleResetCheck} type="button" className="border_left">선택 취소</button>
                         </div>
                     </div>
@@ -261,7 +314,7 @@ const Home = () => {
                                 <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                 :
                                 projectList.map((item) => (
-                                    <tr id={item.idx_report} key={item.idx_report}>
+                                    <tr className={item.idx_project_job_projectid} id={item.idx_report} key={item.idx_report}>
                                         <td className="table_in_chk">
                                             <input
                                                 type="checkbox"

@@ -170,7 +170,7 @@ const Profile = () => {
                         {/* 계정정보 추가 */}
                         <span className="grade">
                             {userProfileData.user_type === 1 ? '일반 계정' :
-                                userProfileData.user_type === 2 ? '관리자 계정' :
+                                userProfileData.user_type === 11 ? '관리자 계정' :
                                     userProfileData.user_type === 99 ? '슈퍼관리자 계정' : null
                             }
                         </span>
