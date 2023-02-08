@@ -230,8 +230,6 @@ const Home = () => {
         }
     }
 
-    console.log(projectList, '리스트 정보')
-
     return (
         <>
             <div className="page">
