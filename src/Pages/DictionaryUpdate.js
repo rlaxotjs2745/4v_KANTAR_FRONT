@@ -113,6 +113,21 @@ const DictionaryUpdate = () => {
         setDictionaryData([...headArr, thisDictionaryData, ...tailArr]);
     }
 
+    const handleDownload = () => {
+        axios.get(SERVER_URL + 'dict/download', {
+            params: { "idx_dictionary" : dictionaryIdx }
+        }, AXIOS_OPTION).then(res => {
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${dictionaryTitle}.csv`);
+            document.body.appendChild(link);
+            link.click();
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     return(
         <>
             <div className="page">
@@ -135,7 +150,7 @@ const DictionaryUpdate = () => {
                                 typeofPage === 'dictionary_update' ?
                                     <>
                                         <button onClick={dictionarySave} type="button" className="no_ico cds--btn">사전 저장</button>
-                                        <a className="download2 cds--btn" href="/dictionary_create">사전 다운로드</a>
+                                        <a className="download2 cds--btn" onClick={handleDownload}>사전 다운로드</a>
                                     </> : null
                             }
                         </div>

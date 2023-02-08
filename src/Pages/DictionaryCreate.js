@@ -10,6 +10,7 @@ import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 const DictionaryCreate = () => {
 
     const navigate = useNavigate()
+    const downloadSample = '';
     const {
         toastNoticeSuccess,
         toastNoticeError,
@@ -52,6 +53,21 @@ const DictionaryCreate = () => {
             .catch(() => toastNoticeError('서버와 통신 중 오류가 발생했습니다.'))
     }
 
+    const handleDownload = () => {
+        axios.get(SERVER_URL + 'dict/download', {
+            params: { "dic_type" : 11111 }
+        }, AXIOS_OPTION).then(res => {
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'sample_dictionary.csv');
+            document.body.appendChild(link);
+            link.click();
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
 
     return(
         <>
@@ -71,7 +87,7 @@ const DictionaryCreate = () => {
                                 <p className="info">.csv 파일만 업로드 가능합니다. 용량은 최대 500kb까지 가능합니다.</p>
                             </div>
                             <div className="btn_box">
-                                <a href="#none" download className="cds--btn download2">샘플파일 다운로드</a>
+                                <a onClick={handleDownload} download className="cds--btn download2">샘플파일 다운로드</a>
                                 <button type="button" onClick={handleSubmit} className="plus cds--btn">등록하기</button>
                             </div>
                         </div>
