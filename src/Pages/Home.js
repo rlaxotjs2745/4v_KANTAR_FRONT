@@ -50,11 +50,8 @@ const Home = () => {
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
 
-    const [filteredList, setFilteredList] = useState([])
-    // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i])
-    // console.log(checkedState, '체크 스테이트 확인')
-    const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10));
-    // console.log(checkedIndexes, '체크된 배열값')
+    const [filteredList, setFilteredList] = useState([]) // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]) // console.log(checkedState, '체크 스테이트 확인')
+    const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10)); // console.log(checkedIndexes, '체크된 배열값')
     const filteredProjects = Object.values(projectList).filter(project =>
         checkedIndexes.includes(project.idx_report) //checkedIndexes 가 idx_report 값을 뽑아오는거라 변경
     );
@@ -71,10 +68,10 @@ const Home = () => {
     } // 체크 해놓은 리스트만 추출한 리스트내에서, idx_report가 일치하는것만 필터링 한 후. idx_project_job_projectid만 반환
 
     const handleDownload = () => {
-        const projectIds = getProjectIds(filteredProjects, checkedIndexes);
+        let projectIds = getProjectIds(filteredProjects, checkedIndexes);
         console.log(projectIds, 'idx_project_job_projectid 값');
         if(projectIds.length > 1) {
-            return toastNoticeWarning('1개의 프로젝트 단위만 선택하여 다운로드를 진행해주세요.')
+            return toastNoticeWarning('1개의 프로젝트만 선택하여 다운로드를 진행해주세요.')
         }
         const projectIdsAsNumbers = projectIds.reduce((acc, cur) => acc + Number(cur), 0); // 배열에 담긴 숫자를 전체 합산
 
@@ -82,38 +79,22 @@ const Home = () => {
             params: { "idx_project_job_projectid" : projectIdsAsNumbers }
         }, AXIOS_OPTION).then(res => {
             console.log(res)
+            const disposition = res.headers['Content-Disposition'];
+            console.log(disposition, '응답헤더값')
+            let filename = 'file.csv';
+            if (disposition) {
+                filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
+            }
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'file.csv');
+            link.setAttribute('download', filename);
             document.body.appendChild(link);
             link.click();
         }).catch(err => {
             console.log(err);
         })
 
-        // axios.get(SERVER_URL + 'project/download', {
-        //     params: { "idx_project_job_projectid" : projectIdsAsNumbers },
-        //     responseType: 'blob'
-        // }, AXIOS_OPTION).then(res => {
-        //     const contentDisposition = res.headers['content-disposition'];
-        //     console.log(contentDisposition)
-        //     let fileName = 'file.csv';
-        //     if (contentDisposition) {
-        //         const match = contentDisposition.match(/filename="(.+)"/);
-        //         if (match.length >= 2) {
-        //             fileName = match[1];
-        //         }
-        //     }
-        //     const url = window.URL.createObjectURL(new Blob([res.data]));
-        //     const link = document.createElement('a');
-        //     link.href = url;
-        //     link.setAttribute('download', fileName);
-        //     document.body.appendChild(link);
-        //     link.click();
-        // }).catch(err => {
-        //     console.log(err);
-        // })
 
     }
 
@@ -180,7 +161,6 @@ const Home = () => {
         let idx = Number(but.target.parentElement.parentElement.id);
         let filteredList = reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))]
         console.log(reportList[reportList.findIndex(item => item.some(report => report.idx_report === idx))], '필터된 리스트')
-
         setFilteredList(filteredList)
         setShowModal2(true);
     };

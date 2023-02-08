@@ -7,6 +7,7 @@ import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
 
 const Report = () => {
+
     const [checkBoxListData, setCheckBoxListData] = useState(0)
     const {
         toastNoticeInfo,
@@ -22,11 +23,41 @@ const Report = () => {
         handleAllCheck,
         handleMonoCheck,
         handleResetCheck,
-    } = useCheckbox();
+    } = useCheckbox(checkBoxListData + 1);
 
     const [reportList, setReportList] = useState('')
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
+
+    const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10)); // console.log(checkedIndexes, '체크된 배열값')
+    const filteredProjects = Object.values(reportList).filter(project =>
+        checkedIndexes.includes(project.idx_report) //checkedIndexes 가 idx_report 값을 뽑아오는거라 변경
+    );
+
+
+    const handleDownload = () => {
+        console.log(filteredProjects, '선택된 리스트')
+        console.log(checkedIndexes, '선택된 리스트 값')
+        if(checkedIndexes.length > 1) {
+            return toastNoticeWarning('1개의 리포트만 선택하여 다운로드를 진행해주세요.')
+        }
+        const projectIdsAsNumbers = checkedIndexes.reduce((acc, cur) => acc + Number(cur), 0); // 배열에 담긴 숫자를 전체 합산
+
+        axios.get(SERVER_URL + 'report/download', {
+            params: { "idx_report" : projectIdsAsNumbers }
+        }, AXIOS_OPTION).then(res => {
+            console.log(res)
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.xls');
+            document.body.appendChild(link);
+            link.click();
+        }).catch(err => {
+            console.log(err);
+        })
+
+    }
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
@@ -57,7 +88,7 @@ const Report = () => {
                 console.log(err);
             })
         };
-        const intervalId = setInterval(fetchData, 1000);
+        const intervalId = setInterval(fetchData, 10000);
         return () => clearInterval(intervalId);
     },[currentPageNumber])
 
@@ -95,11 +126,11 @@ const Report = () => {
                             <p className="info">{checkedCount}개의 파일이 선택되었습니다.</p>
                         </div>
                         <div className="right">
-                            <button type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
+                            <button onClick={handleDownload} type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
                             <button onClick={handleResetCheck} type="button" className="border_left">선택 취소</button>
                         </div>
                     </div>
-                    <table className="table_type1">
+                    <table id="merge_list" className="table_type1">
                         <colgroup>
                             <col/>
                             <col/>
