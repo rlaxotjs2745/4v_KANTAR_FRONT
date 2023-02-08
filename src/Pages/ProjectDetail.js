@@ -567,6 +567,7 @@ const ProjectDetail = () => {
     const [showFilterModal4, setShowFilterModal4] = useState(false) // 질문 모달
     const [showFilterModal5, setShowFilterModal5] = useState(false) // 키워드 모달
     const [filterPresetList, setFilterPresetList] = useState([])
+
     useEffect(() => {
         const handleClick = (event) => {
             const topElement = document.querySelector('.btn_select');
@@ -596,9 +597,27 @@ const ProjectDetail = () => {
             console.log(err);
             toastNoticeError('에러가 발생했습니다.', '', '')
         })
-
-
     },[])
+
+    const DeleteFilterPreset = (but) => {
+        // let idx = but.target.parentElement.previousElementSibling.id; // 클릭한 요소의 이전형제 요소
+        let idx = but.target.parentElement.previousElementSibling.childNodes[0].id;
+        console.log(idx)
+        const data = {
+            "idx_filter":Number(idx),
+        }
+        axios.post(SERVER_URL + 'filter/del', data, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                toastNoticeSuccess(res.data.msg)
+                setSelectedFilter('') // 필터프리셋 선택 해제
+            } else {
+                toastNoticeWarning(res.data.msg)
+            }
+        }).catch(err => {
+            console.log(err);
+            // toastNoticeError('에러가 발생했습니다.', '', '')
+        })
+    }
 
     useEffect(()=>{
         axios.post(SERVER_URL + 'filter/get', {"idx_project_job_projectid" : pathSplit, "idx_filter" : null}, AXIOS_OPTION).then(res => {
@@ -611,7 +630,7 @@ const ProjectDetail = () => {
             console.log(err);
             toastNoticeError('에러가 발생했습니다.', '', '')
         })
-    },[showModal])
+    },[showModal, DeleteFilterPreset])
 
     function toggleClass() {
         const topElement = document.querySelector('.btn_select');
@@ -982,12 +1001,6 @@ const ProjectDetail = () => {
         setSubchapterSubmitHandle(!subchapterSubmitHandle)
     }
 
-
-
-
-    // console.log(projectDetailListFilterOrigin2, '여기서 퀘스쳔 뽑아내야함')
-
-
     const handleModalFilter4 = () => {
         if(projectDetailListFilterOrigin2.length) {
             setShowFilterModal4(true)
@@ -1299,7 +1312,6 @@ const ProjectDetail = () => {
     const [selectedLabelsChapters, setSelectedLabelsChapters] = useState([]);
     const [selectedLabelsSubchapters, setSelectedLabelsSubchapters] = useState([]);
     const [selectedLabelsQuestions, setSelectedLabelsQuestions] = useState([]);
-    const [selectedLabelsKeywords, setSelectedLabelsKeywords] = useState([]);
 
     const [personsFilterModalOrigin, setPersonsFilterModalOrigin] = useState([])
     const [chaptersFilterModalOrigin, setChaptersFilterModalOrigin] = useState([])
@@ -1322,10 +1334,14 @@ const ProjectDetail = () => {
     const [dictDataRaw, setDictDataRaw] = useState([]);
 
 
-    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([2, 2, 2]);
+    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([0, 0, 0]);
     const handleCheckboxChange = (index, event) => {
         const newCheckboxes = [...createReportCheckboxes];
-        newCheckboxes[index] = event.target.checked ? 1 : 2;
+        if (index === 2) {
+            newCheckboxes[index] = event.target.checked ? 2 : 0;
+        } else {
+            newCheckboxes[index] = event.target.checked ? 1 : 0;
+        }
         setCreateReportCheckboxes(newCheckboxes);
     };
 
@@ -1468,23 +1484,7 @@ const ProjectDetail = () => {
     const [filterPresetLoadData4, setFilterPresetLoadData4] = useState([])
     const [presetOn, setPresetOn] = useState(false)
 
-    const DeleteFilterPreset = (but) => {
-        // let idx = but.target.parentElement.previousElementSibling.id; // 클릭한 요소의 이전형제 요소
-        let idx = but.target.parentElement.previousElementSibling.childNodes[0].id;
-        console.log(idx)
-        const data = {
-            "idx_project_job_projectid":idx,
-        }
-        axios.post(SERVER_URL + 'filter/delete', data, AXIOS_OPTION).then(res => {
-            if(res.data.success === '1'){
-                console.log(res.data.msg)
-            } else {
-            }
-        }).catch(err => {
-            console.log(err);
-            // toastNoticeError('에러가 발생했습니다.', '', '')
-        })
-    }
+
 
     // console.log(filterPresetList, '필터 정보값')
     // console.log(selectedFilter, '라디오 선택된 번호')
@@ -1583,7 +1583,7 @@ const ProjectDetail = () => {
             "report_name" : input.value,
             "filter_op1" : Number(selectedValue),
             "filter_op2" : createReportCheckboxes[0],
-            // "filter_op3" : `${createReportCheckboxes[1]+'//'+createReportCheckboxes[2]}`,
+            "filter_op3" : Number(`${createReportCheckboxes[1]+createReportCheckboxes[2]}`),
             "tp1" : [...new Set(selectedLabelsPersons)].join("//"),
             "tp2" : [...new Set(selectedLabelsChapters)].join("//"),
             "tp3" : [...new Set(selectedLabelsSubchapters)].join("//"),
@@ -1831,7 +1831,7 @@ const ProjectDetail = () => {
                                 </div>
                                 <div className="right">
                                     <div className="input_box"><input id="chk11" type="checkbox" checked={createReportCheckboxes[1] === 1} onChange={(event) => handleCheckboxChange(1, event)}/><label htmlFor="chk11">명사</label></div>
-                                    <div className="input_box"><input id="chk22" type="checkbox" checked={createReportCheckboxes[2] === 1} onChange={(event) => handleCheckboxChange(2, event)}/><label htmlFor="chk22">형용사</label></div>
+                                    <div className="input_box"><input id="chk22" type="checkbox" checked={createReportCheckboxes[2] === 2} onChange={(event) => handleCheckboxChange(2, event)}/><label htmlFor="chk22">형용사</label></div>
                                 </div>
                             </div>
                         </div>
