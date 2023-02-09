@@ -24,6 +24,25 @@ const DictionaryUpdate = () => {
         getDictionaryData();
     }, [])
 
+    useEffect(() => {
+        if(dictionaryData.length === 0){
+            setDictionaryData([{
+                idx_dictionary: parseInt(dictionaryIdx),
+                keyword: '',
+                keyword01:'',
+                keyword02:'',
+                keyword03:'',
+                keyword04:'',
+                keyword05:'',
+                keyword06:'',
+                keyword07:'',
+                keyword08:'',
+                keyword09:'',
+                keyword10:''
+            }])
+        }
+    }, [dictionaryData])
+
     const getDictionaryData = () => {
         axios.get(SERVER_URL + `dict/dictionary_detail?idx_dictionary=${dictionaryIdx}`, AXIOS_OPTION)
             .then(res => {
