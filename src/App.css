@@ -261,12 +261,15 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .report_detail_area > .flex + .input_box {margin-top:20px;}
 .report_detail_area .input_box {display: flex; flex-direction: column;}
 .report_detail_area .input_box label {font-size:12px; color:#525252; margin-bottom:8px; display: flex; align-items: center; justify-content: space-between; cursor: inherit}
+.report_detail_area .input_box label > span {display: none;}
+.report_detail_area .input_box.edited label > span {display: block;}
 .report_detail_area .input_box label em.required {color: #DA1E28;}
 .report_detail_area .input_box input, .report_detail_area .input_box textarea {height:40px; background:#F4F4F4; font-size:14px; color: #161616; border:none; padding:0 16px; line-height: 18px;}
 .report_detail_area .input_box .edit {position: relative;}
 .report_detail_area .input_box .edit input, .report_detail_area .input_box .edit textarea {border-bottom:1px solid #8d8d8d}
 .report_detail_area .input_box .edit .edit_btn_box {position: absolute; bottom:16px; right:30px; display: flex; align-items: center; gap: 0 11.5px;}
-.report_detail_area .input_box textarea {height:200px; padding:16px; margin-top: 0;}
+.report_detail_area .input_box textarea {height:200px; padding:16px; margin-top: 0; outline: none;}
+.report_detail_area .input_box textarea:not([readonly]) {border:2px solid #0F62FE;}
 .report_detail_area .btn_box {display: flex; gap: 0 20px; margin-top: 30px; justify-content: end;}
 
 
@@ -367,6 +370,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 
 
 .toggle_check_box {display: flex; width: 100%; margin-top:25px; padding:0 20px; gap: 0 90px;}
+.toggle_check_box input[type="radio"]:disabled + label {opacity: 0.4}
 .toggle_check_box > div {display: flex; flex-direction: column; align-items:start;}
 .toggle_check_box > div .tit {font-size:12px; font-weight: 700; color:#161616;}
 .toggle_check_box .cds--toggle__appearance {display: flex; flex-direction: row-reverse; min-width: 300px; justify-content: space-between;}

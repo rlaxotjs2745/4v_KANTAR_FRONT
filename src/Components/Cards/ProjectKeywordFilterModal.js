@@ -176,8 +176,8 @@ const ProjectKeywordFilterModal = ({
                                             dictData.map(dt => {
                                                 return (
                                                     <div key={dt} className="input_box">
-                                                        <input id={dt} type="checkbox" onChange={() => checkDictData(dt)} checked={selectedDictData.includes(dt)} />
-                                                        <label htmlFor={dt}>{dt}</label>
+                                                        <input type="checkbox" onChange={() => checkDictData(dt)} checked={selectedDictData.includes(dt)} />
+                                                        <label>{dt}</label>
                                                     </div>
                                                 )
                                             })
