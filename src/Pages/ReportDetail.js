@@ -19,33 +19,46 @@ const ReportDetail = () => {
     const navigate = useNavigate()
     const pathSplit = Number(pathname.split('/')[2])
 
-    const [reportDetailContent, setReportDetailContent] = useState('');
     const [reportProject, setReportProject] = useState([])
     const [reportFilter, setReportFilter] = useState([])
     const [reportKeyword, setReportKeyword] = useState([])
     const [reportSummary, setReportSummary] = useState([])
     const [reportMetaChapter, setReportMetaChapter] = useState([])
     const [reportMetaSpeaker, setReportMetaSpeaker] = useState([])
+    const [textAreaValues, setTextAreaValues] = useState({});
+    const [edited, setEdited] = useState({});
+    const [readOnly, setReadOnly] = useState({});
+    const [isReadOnly, setIsReadOnly] = useState(true);
+    const [editedReports, setEditedReports] = useState([]);
 
-    function copyToClipboard(event) {
-        const textarea = event.target.previousSibling;
-        navigator.clipboard.writeText(textarea.value);
-    }
+    const [textValue2, setTextValue2] = useState(reportProject ? reportProject.summary : ""); // 메모 텍스트 내용
+    const [summary, setSummary] = useState(null); // 메모 기본 내용
+    const [textCount, setTextCount] = useState(0); // 메모 카운트
+
+
+    useEffect(()=>{
+        setReadOnly(Array(reportSummary.length).fill(true))
+    },[reportSummary])
+
+    useEffect(()=>{
+        setSummary(reportProject && reportProject.summary)
+    }, [reportProject])
 
     // console.log(reportFilter, '필터 데이터')
     // console.log(reportKeyword, '키워드 데이터')
     // console.log(reportProject, '프로젝트 내용')
-    console.log(reportSummary, '요약문 데이터')
+    // console.log(reportSummary, '요약문 데이터')
     // console.log(reportMetaChapter, '챕터별 메타 데이터')
     // console.log(reportMetaSpeaker, '응답자별 메타 데이터')
 
 
-
+    // useEffect(()=>{
+    //     console.log(editedReports, '값 확인')
+    // },[editedReports])
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'report/report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1') {
-                setReportDetailContent(res.data.data)
                 setReportProject(res.data.data.project)
                 setReportFilter(res.data.data.filter)
                 setReportKeyword(res.data.data.keyword)
@@ -62,13 +75,102 @@ const ReportDetail = () => {
         })
     },[])
 
+    function copyToClipboard(event) {
+        const textarea = event.target.parentNode.parentNode.previousSibling
+        navigator.clipboard.writeText(textarea.value);
+        toastNoticeSuccess('클립보드에 복사되었습니다.')
+    }
+
+    function toggleReadOnly(e, index) {
+        if (reportSummary[index]) {
+            setReadOnly({ ...readOnly, [`${index}`]: !readOnly[`${index}`] });
+        }
+    }
+
+    const handleTextareaChange = (e, index) => {
+
+        setTextAreaValues({ ...textAreaValues, [index]: e.target.value });
+        setEdited({ ...edited, [index]: e.target.value !== reportSummary[index].summary0 });
+
+        const idx_report_data = reportSummary[index].idx_report_data;
+        const value = e.target.value;
+
+        let updated = false;
+        const newEditedReports = editedReports.map(item => {
+            if (item.idx_report_data === idx_report_data) {
+                updated = true;
+                return { ...item, value };
+            }
+            return item;
+        });
+
+        if (!updated) {
+            newEditedReports.push({ idx_report_data, value });
+        }
+
+        setEditedReports(newEditedReports);
+    };
+
+    const handleRefreshClick = (e, index) => {
+        if (reportSummary[index]) {
+            setTextAreaValues({
+                ...textAreaValues,
+                [index]: reportSummary[index].summary0,
+            });
+            setEdited({ ...edited, [index]: false });
+            setReadOnly({ ...readOnly, [`${index}`]: true });
+            setEditedReports(
+                editedReports.filter(item => item.idx_report_data !== reportSummary[index].idx_report_data)
+            );
+        }
+    };
+
+
+    // 기본
+    const toggleReadOnly2 = () => {
+        setIsReadOnly(!isReadOnly);
+    };
+
+    const handleTextChange2 = event => {
+        setSummary(event.target.value);
+        setTextCount(event.target.value.length);
+        setTextValue2(event.target.value);
+    };
+
+    const handleRefreshClick2 = () => {
+        setIsReadOnly(true);
+        setSummary(reportProject.summary);
+    };
+
+    const reportSubmit = () => {
+        const substitutionData = editedReports.map(item => ({
+            "idx_data": item.idx_report_data,
+            "summary_md": item.value
+        }));
+        const param = {
+            "idx_report" : reportSummary[0].idx_report,
+            "summary0": summary,
+            "reportList" : substitutionData
+        }
+        axios.post(SERVER_URL + 'report/mod_report', param, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                toastNoticeSuccess(res.data.msg)
+                navigate('/report')
+            } else {
+                toastNoticeWarning(res.data.msg)
+            }
+        }).catch(err => {
+            console.log(err);
+            toastNoticeError('에러가 발생했습니다.', '', '')
+        })
+    }
 
     return(
         <>
             <div className="page">
                 <div className="file_upload_area">
                     <div className="head type2">
-                        <h2>{reportProject && reportProject.project_name}</h2>
+                        <h2>{reportProject && reportProject.title}</h2>
                         <button onClick={() => navigate('/report')}>
                             <img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
                         </button>
@@ -87,7 +189,7 @@ const ReportDetail = () => {
                         </div>
                         <div className="input_box">
                             <label htmlFor="detail_content">프로젝트 세부내용</label>
-                            <textarea id="detail_content" className="h200" readOnly defaultValue={reportProject && reportProject.summary0}/>
+                            <textarea id="detail_content" className="h200" readOnly value={reportProject && reportProject.summary0}/>
                         </div>
 
                         {/*  적용된 필터값  */}
@@ -208,15 +310,15 @@ const ReportDetail = () => {
                         {/* 요약문 영역 */}
                         <div className="reportSummaryBox">
                             {reportSummary && reportSummary.length ?
-                                reportSummary.map(item => (
-                                    <div className="input_box" id={item.idx_report_data} key={item.idx_report_data}>
-                                        <label>{item.filter_tp} (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>
+                                reportSummary.map((item, index) => (
+                                    <div className={`input_box ${edited[index] ? 'edited' : ''}`} id={item.idx_report_data} key={item.idx_report_data}>
+                                        <label>{item.filter_tp} (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> {textAreaValues[index] ? textAreaValues[index].length : 0}/500</span></label>
                                         <div className="edit">
-                                            <textarea className="h200" readOnly defaultValue={item.summary0}/>
+                                            <textarea maxLength="500" className="h200" readOnly={readOnly[index]} defaultValue={item.summary0} value={textAreaValues[index] || item.summary0} onChange={e => handleTextareaChange(e, index)} />
                                             <div className="edit_btn_box">
-                                                <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
-                                                <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
-                                                <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
+                                                <button onClick={copyToClipboard} className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
+                                                <button onClick={e => toggleReadOnly(e, index)} className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
+                                                <button onClick={e => handleRefreshClick(e, index)} className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
                                             </div>
                                         </div>
                                     </div>
@@ -334,68 +436,21 @@ const ReportDetail = () => {
                         }
 
 
-                        <form id="frmData">
-                            <div className="input_box">
-                                <label>메모 <span>edited <em className="required">*</em> 0/100</span></label>
-                                <div className="edit">
-                                    <textarea className="h200" placeholder="메모를 입력해 주세요." defaultValue={reportProject && reportProject.summary}/>
-                                    <div className="edit_btn_box">
-                                        {/*<button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>*/}
-                                        <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
-                                        <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
-                                    </div>
+                        <div className={"input_box" + (summary !== (reportProject && reportProject.summary) ? " edited" : "")}>
+                            <label>메모 <span>edited <em className="required">*</em> {textCount}/100</span></label>
+                            <div className="edit">
+                                <textarea className="h200" placeholder="메모를 입력해 주세요." readOnly={isReadOnly} value={summary} onChange={handleTextChange2} />
+                                <div className="edit_btn_box">
+                                    <button onClick={toggleReadOnly2} className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
+                                    <button onClick={handleRefreshClick2} className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
                                 </div>
                             </div>
-                            <div className="btn_box">
-                                <button type="button" className="no_ico cds--btn">설정 저장</button>
-                                <button className="no_ico cds--btn">다운로드</button>
-                            </div>
-                        </form>
+                        </div>
+                        <div className="btn_box">
+                            <button onClick={reportSubmit} type="button" className="no_ico cds--btn">설정 저장</button>
+                            <button className="no_ico cds--btn">다운로드</button>
+                        </div>
 
-
-                        {/*{!reportDetailContent || reportDetailContent.project.title !== null ? null :*/}
-                        {/*    <>*/}
-                        {/*        <div className="input_box">*/}
-                        {/*            <label>ChapterA 요약문 (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>*/}
-                        {/*            <div className="edit">*/}
-                        {/*            <textarea className="h200" defaultValue="원래제로음료의 느낌이 잘 안나서 아쉽다. 사무실에 있었던 장명이 평소 일상과 비슷하여 공감이 간다.*/}
-                        {/*                      원래도 좋아하는 편이라 광고가 딱히 호불호에 영향을 주지 않아서 3점을 줬다.라임맛인지 부각이 잘 안되는 점이 있어서 4점을 줬다.*/}
-                        {/*                      아쉬운부분이 있으면서도 톡 쏘는 탄산을 먹을때 어떤 느낌인지는 정확히 전달이 되었다."/>*/}
-                        {/*                <div className="edit_btn_box">*/}
-                        {/*                    <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>*/}
-                        {/*                    <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>*/}
-                        {/*                    <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>*/}
-                        {/*                </div>*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*        <div className="input_box">*/}
-                        {/*            <label>Sub ChapterA 요약문 (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>*/}
-                        {/*            <div className="edit">*/}
-                        {/*            <textarea className="h200" defaultValue="원래제로음료의 느낌이 잘 안나서 아쉽다. 사무실에 있었던 장명이 평소 일상과 비슷하여 공감이 간다.*/}
-                        {/*                      원래도 좋아하는 편이라 광고가 딱히 호불호에 영향을 주지 않아서 3점을 줬다.라임맛인지 부각이 잘 안되는 점이 있어서 4점을 줬다.*/}
-                        {/*                      아쉬운부분이 있으면서도 톡 쏘는 탄산을 먹을때 어떤 느낌인지는 정확히 전달이 되었다."/>*/}
-                        {/*                <div className="edit_btn_box">*/}
-                        {/*                    <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>*/}
-                        {/*                    <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>*/}
-                        {/*                    <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>*/}
-                        {/*                </div>*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*        <div className="input_box">*/}
-                        {/*            <label>질문A 요약문 (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>*/}
-                        {/*            <div className="edit">*/}
-                        {/*            <textarea className="h200" defaultValue="원래제로음료의 느낌이 잘 안나서 아쉽다. 사무실에 있었던 장명이 평소 일상과 비슷하여 공감이 간다.*/}
-                        {/*                      원래도 좋아하는 편이라 광고가 딱히 호불호에 영향을 주지 않아서 3점을 줬다.라임맛인지 부각이 잘 안되는 점이 있어서 4점을 줬다.*/}
-                        {/*                      아쉬운부분이 있으면서도 톡 쏘는 탄산을 먹을때 어떤 느낌인지는 정확히 전달이 되었다."/>*/}
-                        {/*                <div className="edit_btn_box">*/}
-                        {/*                    <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>*/}
-                        {/*                    <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>*/}
-                        {/*                    <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>*/}
-                        {/*                </div>*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*    </>*/}
-                        {/*}*/}
                     </div>
                 </div>
             </div>
