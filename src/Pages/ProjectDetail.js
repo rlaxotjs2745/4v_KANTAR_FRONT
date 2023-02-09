@@ -589,7 +589,7 @@ const ProjectDetail = () => {
 
 
     useEffect(()=> {
-        axios.post(SERVER_URL + 'project/project_view', {"idx_project" : pathSplit}, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'project/project_view', {"idx_project_job_projectid" : pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.data.length === 0) {
                 toastNoticeError('프로젝트 데이터가 없습니다. 홈화면으로 돌아갑니다.')
                 navigate('/');
