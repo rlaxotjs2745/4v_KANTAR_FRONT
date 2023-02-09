@@ -402,7 +402,7 @@ const Home = () => {
                                         <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                         :
                                         filteredProjects.map((item) => (
-                                            <tr id={item.idx_project_job_projectid} key={item.idx_project_job_projectid}>
+                                            <tr id={item.idx_project} key={item.idx_project_job_projectid}>
                                                 <td className="table_in_chk">
                                                     <input
                                                         type="checkbox"

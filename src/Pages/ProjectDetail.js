@@ -710,7 +710,13 @@ const ProjectDetail = () => {
         // }
 
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -728,16 +734,40 @@ const ProjectDetail = () => {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
@@ -745,9 +775,21 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
         } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
@@ -755,7 +797,13 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         } else if(checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
@@ -831,7 +879,13 @@ const ProjectDetail = () => {
         //     setProjectDetailList(projectDetailListOrigin)
         // }
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -849,16 +903,40 @@ const ProjectDetail = () => {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
@@ -866,9 +944,21 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
         } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
@@ -876,7 +966,13 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         } else if(checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
@@ -958,7 +1054,13 @@ const ProjectDetail = () => {
         // }
 
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -976,16 +1078,40 @@ const ProjectDetail = () => {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
@@ -993,9 +1119,21 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
         } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
@@ -1003,7 +1141,13 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         } else if(checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
@@ -1078,7 +1222,13 @@ const ProjectDetail = () => {
         // }
 
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -1096,16 +1246,40 @@ const ProjectDetail = () => {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
@@ -1113,9 +1287,21 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
         } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
@@ -1123,7 +1309,13 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         } else if(checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
@@ -1147,7 +1339,13 @@ const ProjectDetail = () => {
 
     const handleModalFilterSubmit5 = () => {
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
         } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -1165,16 +1363,40 @@ const ProjectDetail = () => {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
             setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
@@ -1182,9 +1404,21 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
         } else if(checkBoxCount > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if(checkBoxCount2 > 0 && checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else if (checkBoxCount2 > 0) {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
@@ -1192,7 +1426,13 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         } else if(checkBoxCount5 > 0) {
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.includes(item.keyword)))
+            setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.some(dictWord => (
+                item.person.includes(dictWord) ||
+                item.chapter.includes(dictWord) ||
+                item.subchapter.includes(dictWord) ||
+                item.question.includes(dictWord) ||
+                item.answer.includes(dictWord)
+            ))))
         } else {
             setProjectDetailList(projectDetailListOrigin)
         }
