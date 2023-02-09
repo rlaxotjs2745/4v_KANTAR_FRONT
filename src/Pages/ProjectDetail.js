@@ -567,6 +567,7 @@ const ProjectDetail = () => {
     const [showFilterModal4, setShowFilterModal4] = useState(false) // 질문 모달
     const [showFilterModal5, setShowFilterModal5] = useState(false) // 키워드 모달
     const [filterPresetList, setFilterPresetList] = useState([])
+    const [deleteCheck, setDeleteCheck] = useState(false)
 
     useEffect(() => {
         const handleClick = (event) => {
@@ -587,12 +588,22 @@ const ProjectDetail = () => {
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/project_view', {"idx_project" : pathSplit}, AXIOS_OPTION).then(res => {
-            if(res.data.success === '1'){
-                setProjectDetailList(res.data.data[1])
-                setProjectDetailListOrigin(res.data.data[1])
-                setProjectInfo(res.data.data[0])
+            console.log(res.data.data, '이거 아니니')
+            if(res.data.data.length === 0) {
+                toastNoticeError('프로젝트 데이터가 없습니다. 홈화면으로 돌아갑니다.')
+                navigate('/');
             } else {
+                if(res.data.success === '1'){
+                    setProjectDetailList(res.data.data[1])
+                    setProjectDetailListOrigin(res.data.data[1])
+                    setProjectInfo(res.data.data[0])
+                } else if(res.data.success === '0'){
+                    navigate('/');
+                    toastNoticeError(res.data.msg)
+
+                }
             }
+
         }).catch(err => {
             console.log(err);
             toastNoticeError('에러가 발생했습니다.', '', '')
@@ -610,6 +621,7 @@ const ProjectDetail = () => {
             if(res.data.success === '1'){
                 toastNoticeSuccess(res.data.msg)
                 setSelectedFilter('') // 필터프리셋 선택 해제
+                setDeleteCheck(!deleteCheck) // 값 확인용 state
             } else {
                 toastNoticeWarning(res.data.msg)
             }
@@ -630,7 +642,7 @@ const ProjectDetail = () => {
             console.log(err);
             toastNoticeError('에러가 발생했습니다.', '', '')
         })
-    },[showModal, DeleteFilterPreset])
+    },[showModal, deleteCheck])
 
     function toggleClass() {
         const topElement = document.querySelector('.btn_select');
@@ -1123,7 +1135,6 @@ const ProjectDetail = () => {
 
     const handleModalFilter5 = () => {
         setShowFilterModal5(true)
-        console.log(selectedDictDataR, '요게 뭐니')
         setkeywordsFilterModalOrigin([...selectedDictDataR])
         document.body.classList.add('fixed');
     }; // 키워드 필터 오픈
@@ -1584,11 +1595,12 @@ const ProjectDetail = () => {
             "filter_op1" : Number(selectedValue),
             "filter_op2" : createReportCheckboxes[0],
             "filter_op3" : Number(`${createReportCheckboxes[1]+createReportCheckboxes[2]}`),
-            "tp1" : [...new Set(selectedLabelsPersons)].join("//"),
-            "tp2" : [...new Set(selectedLabelsChapters)].join("//"),
-            "tp3" : [...new Set(selectedLabelsSubchapters)].join("//"),
-            "tp4" : [...new Set(selectedLabelsQuestions)].join("//"),
-            "tp5" : selectedDictDataR.map(item => item.keyword).join("//")
+            "tp1" : [...new Set(selectedLabelsPersons)].join("//") === '' ? null : [...new Set(selectedLabelsPersons)].join("//"),
+            "tp2" : [...new Set(selectedLabelsChapters)].join("//") === '' ? null : [...new Set(selectedLabelsChapters)].join("//"),
+            "tp3" : [...new Set(selectedLabelsSubchapters)].join("//") === '' ? null : [...new Set(selectedLabelsSubchapters)].join("//"),
+            "tp4" : [...new Set(selectedLabelsQuestions)].join("//") === '' ? null : [...new Set(selectedLabelsQuestions)].join("//"),
+            "tp5" : selectedDictDataR.join("//") === '' ? null : selectedDictDataR.join("//")
+            // "tp5" : selectedDictDataR.map(item => item.keyword).join("//")
         }
 
         axios.post(SERVER_URL + 'report/save_filter_report', param, AXIOS_OPTION).then(res => {
@@ -1642,7 +1654,7 @@ const ProjectDetail = () => {
                             <button onClick={() => navigate('/')}>
                                 <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                             </button>
-                            <h2>{projectInfo.project_name}</h2>
+                            <h2>{projectInfo ? projectInfo.project_name : ''}</h2>
                         </div>
                         <div className="title_section pd0">
                             <div className="title_box">
