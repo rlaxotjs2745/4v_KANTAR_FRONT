@@ -56,6 +56,11 @@ const DictionaryUpdate = () => {
     }
 
     const dictionarySave = () => { // 프로젝트 저장 버튼
+        for(let dt of dictionaryData){
+            if(dt.keyword == null || dt.keyword == ''){
+                return toastNoticeError('비어있는 키워드가 있습니다.')
+            }
+        }
         if(loadingBool){
             return;
         }
