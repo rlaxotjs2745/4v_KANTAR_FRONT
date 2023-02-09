@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Routers from "./Router/Router";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+import {AXIOS_OPTION, SERVER_URL} from "./Util/env";
 
 // import io from 'socket.io-client'
 // const socket = io('http://localhost:8000'); // io안에 서버가 위치한 ip주소 or 도메인 이름으로 설정
@@ -34,6 +36,7 @@ function App(){
     // const sendPing = () => {
     //     socket.emit('ping');
     // }
+
 
 
     return(

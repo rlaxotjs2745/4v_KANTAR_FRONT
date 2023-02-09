@@ -18,7 +18,6 @@ const ProjectDetail = () => {
 
     const [selectedToggle, setSelectedToggle] = useState(null);
 
-
     const {
         toastNoticeInfo,
         toastNoticeSuccess,
@@ -978,7 +977,6 @@ const ProjectDetail = () => {
         }
 
         setChapterSubmitHandle(!chapterSubmitHandle)
-
     }
 
 
@@ -1829,7 +1827,7 @@ const ProjectDetail = () => {
         // console.log(selectedLabelsPersons, '기본 리스트')
         // console.log([...new Set(selectedLabelsPersons)], '중복 제거')
         let param = {
-            "idx_project" : projectInfo.idx_project,
+            // "idx_project" : projectInfo.idx_project,
             "idx_project_job_projectid" : projectInfo.idx_project_job_projectid,
             "report_name" : input.value,
             "filter_op1" : Number(selectedValue),

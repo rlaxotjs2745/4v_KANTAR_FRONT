@@ -75,6 +75,7 @@ const Report = () => {
     const fetchData = async () => {
         axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setReportList(res.data.data.list)
+            setCheckBoxListData(res.data.data.list[0].idx_report)
             setCurrentLastPage(() => {
                 if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
                     return Math.floor(res.data.data.tcnt/10)

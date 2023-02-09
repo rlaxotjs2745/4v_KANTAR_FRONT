@@ -55,7 +55,7 @@ const Home = () => {
     );
 
     const [uType, setUType] = useState(11);
-    console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
+    // console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
     // console.log(projectList, '리스트 전체')
     // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
     // console.log(projectList, '프로젝트 리스트 확인')
@@ -119,6 +119,7 @@ const Home = () => {
                     return Math.floor(res.data.data.tcnt/10)+1
                 }
             })
+            setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid)
             setUType(res.data.data.uType);
         }).catch(err => {
             console.log(err);
@@ -292,7 +293,7 @@ const Home = () => {
                                         <td>{item.user_name}</td>
                                         <td>{item.create_dt}</td>
                                         <td>{item.project_type_str}</td>
-                                        <td><Link to={`/project_detail/${item.idx_project}`}>상세보기</Link> </td>
+                                        <td><Link to={`/project_detail/${item.idx_project_job_projectid}`}>상세보기</Link> </td>
                                         <td>
                                             {item.reportList && item.reportList.length ?
                                                 item.reportList.length === 1 ?
@@ -394,7 +395,7 @@ const Home = () => {
                                         <td colSpan="9" style={{textAlign:'center'}}>리스트가 없습니다.</td>
                                         :
                                         filteredProjects.map((item) => (
-                                            <tr id={item.idx_project} key={item.idx_project_job_projectid}>
+                                            <tr id={item.idx_project_job_projectid} key={item.idx_project_job_projectid}>
                                                 <td className="table_in_chk">
                                                     <input
                                                         type="checkbox"

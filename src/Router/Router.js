@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes, useNavigate} from "react-router-dom";
 import LayoutType2 from "../Layout/LayoutType2";
 import LayoutType1 from "../Layout/LayoutType1";
 import Home from "../Pages/Home";
@@ -20,11 +20,16 @@ import MemberUpdate from "../Pages/MemberUpdate";
 import UsageStatistics from "../Pages/UsageStatistics";
 import ProjectDetail from "../Pages/ProjectDetail";
 import FirstLogin from "../Pages/FirstLogin"
+import ScrollToTop from "../Components/Layout/ScrollToTop";
+import {useCookies} from "react-cookie";
 
 
 const Routers = () => {
+
+
     return (
         <Router>
+            <ScrollToTop/>
             <Routes>
                 {/* type1 푸터 헤더 있는 버전 */}
                 {/* PrivateRoute 안에는 로그인 해야 접근 가능, 로그인 안되어 있으면 /login으로 이동*/}
