@@ -103,7 +103,6 @@ const UsageStatistics = () => {
         }
 
         let end = $('#date-picker-range-end').val()
-        console.log(end)
         let endDate;
         if (end) {
             endDate = new Date(`${end} GMT`).toISOString().substr(0, 10);
@@ -129,7 +128,6 @@ const UsageStatistics = () => {
         })
     }
 
-    console.log(apiDataList)
 
 
 

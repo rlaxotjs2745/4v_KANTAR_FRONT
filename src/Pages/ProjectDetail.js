@@ -586,9 +586,10 @@ const ProjectDetail = () => {
 
     }, []);
 
+
+
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/project_view', {"idx_project" : pathSplit}, AXIOS_OPTION).then(res => {
-            console.log(res.data.data, '이거 아니니')
             if(res.data.data.length === 0) {
                 toastNoticeError('프로젝트 데이터가 없습니다. 홈화면으로 돌아갑니다.')
                 navigate('/');
@@ -605,7 +606,8 @@ const ProjectDetail = () => {
             }
         }).catch(err => {
             console.log(err);
-            toastNoticeError('에러가 발생했습니다.', '', '')
+            toastNoticeError('에러가 발생했습니다.')
+            // navigate('/');
         })
     },[])
 

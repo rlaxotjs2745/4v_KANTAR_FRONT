@@ -3,8 +3,15 @@ import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../../Util/env";
 import {useCookies} from "react-cookie";
+import {useToastAlert} from "../../Util/toastAlert";
 
 export default function ScrollToTop() {
+    const {
+        toastNoticeInfo,
+        toastNoticeSuccess,
+        toastNoticeError,
+        toastNoticeWarning,
+    } = useToastAlert();
     const {pathname} = useLocation();
     const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
     const navigate = useNavigate();
@@ -18,6 +25,7 @@ export default function ScrollToTop() {
         window.scrollTo(0, 0);
         axios.get(SERVER_URL + 'user/loginchk', AXIOS_OPTION).then(res => {
             if(res.data.success === '0'){
+                toastNoticeWarning('토큰이 만료되어 로그아웃됩니다. 다시 로그인해주세요.')
                 logOut()
             } else {
                 console.log('로그인 유지중입니다')

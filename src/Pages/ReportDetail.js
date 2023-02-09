@@ -169,6 +169,28 @@ const ReportDetail = () => {
         })
     }
 
+    const reportDownload = () => {
+        axios.get(SERVER_URL + 'report/download', {
+            params: { "idx_report" : reportSummary[0].idx_report }
+        }, AXIOS_OPTION).then(res => {
+            console.log(res)
+            const disposition = res.headers['Content-Disposition'];
+            console.log(disposition, '응답헤더값')
+            let filename = 'file.xls';
+            if (disposition) {
+                filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
+            }
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     return(
         <>
             <div className="page">
@@ -462,7 +484,7 @@ const ReportDetail = () => {
                             {
                                 isOwn || uType === 99 ? <button onClick={reportSubmit} type="button" className="no_ico cds--btn">설정 저장</button> : null
                             }
-                            <button className="no_ico cds--btn">다운로드</button>
+                            <button onClick={reportDownload} className="no_ico cds--btn">다운로드</button>
                         </div>
 
                     </div>
