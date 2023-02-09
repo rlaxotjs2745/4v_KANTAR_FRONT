@@ -26,6 +26,8 @@ const ReportDetail = () => {
     const [reportSummary, setReportSummary] = useState([])
     const [reportMetaChapter, setReportMetaChapter] = useState([])
     const [reportMetaSpeaker, setReportMetaSpeaker] = useState([])
+    const [isOwn, setIsOwn] = useState(false);
+    const [uType, setUType] = useState(11);
 
     function copyToClipboard(event) {
         const textarea = event.target.previousSibling;
@@ -52,6 +54,8 @@ const ReportDetail = () => {
                 setReportSummary(res.data.data.report)
                 setReportMetaChapter(res.data.data.metaChapter)
                 setReportMetaSpeaker(res.data.data.metaSpeaker)
+                setIsOwn(Boolean(res.data.data.isOwn));
+                setUType(res.data.data.uType);
             } else if (res.data.success === '0') {
                 toastNoticeError(res.data.msg)
                 navigate('/')
@@ -213,11 +217,15 @@ const ReportDetail = () => {
                                         <label>{item.filter_tp} (요약문은 사용자가 직접 수정이 가능합니다.) <span>edited <em className="required">*</em> 0/500</span></label>
                                         <div className="edit">
                                             <textarea className="h200" readOnly defaultValue={item.summary0}/>
-                                            <div className="edit_btn_box">
-                                                <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
-                                                <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
-                                                <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
-                                            </div>
+                                            {
+                                                isOwn || uType === 99 ?
+                                                    <div className="edit_btn_box">
+                                                        <button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
+                                                        <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
+                                                        <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
+                                                    </div>
+                                                    : null
+                                            }
                                         </div>
                                     </div>
                                 ))
@@ -339,15 +347,21 @@ const ReportDetail = () => {
                                 <label>메모 <span>edited <em className="required">*</em> 0/100</span></label>
                                 <div className="edit">
                                     <textarea className="h200" placeholder="메모를 입력해 주세요." defaultValue={reportProject && reportProject.summary}/>
+                                    {
+                                        isOwn || uType === 99 ?
                                     <div className="edit_btn_box">
                                         {/*<button className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>*/}
                                         <button className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
                                         <button className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
                                     </div>
+                                          : null
+                                    }
                                 </div>
                             </div>
                             <div className="btn_box">
-                                <button type="button" className="no_ico cds--btn">설정 저장</button>
+                                {
+                                    isOwn || uType === 99 ? <button type="button" className="no_ico cds--btn">설정 저장</button> : null
+                                }
                                 <button className="no_ico cds--btn">다운로드</button>
                             </div>
                         </form>

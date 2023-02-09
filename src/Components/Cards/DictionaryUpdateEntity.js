@@ -14,7 +14,7 @@ const DictionaryUpdateEntity = ({entity, deleteData, updateData, newData, isFirs
             <td><input className="dictionarydata_keyword07" onChange={(e) => updateData(entity.idx_dictionary_data, e)} type="text" placeholder={isUpdate ? "단어입력" : ""} defaultValue={entity.keyword07} disabled={!isUpdate}/></td>
             <td><input className="dictionarydata_keyword08" onChange={(e) => updateData(entity.idx_dictionary_data, e)} type="text" placeholder={isUpdate ? "단어입력" : ""} defaultValue={entity.keyword08} disabled={!isUpdate}/></td>
             <td><input className="dictionarydata_keyword09" onChange={(e) => updateData(entity.idx_dictionary_data, e)} type="text" placeholder={isUpdate ? "단어입력" : ""} defaultValue={entity.keyword09} disabled={!isUpdate}/></td>
-            <td><input className="dictionarydata_keyword10" onChange={(e) => updateData(entity.idx_dictionary_data, e)} type="text" placeholder={isUpdate ? "단어입력" : ""} defaultValue={entity.keyword010} disabled={!isUpdate}/></td>
+            <td><input className="dictionarydata_keyword10" onChange={(e) => updateData(entity.idx_dictionary_data, e)} type="text" placeholder={isUpdate ? "단어입력" : ""} defaultValue={entity.keyword10} disabled={!isUpdate}/></td>
             <td className="absolute">
                 {
                     !isUpdate ?

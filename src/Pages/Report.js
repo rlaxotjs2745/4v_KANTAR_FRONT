@@ -28,6 +28,7 @@ const Report = () => {
     const [reportList, setReportList] = useState('')
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
+    const [uType, setUType] = useState(11);
 
     const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10)); // console.log(checkedIndexes, '체크된 배열값')
     const filteredProjects = Object.values(reportList).filter(project =>
@@ -66,10 +67,14 @@ const Report = () => {
     }
 
     useEffect(()=> {
+        fetchData();
+        const intervalId = setInterval(fetchData, 10000);
+        return () => clearInterval(intervalId);
+    },[currentPageNumber])
+
+    const fetchData = async () => {
         axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
             setReportList(res.data.data.list)
-            setCheckBoxListData(res.data.data.list[0].idx_report)
-
             setCurrentLastPage(() => {
                 if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
                     return Math.floor(res.data.data.tcnt/10)
@@ -77,26 +82,11 @@ const Report = () => {
                     return Math.floor(res.data.data.tcnt/10)+1
                 }
             })
+            setUType(res.data.data.uType);
         }).catch(err => {
             console.log(err);
         })
-        const fetchData = async () => {
-            axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
-                setReportList(res.data.data.list)
-                setCurrentLastPage(() => {
-                    if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
-                        return Math.floor(res.data.data.tcnt/10)
-                    } else {
-                        return Math.floor(res.data.data.tcnt/10)+1
-                    }
-                })
-            }).catch(err => {
-                console.log(err);
-            })
-        };
-        const intervalId = setInterval(fetchData, 10000);
-        return () => clearInterval(intervalId);
-    },[currentPageNumber])
+    };
 
     let handleLeftClick = () => {
         if (currentPageNumber > 1) {

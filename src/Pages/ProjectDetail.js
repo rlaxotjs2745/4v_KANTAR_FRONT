@@ -567,6 +567,7 @@ const ProjectDetail = () => {
     const [showFilterModal4, setShowFilterModal4] = useState(false) // 질문 모달
     const [showFilterModal5, setShowFilterModal5] = useState(false) // 키워드 모달
     const [filterPresetList, setFilterPresetList] = useState([])
+    const [uType, setUType] = useState(11);
 
     useEffect(() => {
         const handleClick = (event) => {
@@ -588,10 +589,10 @@ const ProjectDetail = () => {
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/project_view', {"idx_project" : pathSplit}, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                setProjectDetailList(res.data.data[1])
-                setProjectDetailListOrigin(res.data.data[1])
-                setProjectInfo(res.data.data[0])
-            } else {
+                setProjectDetailList(res.data.data.proData[1])
+                setProjectDetailListOrigin(res.data.data.proData[1])
+                setProjectInfo(res.data.data.proData[0])
+                setUType(res.data.data.userType);
             }
         }).catch(err => {
             console.log(err);
@@ -1649,58 +1650,87 @@ const ProjectDetail = () => {
                                 <h3 className="title">Raw Data</h3>
                                 <p className="info">위 필터를 설정해 리포트를 생성할 수 있습니다.</p>
                             </div>
-                            <div className="btn_box">
-                                <button onClick={handleButtonClick4} type="button" className="cds--btn cds--btn--tertiary">워드 클라우드 열기</button>
-                                <a href="#none" download className="download cds--btn cds--btn--tertiary">데이터 다운로드</a>
-                                <button onClick={handleButtonClick2} type="button" className="plus cds--btn">리포트 생성</button>
-                            </div>
+                            {
+                                uType === 1|| uType === 99 ?
+                                    <div className="btn_box">
+                                        <button onClick={handleButtonClick4} type="button" className="cds--btn cds--btn--tertiary">워드 클라우드 열기</button>
+                                        <a href="#none" download className="download cds--btn cds--btn--tertiary">데이터 다운로드</a>
+                                        <button onClick={handleButtonClick2} ype="button" className="plus cds--btn">리포트 생성</button>
+                                    </div>
+                                    :
+                                    <div className="btn_box">
+                                        <a href="#none" download className="download cds--btn cds--btn--tertiary">데이터 다운로드</a>
+                                    </div>
+                            }
                         </div>
                     </div>
-                    <div className="project_detail_area">
-                        <div className="filter_btn_box">
-                            <button onClick={handleModalFilter1} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자 {checkBoxCount > 0 ? <span className="count">{checkBoxCount}</span> : null}</button>
-                            <button onClick={handleModalFilter2}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터 {checkBoxCount2 > 0 ? <span className="count">{checkBoxCount2}</span> : null}</button>
-                            <button onClick={handleModalFilter3}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터 {checkBoxCount3 > 0 ? <span className="count">{checkBoxCount3}</span> : null}</button>
-                            <button onClick={handleModalFilter4}  type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문 {checkBoxCount4 > 0 ? <span className="count">{checkBoxCount4}</span> : null}</button>
-                            <button onClick={handleModalFilter5} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드 {checkBoxCount5 > 0 ? <span className="count">{checkBoxCount5}</span> : null}</button>
-                            <button type="button" onClick={handleFilterReset} className="refresh"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh_blue.svg'}/></button>
-                            <div className="btn_select_box">
-                                <button type="button" onClick={toggleClass} className="btn_select">필터값 저장 / 불러오기</button>
-                                <div className="filter_preset" >
-                                    <strong className="tit">필터 프리셋</strong>
-                                    <p className="info">필터값을 프리셋으로 저장하여 사용할 수 있습니다.</p>
-                                    <div className="filter_chk_box">
-                                        {!filterPresetList || !filterPresetList.length ?
-                                            <div className="input_box">
-                                                <p>필터 프리셋 정보가 없습니다.</p>
-                                            </div>
-                                            :
-                                            filterPresetList.map(item => (
-                                                <div className="input_box" key={item.idx_filter}>
-                                                    <div className="checkbox">
-                                                        <input type="radio" name="preset_radio" id={item.idx_filter}
-                                                               onChange={() => setSelectedFilter(item.idx_filter)}
-                                                               checked={selectedFilter === item.idx_filter}
-                                                        />
-                                                        <label htmlFor={item.idx_filter}>{item.filter_title}</label>
+                    {
+                        uType === 1|| uType === 99 ?
+                            <div className="project_detail_area">
+                                <div className="filter_btn_box">
+                                    <button onClick={handleModalFilter1} type="button"><img
+                                        src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자 {checkBoxCount > 0 ?
+                                        <span className="count">{checkBoxCount}</span> : null}</button>
+                                    <button onClick={handleModalFilter2} type="button"><img
+                                        src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터 {checkBoxCount2 > 0 ?
+                                        <span className="count">{checkBoxCount2}</span> : null}</button>
+                                    <button onClick={handleModalFilter3} type="button"><img
+                                        src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터 {checkBoxCount3 > 0 ?
+                                        <span className="count">{checkBoxCount3}</span> : null}</button>
+                                    <button onClick={handleModalFilter4} type="button"><img
+                                        src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문 {checkBoxCount4 > 0 ?
+                                        <span className="count">{checkBoxCount4}</span> : null}</button>
+                                    <button onClick={handleModalFilter5} type="button"><img
+                                        src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드 {checkBoxCount5 > 0 ?
+                                        <span className="count">{checkBoxCount5}</span> : null}</button>
+                                    <button type="button" onClick={handleFilterReset} className="refresh"><img
+                                        src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh_blue.svg'}/>
+                                    </button>
+                                    <div className="btn_select_box">
+                                        <button type="button" onClick={toggleClass} className="btn_select">필터값 저장 /
+                                            불러오기
+                                        </button>
+                                        <div className="filter_preset">
+                                            <strong className="tit">필터 프리셋</strong>
+                                            <p className="info">필터값을 프리셋으로 저장하여 사용할 수 있습니다.</p>
+                                            <div className="filter_chk_box">
+                                                {!filterPresetList || !filterPresetList.length ?
+                                                    <div className="input_box">
+                                                        <p>필터 프리셋 정보가 없습니다.</p>
                                                     </div>
-                                                    <button type="button" onClick={DeleteFilterPreset} className="chk_delete"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                                                </div>
-                                            ))
-                                        }
+                                                    :
+                                                    filterPresetList.map(item => (
+                                                        <div className="input_box" key={item.idx_filter}>
+                                                            <div className="checkbox">
+                                                                <input type="radio" name="preset_radio"
+                                                                       id={item.idx_filter}
+                                                                       onChange={() => setSelectedFilter(item.idx_filter)}
+                                                                       checked={selectedFilter === item.idx_filter}
+                                                                />
+                                                                <label
+                                                                    htmlFor={item.idx_filter}>{item.filter_title}</label>
+                                                            </div>
+                                                            <button type="button" onClick={DeleteFilterPreset}
+                                                                    className="chk_delete"><img
+                                                                src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'}
+                                                                alt=""/></button>
+                                                        </div>
+                                                    ))
+                                                }
 
-                                    </div>
-                                    <div className="btn_box">
-                                        {selectedFilter === '' ?
-                                            <button type="button" onClick={handleButtonClick}>프리셋 만들기</button>
-                                            :
-                                            <button type="button" onClick={handlePresetLoad}>불러오기</button>
-                                        }
+                                            </div>
+                                            <div className="btn_box">
+                                                {selectedFilter === '' ?
+                                                    <button type="button" onClick={handleButtonClick}>프리셋 만들기</button>
+                                                    :
+                                                    <button type="button" onClick={handlePresetLoad}>불러오기</button>
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </div> : null
+                    }
                     <div className="table_area">
                         <table className="table_type1">
                             <colgroup>

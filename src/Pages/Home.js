@@ -53,6 +53,8 @@ const Home = () => {
     const filteredProjects = Object.values(projectList).filter(project =>
         checkedIndexes.includes(project.idx_project_job_projectid) //checkedIndexes 가 idx_report 값을 뽑아오는거라 변경
     );
+
+    const [uType, setUType] = useState(11);
     console.log(filteredProjects, '체크된애들만 projectList 에서 filter로 뜯어냄')
     // console.log(projectList, '리스트 전체')
     // projectList값을 필터로 돌려서 체크된 값을 가지는 배열만 뽑아냄
@@ -101,9 +103,15 @@ const Home = () => {
 
 
     useEffect(()=> {
+        fetchData();
+        const intervalId = setInterval(fetchData, 10000);
+        return () => clearInterval(intervalId);
+    },[currentPageNumber])
+
+
+    const fetchData = async () => {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
-            setProjectList(res.data.data.list)
-            setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid)
+            setProjectList(res.data.data.list) // idx_report 최대값 저장 해서 써야함. * 필수
             setCurrentLastPage(() => {
                 if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
                     return Math.floor(res.data.data.tcnt/10)
@@ -111,29 +119,11 @@ const Home = () => {
                     return Math.floor(res.data.data.tcnt/10)+1
                 }
             })
-            // console.log(res.data.data, '데이터')
+            setUType(res.data.data.uType);
         }).catch(err => {
             console.log(err);
         })
-        const fetchData = async () => {
-            axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
-                setProjectList(res.data.data.list) // idx_report 최대값 저장 해서 써야함. * 필수
-                setCurrentLastPage(() => {
-                    if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
-                        return Math.floor(res.data.data.tcnt/10)
-                    } else {
-                        return Math.floor(res.data.data.tcnt/10)+1
-                    }
-                })
-            }).catch(err => {
-                console.log(err);
-            })
-        };
-        const intervalId = setInterval(fetchData, 10000);
-        return () => clearInterval(intervalId);
-
-    },[currentPageNumber])
-
+    };
 
     const projectListArray = Object.values(projectList);
     const reportList = projectListArray.map(item => item.reportList);
@@ -238,7 +228,9 @@ const Home = () => {
                         <p className="info">파일을 업로드하면 프로젝트 원본 파일 리스트에 추가됩니다.</p>
                     </div>
                     <div className="btn_box">
-                        <Link to="/fileupload" className="upload cds--btn">파일 업로드</Link>
+                        {
+                            uType !== 11 ? <Link to="/fileupload" className="upload cds--btn">파일 업로드</Link> : null
+                        }
                     </div>
                 </div>
 
