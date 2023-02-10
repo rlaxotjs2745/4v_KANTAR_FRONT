@@ -608,7 +608,7 @@ const ProjectDetail = () => {
     },[])
 
     useEffect(()=> {
-        console.log(projectDetailList, '바뀌나요?')
+        // console.log(projectDetailList, '바뀌나요?')
     },[projectDetailList])
 
     const DeleteFilterPreset = (but) => {
@@ -1704,13 +1704,15 @@ const ProjectDetail = () => {
 
 
     const CreateFilterPreset = () => {
+        console.log(selectedDictDataR, '선택된 데이터')
         const data = {
             "idx_project_job_projectid":pathSplit,
             "filter_title":filterPresetTitle,
             "tp1":selectedLabelsPersons.join("//"),
             "tp2":selectedLabelsChapters.join("//"),
             "tp3":selectedLabelsSubchapters.join("//"),
-            "tp4":selectedLabelsQuestions.join("//")
+            "tp4":selectedLabelsQuestions.join("//"),
+            "tp5":selectedDictDataR.join("//")
         }
         axios.post(SERVER_URL + 'filter/create', data, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
@@ -1733,6 +1735,7 @@ const ProjectDetail = () => {
     const [filterPresetLoadData2, setFilterPresetLoadData2] = useState([])
     const [filterPresetLoadData3, setFilterPresetLoadData3] = useState([])
     const [filterPresetLoadData4, setFilterPresetLoadData4] = useState([])
+    const [filterPresetLoadData5, setFilterPresetLoadData5] = useState([])
     const [presetOn, setPresetOn] = useState(false)
 
 
@@ -1747,42 +1750,56 @@ const ProjectDetail = () => {
     };
 
     useEffect(() => {
-        if(filterPresetLoad && filterPresetLoad.filterDataList.filter(d => d.filter_type !== 1)) {
-            // console.log('화자 없을때')
+        if(filterPresetLoad && filterPresetLoad.filterDataList.find(item => item.filter_type === 1) === undefined ) {
+            console.log('화자 없을때')
             setFilterPresetLoadData2(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[0] ? filterPresetLoad.filterDataList[0].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData3(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[1] ? filterPresetLoad.filterDataList[1].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData4(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[2] ? filterPresetLoad.filterDataList[2].filterDataArray.map(item => item.filter_data) : []);
+            setFilterPresetLoadData5(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[3] ? filterPresetLoad.filterDataList[3].filterDataArray.map(item => item.filter_data) : []);
         } else {
-            // console.log('화자 있어요')
+            console.log('화자 있어요')
             setFilterPresetLoadData1(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[0] ? filterPresetLoad.filterDataList[0].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData2(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[1] ? filterPresetLoad.filterDataList[1].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData3(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[2] ? filterPresetLoad.filterDataList[2].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData4(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[3] ? filterPresetLoad.filterDataList[3].filterDataArray.map(item => item.filter_data) : []);
+            setFilterPresetLoadData5(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[4] ? filterPresetLoad.filterDataList[4].filterDataArray.map(item => item.filter_data) : []);
         }
-
     }, [filterPresetLoad]);
 
     useEffect(()=> {
+        console.log(filterPresetLoadData5, '이게 무엇인가')
+        console.log(selectedDictR, '??')
+        console.log(selectedDictDataR, '??222')
         setSelectedLabelsPersons(filterPresetLoadData1);
         setSelectedLabelsChapters(filterPresetLoadData2);
         setSelectedLabelsSubchapters(filterPresetLoadData3);
         setSelectedLabelsQuestions(filterPresetLoadData4);
+        setSelectedDictDataR(filterPresetLoadData5);
+
         setPresetOn(!presetOn)
         // setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person))) // 화자 필터로 선택된 것으로 불러오기 누를때 서브챕터, 질문 보여주기
         // setProjectDetailListFilterOrigin2(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person))) // 화자 필터로 선택된 것으로 불러오기 누를때 서브챕터, 질문 보여주기
         setProjectDetailListFilterOrigin(projectDetailListOrigin)
         setProjectDetailListFilterOrigin2(projectDetailListOrigin)
 
-    }, [filterPresetLoadData1, filterPresetLoadData2, filterPresetLoadData3, filterPresetLoadData4])
+    }, [filterPresetLoadData1, filterPresetLoadData2, filterPresetLoadData3, filterPresetLoadData4, filterPresetLoadData5])
 
     useEffect(()=> {
-        console.log(selectedLabelsQuestions)
+        // console.log(selectedLabelsQuestions)
+        console.log('여기 실행중')
         setProjectDetailList(projectDetailListOrigin.filter(item =>
             (!selectedLabelsPersons || selectedLabelsPersons.length === 0 || selectedLabelsPersons.some(selectedLabel => item.person === selectedLabel)) &&
             (!selectedLabelsChapters || selectedLabelsChapters.length === 0 || selectedLabelsChapters.includes(item.chapter)) &&
             (!selectedLabelsSubchapters || selectedLabelsSubchapters.length === 0 || selectedLabelsSubchapters.includes(item.subchapter)) &&
-            (!selectedLabelsQuestions || selectedLabelsQuestions.length === 0 || selectedLabelsQuestions.includes(item.question))
-        ));
+            (!selectedLabelsQuestions || selectedLabelsQuestions.length === 0 || selectedLabelsQuestions.includes(item.question)) &&
+            (!selectedDictDataR || selectedDictDataR.length === 0 || selectedDictDataR.some(dictWord => (
+                    item.person.includes(dictWord) ||
+                    item.chapter.includes(dictWord) ||
+                    item.subchapter.includes(dictWord) ||
+                    item.question.includes(dictWord) ||
+                    item.answer.includes(dictWord)
+                )))
+            ));
         setCheckBoxCount(filterPresetLoadData1.length) // 화자 개수 설정
         setCheckBoxCount2(filterPresetLoadData2.length) // 챕터 개수 설정
         setCheckBoxCount3(filterPresetLoadData3.length) // 서브챕터 개수 설정
@@ -1980,7 +1997,14 @@ const ProjectDetail = () => {
                                                             <div className="checkbox">
                                                                 <input type="radio" name="preset_radio"
                                                                        id={item.idx_filter}
-                                                                       onChange={() => setSelectedFilter(item.idx_filter)}
+                                                                       onClick={() => {
+                                                                           if (selectedFilter === item.idx_filter) {
+                                                                               // console.log('여기 되고있어요?')
+                                                                               setSelectedFilter('')
+                                                                           } else {
+                                                                               setSelectedFilter(item.idx_filter);
+                                                                           }
+                                                                       }}
                                                                        checked={selectedFilter === item.idx_filter}
                                                                 />
                                                                 <label
