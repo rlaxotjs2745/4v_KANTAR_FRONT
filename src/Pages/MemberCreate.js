@@ -109,7 +109,7 @@ const MemberCreate = () => {
                                         <label htmlFor="admin">관리자</label>
                                     </div>
                                     <div className="radio_box">
-                                        <input onChange={(e) => setUserType(e)} name="grade" id="normal" type="radio" checked/>
+                                        <input onChange={(e) => setUserType(e)} name="grade" id="normal" type="radio" defaultChecked/>
                                         <label htmlFor="normal">일반</label>
                                     </div>
                                 </div>
