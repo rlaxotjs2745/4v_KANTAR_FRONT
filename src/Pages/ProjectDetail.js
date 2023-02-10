@@ -575,8 +575,8 @@ const ProjectDetail = () => {
             const contentElement = document.querySelector('.filter_preset');
             if (!event.target.closest('.filter_preset') && !event.target.closest('.btn_select')) {
                 // console.log('Click outside');
-                topElement.classList.remove('on');
-                contentElement.classList.remove('on');
+                // topElement.classList.remove('on');
+                // contentElement.classList.remove('on');
             }
         };
         document.addEventListener('click', handleClick);
@@ -586,30 +586,30 @@ const ProjectDetail = () => {
 
     }, []);
 
-
-
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/project_view', {"idx_project_job_projectid" : pathSplit}, AXIOS_OPTION).then(res => {
-            if(res.data.data.length === 0) {
-                toastNoticeError('프로젝트 데이터가 없습니다. 홈화면으로 돌아갑니다.')
+            console.log(res.data, '응답 값 뭐니')
+            if(res.data.success === '1'){
+                // console.log(res.data.data.proData, '?124124412142142412?')
+                setProjectDetailList(res.data.data.proData[1])
+                setProjectDetailListOrigin(res.data.data.proData[1])
+                setProjectInfo(res.data.data.proData[0])
+                setUType(res.data.data.userType);
+
+            } else if(res.data.success === '0'){
                 navigate('/');
-            } else {
-                if(res.data.success === '1'){
-                    setProjectDetailList(res.data.data.proData[1])
-                    setProjectDetailListOrigin(res.data.data.proData[1])
-                    setProjectInfo(res.data.data.proData[0])
-                    setUType(res.data.data.userType);
-                } else if(res.data.success === '0'){
-                    navigate('/');
-                    toastNoticeError(res.data.msg)
-                }
+                toastNoticeError(res.data.msg)
             }
         }).catch(err => {
-            console.log(err);
+            console.log(err, '에러 내용입니다');
             toastNoticeError('에러가 발생했습니다.')
             // navigate('/');
         })
     },[])
+
+    useEffect(()=> {
+        console.log(projectDetailList, '바뀌나요?')
+    },[projectDetailList])
 
     const DeleteFilterPreset = (but) => {
         // let idx = but.target.parentElement.previousElementSibling.id; // 클릭한 요소의 이전형제 요소
@@ -1829,7 +1829,7 @@ const ProjectDetail = () => {
         // console.log(selectedLabelsPersons, '기본 리스트')
         // console.log([...new Set(selectedLabelsPersons)], '중복 제거')
         let param = {
-            // "idx_project" : projectInfo.idx_project,
+            "idx_project" : projectInfo.idx_project,
             "idx_project_job_projectid" : projectInfo.idx_project_job_projectid,
             "report_name" : input.value,
             "filter_op1" : Number(selectedValue),
@@ -1879,11 +1879,35 @@ const ProjectDetail = () => {
         }
     },[subchapterSubmitHandle])
 
-    useEffect(()=>{
-        console.log('바뀌는중')
-        // setSelectedLabelsKeywords(selectedDictDataR.map(item => item.keyword))
-    },[selectedDictDataR])
+    // useEffect(()=>{
+    //     console.log('바뀌는중')
+    //     // setSelectedLabelsKeywords(selectedDictDataR.map(item => item.keyword))
+    // },[selectedDictDataR])
 
+
+    const handleDownload = () => {
+        axios.get(SERVER_URL + 'project/download', {
+            params: { "idx_project_job_projectid" : pathSplit }
+        }, AXIOS_OPTION).then(res => {
+            console.log(res)
+            const disposition = res.headers['Content-Disposition'];
+            console.log(disposition, '응답헤더값')
+            let filename = 'file.csv';
+            if (disposition) {
+                filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
+            }
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+        }).catch(err => {
+            console.log(err);
+        })
+
+
+    }
 
     return(
         <>
@@ -1905,12 +1929,12 @@ const ProjectDetail = () => {
                                 uType === 1|| uType === 99 ?
                                     <div className="btn_box">
                                         <button onClick={handleButtonClick4} type="button" className="cds--btn cds--btn--tertiary">워드 클라우드 열기</button>
-                                        <a href="#none" download className="download cds--btn cds--btn--tertiary">데이터 다운로드</a>
-                                        <button onClick={handleButtonClick2} ype="button" className="plus cds--btn">리포트 생성</button>
+                                        <button onClick={handleDownload} type="button" className="download cds--btn cds--btn--tertiary">데이터 다운로드</button>
+                                        <button onClick={handleButtonClick2} type="button" className="plus cds--btn">리포트 생성</button>
                                     </div>
                                     :
                                     <div className="btn_box">
-                                        <a href="#none" download className="download cds--btn cds--btn--tertiary">데이터 다운로드</a>
+                                        <button onClick={handleDownload} type="button" className="download cds--btn cds--btn--tertiary">데이터 다운로드</button>
                                     </div>
                             }
                         </div>
