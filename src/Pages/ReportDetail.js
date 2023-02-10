@@ -82,7 +82,7 @@ const ReportDetail = () => {
     function copyToClipboard(event) {
         const textarea = event.target.parentNode.parentNode.previousSibling
         navigator.clipboard.writeText(textarea.value);
-        toastNoticeSuccess('클립보드에 복사되었습니다.')
+        toastNoticeSuccess('클립보드에 내용이 복사되었습니다.')
     }
 
     function toggleReadOnly(e, index) {
@@ -344,9 +344,9 @@ const ReportDetail = () => {
                                             {
                                                 isOwn || uType === 99 ?
                                             <div className="edit_btn_box">
-                                                <button onClick={copyToClipboard} className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
-                                                <button onClick={e => toggleReadOnly(e, index)} className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
-                                                <button onClick={e => handleRefreshClick(e, index)} className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
+                                                <button title="복사하기" onClick={copyToClipboard} className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
+                                                <button title="편집하기" onClick={e => toggleReadOnly(e, index)} className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
+                                                <button title="초기화" onClick={e => handleRefreshClick(e, index)} className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
                                             </div>
                                                     : null
                                             }
@@ -473,8 +473,8 @@ const ReportDetail = () => {
                                 {
                                     isOwn || uType === 99 ?
                                 <div className="edit_btn_box">
-                                    <button onClick={toggleReadOnly2} className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
-                                    <button onClick={handleRefreshClick2} className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
+                                    <button title="편집하기" onClick={toggleReadOnly2} className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
+                                    <button title="초기화" onClick={handleRefreshClick2} className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
                                 </div>
                                         : null
                                 }

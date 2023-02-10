@@ -1828,6 +1828,7 @@ const ProjectDetail = () => {
         }
         // console.log(selectedLabelsPersons, '기본 리스트')
         // console.log([...new Set(selectedLabelsPersons)], '중복 제거')
+        console.log(projectInfo, '이거 필요해요')
         let param = {
             "idx_project" : projectInfo.idx_project,
             "idx_project_job_projectid" : projectInfo.idx_project_job_projectid,
@@ -1889,17 +1890,17 @@ const ProjectDetail = () => {
         axios.get(SERVER_URL + 'project/download', {
             params: { "idx_project_job_projectid" : pathSplit }
         }, AXIOS_OPTION).then(res => {
-            console.log(res)
-            const disposition = res.headers['Content-Disposition'];
-            console.log(disposition, '응답헤더값')
-            let filename = 'file.csv';
-            if (disposition) {
-                filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
-            }
+            // console.log(res)
+            // const disposition = res.headers['Content-Disposition'];
+            // console.log(disposition, '응답헤더값')
+            // let filename = 'file.csv';
+            // if (disposition) {
+            //     filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
+            // }
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', filename);
+            link.setAttribute('download', projectInfo.filename);
             document.body.appendChild(link);
             link.click();
         }).catch(err => {
