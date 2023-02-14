@@ -22,7 +22,6 @@ import ProjectDetail from "../Pages/ProjectDetail";
 import FirstLogin from "../Pages/FirstLogin"
 import ScrollToTop from "../Components/Layout/ScrollToTop";
 import {useCookies} from "react-cookie";
-import ProjectDetail2 from "../Pages/proUpdate2";
 
 
 const Routers = () => {
