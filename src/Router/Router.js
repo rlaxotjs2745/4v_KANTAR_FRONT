@@ -22,6 +22,7 @@ import ProjectDetail from "../Pages/ProjectDetail";
 import FirstLogin from "../Pages/FirstLogin"
 import ScrollToTop from "../Components/Layout/ScrollToTop";
 import {useCookies} from "react-cookie";
+import ProjectDetail2 from "../Pages/proUpdate2";
 
 
 const Routers = () => {
@@ -36,6 +37,7 @@ const Routers = () => {
                 <Route path="/" element={<PrivateRoute><LayoutType1/></PrivateRoute>}>
                     <Route index element={<Home/>}/>
                     <Route path="/project_detail/:idx" element={<ProjectDetail/>} />
+                    {/*<Route path="/project_detail/:idx" element={<ProjectDetail2/>} />*/}
                     <Route path="/profile" element={<Profile/>} />
 
                     <Route path="/report" element={<Report/>} />

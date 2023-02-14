@@ -58,7 +58,7 @@ const ProjectKeywordFilterModal = ({
             setSelectedDictData(selectedDictData.filter(dt => newDD.includes(dt)));
 
             setDictAll(false);
-        } else { //체크 했을경우
+        } else { //체크 했을 경우
             const dict = dictionaryList.filter(dt => dt.idx_dictionary === idx)[0];
             setSelectedDict([...selectedDict, dict]);
             axios.get(SERVER_URL + `dict/dictionary_detail?idx_dictionary=${idx}`, AXIOS_OPTION)
@@ -73,10 +73,10 @@ const ProjectKeywordFilterModal = ({
     }
 
     const checkDictData = (keyword) => {
-        if(selectedDictData.filter(dt => dt === keyword).length !== 0){
+        if(selectedDictData.filter(dt => dt === keyword).length !== 0){ // 체크 해제 경우
             setSelectedDictData(selectedDictData.filter(dt => dt !== keyword));
             setDictDataAll(false);
-        } else {
+        } else { // 체크 했을 경우
             const thisDictData = dictData.filter(dt => dt === keyword)[0];
             setSelectedDictData([...selectedDictData, thisDictData]);
         }

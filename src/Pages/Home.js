@@ -47,6 +47,7 @@ const Home = () => {
     const [projectList, setProjectList] = useState('')
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
+    const [stopInterval, setStopInterval] = useState(false);
 
     const [filteredList, setFilteredList] = useState([]) // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]) // console.log(checkedState, '체크 스테이트 확인')
     const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10)); // console.log(checkedIndexes, '체크된 배열값')
@@ -105,24 +106,32 @@ const Home = () => {
     useEffect(()=> {
         fetchData();
         const intervalId = setInterval(fetchData, 10000);
+        if(stopInterval){
+            clearInterval(intervalId);
+        }
         return () => clearInterval(intervalId);
-    },[currentPageNumber])
+    },[currentPageNumber, stopInterval])
 
 
     const fetchData = async () => {
         axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
-            setProjectList(res.data.data.list) // idx_report 최대값 저장 해서 써야함. * 필수
-            setCurrentLastPage(() => {
-                if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
-                    return Math.floor(res.data.data.tcnt/10)
-                } else {
-                    return Math.floor(res.data.data.tcnt/10)+1
-                }
-            })
-            setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid)
-            setUType(res.data.data.uType);
+            if(res.data.success === '1'){
+                setProjectList(res.data.data.list) // idx_report 최대값 저장 해서 써야함. * 필수
+                setCurrentLastPage(() => {
+                    if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
+                        return Math.floor(res.data.data.tcnt/10)
+                    } else {
+                        return Math.floor(res.data.data.tcnt/10)+1
+                    }
+                })
+                setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid)
+                setUType(res.data.data.uType);
+            } else {
+               setStopInterval(true);
+            }
         }).catch(err => {
             console.log(err);
+            setStopInterval(true);
         })
     };
 

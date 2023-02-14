@@ -13,6 +13,14 @@ import {useToastAlert} from "../Util/toastAlert";
 import InfiniteScroller from "../Components/Cards/InfiniteScroller";
 import Profile from "./Profile";
 import ProjectKeywordFilterModal from "../Components/Cards/ProjectKeywordFilterModal";
+import ProjectPersonFilterModal from "../Components/Cards/ProjectPersonFilterModal";
+import ProjectChapterFilterModal from "../Components/Cards/ProjectChapterFilterModal";
+import ProjectSubChapterFilterModal from "../Components/Cards/ProjectSubChapterFilterModal";
+import ProjectQuestionFilterModal from "../Components/Cards/ProjectQuestionFilterModal";
+import ProjectWordCloudDetailModal from "../Components/Cards/ProjectWordCloudDetailModal";
+import ProjectCreateWordCloudModal from "../Components/Cards/ProjectCreateWordCloudModal";
+import ProjectCreateReportModal from "../Components/Cards/ProjectCreateReportModal";
+import ProjectNewFilterPreset from "../Components/Cards/ProjectNewFilterPreset";
 
 const ProjectDetail = () => {
 
@@ -588,7 +596,6 @@ const ProjectDetail = () => {
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'project/project_view', {"idx_project_job_projectid" : pathSplit}, AXIOS_OPTION).then(res => {
-            console.log(res.data, '응답 값 뭐니')
             if(res.data.success === '1'){
                 // console.log(res.data.data.proData, '?124124412142142412?')
                 setProjectDetailList(res.data.data.proData[1])
@@ -601,7 +608,6 @@ const ProjectDetail = () => {
                 toastNoticeError(res.data.msg)
             }
         }).catch(err => {
-            console.log(err, '에러 내용입니다');
             toastNoticeError('에러가 발생했습니다.')
             // navigate('/');
         })
@@ -614,7 +620,6 @@ const ProjectDetail = () => {
     const DeleteFilterPreset = (but) => {
         // let idx = but.target.parentElement.previousElementSibling.id; // 클릭한 요소의 이전형제 요소
         let idx = but.target.parentElement.previousElementSibling.childNodes[0].id;
-        console.log(idx)
         const data = {
             "idx_filter":Number(idx),
         }
@@ -887,18 +892,18 @@ const ProjectDetail = () => {
                 item.question.includes(dictWord) ||
                 item.answer.includes(dictWord)
             ))))
-        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) { // 키워드 제외 모두 선택
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
-        } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
+        } else if (checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) { // 화자, 키워드 제외 모두선택
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question)))
-        } else if ( (checkBoxCount3 > 0 || checkBoxCount4 > 0) && checkBoxCount2 === 0) {
+        } else if ( (checkBoxCount3 > 0 || checkBoxCount4 > 0) && checkBoxCount2 === 0) { // 챕터 초기화 경우
             setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
-        } else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
+        } else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) { // 서브챕터 초기화 경우
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
@@ -1053,7 +1058,7 @@ const ProjectDetail = () => {
         //     setProjectDetailList(projectDetailListOrigin)
         // }
 
-        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
+        if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) { // 필터 모두 선택된 경우
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (
                 item.person.includes(dictWord) ||
                 item.chapter.includes(dictWord) ||
@@ -1547,11 +1552,6 @@ const ProjectDetail = () => {
 
     }, [projectDetailList, projectDetailListFilterOrigin2, projectDetailListFilterOrigin])
 
-    // console.log(projectDetailListOrigin, '서버에서 보내준 오리지널 데이터')
-    // console.log(persons, '화자')
-    // console.log(chapters, '챕터')
-    // console.log(subchapters, '서브챕터')
-    // console.log(questions, '질문')
 
     const [checkAll, setCheckAll] = useState(false);
     const [checkAll2, setCheckAll2] = useState(false);
@@ -1585,11 +1585,24 @@ const ProjectDetail = () => {
     const [dictDataRaw, setDictDataRaw] = useState([]);
 
 
-    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([0, 0, 0]);
-    const handleCheckboxChange = (index, event) => {
+    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([0, 0, 0, 0, 0]);
+
+    const handleCheckboxChange = (index, event, type) => {
         const newCheckboxes = [...createReportCheckboxes];
-        if (index === 2) {
-            newCheckboxes[index] = event.target.checked ? 2 : 0;
+        if(type && type === 'chk'){
+            if(event.target.id === 'chk11'){
+                if(event.target.checked){
+                    newCheckboxes[index] += 1;
+                } else {
+                    newCheckboxes[index] -= 1;
+                }
+            } else {
+                if(event.target.checked){
+                    newCheckboxes[index] += 2;
+                } else {
+                    newCheckboxes[index] -= 2;
+                }
+            }
         } else {
             newCheckboxes[index] = event.target.checked ? 1 : 0;
         }
@@ -1704,7 +1717,6 @@ const ProjectDetail = () => {
 
 
     const CreateFilterPreset = () => {
-        console.log(selectedDictDataR, '선택된 데이터')
         const data = {
             "idx_project_job_projectid":pathSplit,
             "filter_title":filterPresetTitle,
@@ -1716,7 +1728,6 @@ const ProjectDetail = () => {
         }
         axios.post(SERVER_URL + 'filter/create', data, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                // console.log(res.data.msg)
                 toastNoticeSuccess(res.data.msg)
                 setShowModal(false);
                 document.body.classList.remove('fixed');
@@ -1740,9 +1751,6 @@ const ProjectDetail = () => {
 
 
 
-    // console.log(filterPresetList, '필터 정보값')
-    // console.log(selectedFilter, '라디오 선택된 번호')
-    // console.log(uniquePersons, '화자필터 리스트')
     const handlePresetLoad = () => {
         setFilterPresetLoad(filterPresetList.filter(item => item.idx_filter === selectedFilter)[0]);
 
@@ -1751,13 +1759,11 @@ const ProjectDetail = () => {
 
     useEffect(() => {
         if(filterPresetLoad && filterPresetLoad.filterDataList.find(item => item.filter_type === 1) === undefined ) {
-            console.log('화자 없을때')
             setFilterPresetLoadData2(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[0] ? filterPresetLoad.filterDataList[0].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData3(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[1] ? filterPresetLoad.filterDataList[1].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData4(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[2] ? filterPresetLoad.filterDataList[2].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData5(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[3] ? filterPresetLoad.filterDataList[3].filterDataArray.map(item => item.filter_data) : []);
         } else {
-            console.log('화자 있어요')
             setFilterPresetLoadData1(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[0] ? filterPresetLoad.filterDataList[0].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData2(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[1] ? filterPresetLoad.filterDataList[1].filterDataArray.map(item => item.filter_data) : []);
             setFilterPresetLoadData3(filterPresetLoad && filterPresetLoad.filterDataList && filterPresetLoad.filterDataList[2] ? filterPresetLoad.filterDataList[2].filterDataArray.map(item => item.filter_data) : []);
@@ -1767,9 +1773,6 @@ const ProjectDetail = () => {
     }, [filterPresetLoad]);
 
     useEffect(()=> {
-        console.log(filterPresetLoadData5, '이게 무엇인가')
-        console.log(selectedDictR, '??')
-        console.log(selectedDictDataR, '??222')
         setSelectedLabelsPersons(filterPresetLoadData1);
         setSelectedLabelsChapters(filterPresetLoadData2);
         setSelectedLabelsSubchapters(filterPresetLoadData3);
@@ -1785,8 +1788,6 @@ const ProjectDetail = () => {
     }, [filterPresetLoadData1, filterPresetLoadData2, filterPresetLoadData3, filterPresetLoadData4, filterPresetLoadData5])
 
     useEffect(()=> {
-        // console.log(selectedLabelsQuestions)
-        console.log('여기 실행중')
         setProjectDetailList(projectDetailListOrigin.filter(item =>
             (!selectedLabelsPersons || selectedLabelsPersons.length === 0 || selectedLabelsPersons.some(selectedLabel => item.person === selectedLabel)) &&
             (!selectedLabelsChapters || selectedLabelsChapters.length === 0 || selectedLabelsChapters.includes(item.chapter)) &&
@@ -1807,33 +1808,12 @@ const ProjectDetail = () => {
 
     },[presetOn])
 
-    // console.log(filterPresetLoadData1, '화자 데이터')
-    // console.log(filterPresetLoadData2, '챕터 데이터')
-    // console.log(filterPresetLoadData3, '서브챕터 데이터')
-    // console.log(filterPresetLoadData4, '질문 데이터')
-
-    // console.log(selectedLabelsPersons, '화자')
-    // console.log(selectedLabelsChapters, '챕터')
-    // console.log(selectedLabelsSubchapters, '서브챕터')
-    // console.log(selectedLabelsQuestions, '질문')
-
-
-
 
 
     const createReport = () => {
-        // if(selectedLabelsPersons.join("//") === '') {
-        //     return toastNoticeWarning('화자 필터를 선택해주세요.')
-        // }
-        // if(selectedLabelsChapters.join("//") === '') {
-        //     return toastNoticeWarning('챕터 필터를 선택해주세요.')
-        // }
-        // if(selectedLabelsSubchapters.join("//") === '') {
-        //     return toastNoticeWarning('서브챕터 필터를 선택해주세요.')
-        // }
-        // if(selectedLabelsQuestions.join("//") === '') {
-        //     return toastNoticeWarning('질문 필터를 선택해주세요.')
-        // }
+        if(input.value === '' || !input.value){
+            return toastNoticeWarning('리포트 이름을 입력해주세요.');
+        }
 
         const radioButtons = document.getElementsByName('switch');
         let selectedValue;
@@ -1843,23 +1823,23 @@ const ProjectDetail = () => {
                 break;
             }
         }
-        // console.log(selectedLabelsPersons, '기본 리스트')
-        // console.log([...new Set(selectedLabelsPersons)], '중복 제거')
-        console.log(projectInfo, '이거 필요해요')
         let param = {
             "idx_project" : projectInfo.idx_project,
             "idx_project_job_projectid" : projectInfo.idx_project_job_projectid,
-            "report_name" : input.value,
-            "filter_op1" : Number(selectedValue),
-            "filter_op2" : createReportCheckboxes[0],
-            "filter_op3" : Number(`${createReportCheckboxes[1]+createReportCheckboxes[2]}`),
+            "title" : input.value,
+            "rfil0" : createReportCheckboxes[0],
+            "rfil1" : 1,
+            "rfil2" : createReportCheckboxes[1],
+            "rfil3" : createReportCheckboxes[2],
+            "rfil4" : createReportCheckboxes[3],
+            "rfil5" : createReportCheckboxes[4],
             "tp1" : [...new Set(selectedLabelsPersons)].join("//") === '' ? null : [...new Set(selectedLabelsPersons)].join("//"),
             "tp2" : [...new Set(selectedLabelsChapters)].join("//") === '' ? null : [...new Set(selectedLabelsChapters)].join("//"),
             "tp3" : [...new Set(selectedLabelsSubchapters)].join("//") === '' ? null : [...new Set(selectedLabelsSubchapters)].join("//"),
             "tp4" : [...new Set(selectedLabelsQuestions)].join("//") === '' ? null : [...new Set(selectedLabelsQuestions)].join("//"),
             "tp5" : selectedDictDataR.join("//") === '' ? null : selectedDictDataR.join("//")
-            // "tp5" : selectedDictDataR.map(item => item.keyword).join("//")
         }
+
 
         axios.post(SERVER_URL + 'report/save_filter_report', param, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
@@ -1870,7 +1850,6 @@ const ProjectDetail = () => {
             }
         }).catch(err => {
             console.log(err);
-            // toastNoticeError('에러가 발생했습니다.', '', '')
         })
     }
 
@@ -1897,23 +1876,11 @@ const ProjectDetail = () => {
         }
     },[subchapterSubmitHandle])
 
-    // useEffect(()=>{
-    //     console.log('바뀌는중')
-    //     // setSelectedLabelsKeywords(selectedDictDataR.map(item => item.keyword))
-    // },[selectedDictDataR])
-
 
     const handleDownload = () => {
         axios.get(SERVER_URL + 'project/download', {
             params: { "idx_project_job_projectid" : pathSplit }
         }, AXIOS_OPTION).then(res => {
-            // console.log(res)
-            // const disposition = res.headers['Content-Disposition'];
-            // console.log(disposition, '응답헤더값')
-            // let filename = 'file.csv';
-            // if (disposition) {
-            //     filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
-            // }
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
@@ -1923,8 +1890,6 @@ const ProjectDetail = () => {
         }).catch(err => {
             console.log(err);
         })
-
-
     }
 
     return(
@@ -2070,493 +2035,126 @@ const ProjectDetail = () => {
 
             {/* 새 필터 프리셋 모달 */}
             {showModal && (
-                <Modal in_fixed_btn="in_fixed_btn" onClose={handleModalClose}>
-                    <div className="modal_title_box">
-                        <h3 className="tit">새 필터 프리셋</h3>
-                        <button onClick={handleModalClose}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                    </div>
-                    <div className="search_section">
-                        <strong className="sub_tit">새 필터 프리셋 이름</strong>
-                        <div className="input_box">
-                            <input type="text" placeholder="프리셋 이름을 입력해주세요.." name="filter_title" onChange={handleFilterTitle} />
-                            <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
-                        </div>
-                    </div>
-                    <div className="fixed_btn_box">
-                        <button onClick={handleModalClose} type="button">취소</button>
-                        <button type="button" onClick={CreateFilterPreset} type="button" className="co1">생성하기</button>
-                    </div>
-                </Modal>
+                <ProjectNewFilterPreset
+                    key="newFilterPreset"
+                    handleModalClose={handleModalClose}
+                    handleFilterTitle={handleFilterTitle}
+                    CreateFilterPreset={CreateFilterPreset}
+                />
             )}
 
             {/* 리포트 생성 모달 */}
             {showModal2 && (
-                <Modal in_fixed_btn="in_fixed_btn" onClose={handleModalClose2}>
-                    <div className="modal_title_box">
-                        <h3 className="tit">리포트 생성</h3>
-                        <button onClick={handleModalClose2}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                    </div>
-                    <div className="input_text_area">
-                        <div className="flex">
-                            <div className="input_box">
-                                <label htmlFor="project_name required"><em className="title required">프로젝트 이름</em><span>{input.characters}/50</span></label>
-                                <input onChange={(event) => handleChange(setInput, event)} type="text" id="project_name" maxLength="50"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="toggle_check_box">
-                        <div className="left">
-                            <strong className="tit">[요약할 영역을 선택해주세요.]</strong>
-                            <div className="switch_box">
-                                <p className="info">전체 요약을 포함할까요?</p>
-                                <input type="radio" value="1" id="switch1" name="switch" defaultChecked className="input__on-off"/>
-                                <label htmlFor="switch1" className="label__on-off">
-                                    <span className="marble"></span>
-                                    <span className="on"></span>
-                                    <span className="off"></span>
-                                </label>
-                            </div>
-                            <div className="switch_box">
-                                <p className="info">챕터별 요약을 포함 할까요? (기본값 *)</p>
-                                <input type="radio" value="2" id="switch2" name="switch" defaultChecked={checkBoxCount2 > 0} disabled={checkBoxCount2 === 0} className="input__on-off"/>
-                                <label htmlFor="switch2" className="label__on-off">
-                                    <span className="marble"></span>
-                                    <span className="on"></span>
-                                    <span className="off"></span>
-                                </label>
-                            </div>
-                            <div className="switch_box">
-                                <p className="info">서브 챕터별 요약을 포함 할까요?</p>
-                                <input type="radio" value="3" id="switch3" name="switch" className="input__on-off" disabled={checkBoxCount3 === 0}/>
-                                <label htmlFor="switch3" className="label__on-off">
-                                    <span className="marble"></span>
-                                    <span className="on"></span>
-                                    <span className="off"></span>
-                                </label>
-                            </div>
-                            <div className="switch_box">
-                                <p className="info">질문별 요약을 포함 할까요?</p>
-                                <input type="radio" value="4" id="switch4" name="switch" className="input__on-off" disabled={checkBoxCount4 === 0}/>
-                                <label htmlFor="switch4" className="label__on-off">
-                                    <span className="marble"></span>
-                                    <span className="on"></span>
-                                    <span className="off"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div className="right">
-                            <strong className="tit">[추가 옵션을 선택해 주세요.]</strong>
-                            <div className="switch_box">
-                                <p className="info">키워드 추출시 한 글자는 제외 하겠습니까?</p>
-                                <input type="checkbox" id="switch5" name="switch2" className="input__on-off" checked={createReportCheckboxes[0] === 1} onChange={(event) => handleCheckboxChange(0, event)}/>
-                                <label htmlFor="switch5" className="label__on-off">
-                                    <span className="marble"></span>
-                                    <span className="on"></span>
-                                    <span className="off"></span>
-                                </label>
-                            </div>
-                            <div className="label_box">
-                                <div className="left">
-                                    <span>키워드 품사 형태를 선택하여 보겠습니까?</span>
-                                </div>
-                                <div className="right">
-                                    <div className="input_box"><input id="chk11" type="checkbox" checked={createReportCheckboxes[1] === 1} onChange={(event) => handleCheckboxChange(1, event)}/><label htmlFor="chk11">명사</label></div>
-                                    <div className="input_box"><input id="chk22" type="checkbox" checked={createReportCheckboxes[2] === 2} onChange={(event) => handleCheckboxChange(2, event)}/><label htmlFor="chk22">형용사</label></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="fixed_btn_box">
-                        <p className="tip">* 항목들은 선택된 필터에 따라 활성화 혹은 비활성화 될 수 있습니다.</p>
-                        <button onClick={handleModalClose2} type="button">취소</button>
-                        <button onClick={createReport} type="button" className="co1">생성하기</button>
-                    </div>
-
-                </Modal>
+                <ProjectCreateReportModal
+                    key="createReportModal"
+                    handleModalClose2={handleModalClose2}
+                    input={input}
+                    handleChange={handleChange}
+                    setInput={setInput}
+                    createReportCheckboxes={createReportCheckboxes}
+                    handleCheckboxChange={handleCheckboxChange}
+                    checkBoxCount3={checkBoxCount3}
+                    checkBoxCount4={checkBoxCount4}
+                    createReport={createReport}
+                />
             )}
 
             {/* 워드 클라우드 생성 모달 */}
             {showModal4 && (
-                <Modal onClose={handleModalClose4}>
-                    <div className="modal_title_box">
-                        <h3 className="tit">새 워드 클라우드</h3>
-                        <button onClick={handleModalClose4}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                    </div>
-                    <div className="input_text_area">
-                        <div className="flex word_cloud">
-                            <div className="input_box">
-                                <label htmlFor="project_name required"><em className="title required">새 워드 클라우드 이름</em><span>{input2.characters}/20</span></label>
-                                <input onChange={(event) => handleChange(setInput2, event)} type="text" maxLength="20"/>
-                            </div>
-                            <button type="button" className="plus cds--btn">생성하기</button>
-                        </div>
-                    </div>
-                    <div className="cloud_history_area">
-                        <strong className="tit">클라우드 생성 히스토리</strong>
-                        <div className="cloud_history_box">
-                            <div className="table_area">
-                                <table className="table_type1">
-                                    <colgroup>
-                                        <col/>
-                                        <col/>
-                                        <col/>
-                                        <col/>
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th>이름</th>
-                                        <th>필터</th>
-                                        <th>생성일자</th>
-                                        <th>상세보기</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>워드클라우드A01</td>
-                                        <td>
-                                            <button className="hover_count" type="type">화자 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">서브챕터 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">질문 <span className="count">2</span></button>
-                                            <button className="hover_count" type="type">키워드</button>
-                                        </td>
-                                        <td>2022.10.21 16:33</td>
-                                        <td><button onClick={handleButtonClick5} type="button">상세보기</button></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <div className="table_pagination">
-                                    <span className="page_num">Page 1</span>
-                                    <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                                    <button type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </Modal>
+                <ProjectCreateWordCloudModal
+                    key="createWordCloudModal"
+                    handleModalClose4={handleModalClose4}
+                    input2={input2}
+                    handleChange={handleChange}
+                    setInput2={setInput2}
+                    handleButtonClick5={handleButtonClick5}
+                />
             )}
 
             {/* 워드 클라우드 상세 모달 */}
             {showModal5 && (
-                <div className="word_cloud_detail">
-                    <div className="file_upload_area">
-                        <div className="head type2">
-                            <h2>워드클라우드A02</h2>
-                            <button onClick={handleModalClose5}>
-                                <img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
-                            </button>
-                        </div>
-                    </div>
-                    <div className="word_cloud_detail_content report_detail_area">
-                        <div className="input_box">
-                            <label htmlFor="detail_filter">적용된 필터값</label>
-                            <div className="filter_area">
-                                <div className="filter_box">
-                                    <strong className="tit">화자</strong>
-                                    <span className="keyword">화자 A</span>
-                                    <span className="keyword">화자 D</span>
-                                    <span className="keyword">화자 E</span>
-                                </div>
-                                <div className="flex">
-                                    <div className="filter_box">
-                                        <strong className="tit">챕터</strong>
-                                        <span className="keyword">챕터 A</span>
-                                        <span className="keyword">챕터 C</span>
-                                        <span className="keyword">챕터 R</span>
-                                    </div>
-                                    <div className="filter_box">
-                                        <strong className="tit">서브챕터</strong>
-                                        <span className="keyword">서브챕터 A-1</span>
-                                        <span className="keyword">서브챕터 C-1</span>
-                                    </div>
-                                </div>
-                                <div className="filter_box">
-                                    <strong className="tit">질문</strong>
-                                    <span className="keyword">질문 A-1-1</span>
-                                    <span className="keyword">질문 A-1-2</span>
-                                </div>
-                                <div className="filter_box">
-                                    <strong className="tit">키워드</strong>
-                                    <span className="keyword">키워드 01</span>
-                                    <span className="keyword">키워드 02</span>
-                                    <span className="keyword">키워드 03</span>
-                                    <span className="keyword">키워드 04</span>
-                                    <span className="keyword">키워드 05</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="word_cloud_img_box">
-                            <ReactWordcloud options={options} words={words} />
-                        </div>
-                        <div className="btn_box">
-                            <a className="no_ico cds--btn" href="#none" download>이미지 다운로드</a>
-                        </div>
-                    </div>
-
-                </div>
+                <ProjectWordCloudDetailModal
+                    key="wordCloudDetailModal"
+                    handleModalClose5={handleModalClose5}
+                    options={options}
+                    words={words}
+                />
             )}
 
-
             {/*  화자 모달  */}
-            <div onClick={handleModalFilterClose1} className={showFilterModal1? 'modal_area on' : 'modal_area off'}>
-                <div className="modal_layout">
-                    <div className="modal">
-                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
-                            <div className="modal_title_box baseline">
-                                <div className="title_box">
-                                    <h3 className="tit">화자 필터</h3>
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                                </div>
-                                <button onClick={handleModalFilterClose1}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                            </div>
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter1" onChange={handleCheckAll1} checked={checkAll}/>
-                                    <label htmlFor="filter1">전체선택</label>
-                                </div>
-                                <>
-                                    {uniquePersons.map(item => (
-                                        <div className="input_box">
-                                            <input id={item} type="checkbox"
-                                                   onChange={(e) => handleCheckboxChangePersons(e, item)}
-                                                   checked={selectedLabelsPersons.includes(item)}/>
-                                            <label htmlFor={item}>{item}</label>
-                                        </div>
-                                    ))}
-                                </>
-                            </div>
-                            <div className="fixed_btn_box">
-                                <button onClick={handleModalFilterClose1} type="button">취소</button>
-                                <button onClick={handleModalFilterSubmit1} type="button" className="co1">선택완료</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ProjectPersonFilterModal
+                key="personModal"
+                handleModalFilterClose1={handleModalFilterClose1}
+                showFilterModal1={showFilterModal1}
+                handleCheckAll1={handleCheckAll1}
+                checkAll={checkAll}
+                uniquePersons={uniquePersons}
+                handleCheckboxChangePersons={handleCheckboxChangePersons}
+                selectedLabelsPersons={selectedLabelsPersons}
+                handleModalFilterSubmit1={handleModalFilterSubmit1}
+            />
 
             {/*  챕터 모달  */}
-            <div onClick={handleModalFilterClose2} className={showFilterModal2? 'modal_area on' : 'modal_area off'}>
-                <div className="modal_layout">
-                    <div className="modal">
-                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
-                            <div className="modal_title_box baseline">
-                                <div className="title_box">
-                                    <h3 className="tit">챕터 필터</h3>
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                                </div>
-                                <button onClick={handleModalFilterClose2}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                            </div>
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter2" onChange={handleCheckAll2} checked={checkAll2}/>
-                                    <label htmlFor="filter2">전체선택</label>
-                                </div>
-                                <>
-                                    {uniqueChapters.map(item => (
-                                        <div className="input_box">
-                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeChapters(e, item)} checked={selectedLabelsChapters.includes(item)}/>
-                                            <label htmlFor={item}>{item}</label>
-                                        </div>
-                                    ))}
-                                </>
-                            </div>
-                            <div className="fixed_btn_box">
-                                <button onClick={handleModalFilterClose2} type="button">취소</button>
-                                <button onClick={handleModalFilterSubmit2} type="button" className="co1">선택완료</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ProjectChapterFilterModal
+                key="chapterFilterModal"
+                handleModalFilterClose2={handleModalFilterClose2}
+                showFilterModal2={showFilterModal2}
+                handleCheckAll2={handleCheckAll2}
+                checkAll2={checkAll2}
+                uniqueChapters={uniqueChapters}
+                selectedLabelsChapters={selectedLabelsChapters}
+                handleCheckboxChangeChapters={handleCheckboxChangeChapters}
+                handleModalFilterSubmit2={handleModalFilterSubmit2}
+            />
 
             {/*  서브챕터 모달  */}
-            <div onClick={handleModalFilterClose3} className={showFilterModal3? 'modal_area on' : 'modal_area off'}>
-                <div className="modal_layout">
-                    <div className="modal"  >
-                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
-                            <div className="modal_title_box baseline">
-                                <div className="title_box">
-                                    <h3 className="tit">서브챕터 필터</h3>
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                                </div>
-                                <button onClick={handleModalFilterClose3}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                            </div>
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter3" onChange={handleCheckAll3} checked={checkAll3}/>
-                                    <label htmlFor="filter3">전체선택</label>
-                                </div>
-                                <>
-                                    {uniqueSubchapters.map(item => (
-                                        <div className="input_box">
-                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeSubchapters(e, item)} checked={selectedLabelsSubchapters.includes(item)}/>
-                                            <label htmlFor={item}>{item}</label>
-                                        </div>
-                                    ))}
-                                </>
-                            </div>
-                            <div className="fixed_btn_box">
-                                <button onClick={handleModalFilterClose3} type="button">취소</button>
-                                <button onClick={handleModalFilterSubmit3} type="button" className="co1">선택완료</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ProjectSubChapterFilterModal
+                key="subChapterFilterModal"
+                handleModalFilterClose3={handleModalFilterClose3}
+                showFilterModal3={showFilterModal3}
+                handleCheckAll3={handleCheckAll3}
+                checkAll3={checkAll3}
+                uniqueSubchapters={uniqueSubchapters}
+                selectedLabelsSubchapters={selectedLabelsSubchapters}
+                handleCheckboxChangeSubchapters={handleCheckboxChangeSubchapters}
+                handleModalFilterSubmit3={handleModalFilterSubmit3}
+            />
 
             {/*  질문 모달  */}
-            <div onClick={handleModalFilterClose4} className={showFilterModal4? 'modal_area on' : 'modal_area off'}>
-                <div className="modal_layout">
-                    <div className="modal"  >
-                        <div className="modal_content in_fixed_btn" onClick={(e)=>e.stopPropagation()}>
-                            <div className="modal_title_box baseline">
-                                <div className="title_box">
-                                    <h3 className="tit">질문 필터</h3>
-                                    <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
-                                </div>
-                                <button onClick={handleModalFilterClose4}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
-                            </div>
-                            <div className="filter_check_box">
-                                <div className="input_box end">
-                                    <input type="checkbox" id="filter4" onChange={handleCheckAll4} checked={checkAll4}/>
-                                    <label htmlFor="filter4">전체선택</label>
-                                </div>
-                                <>
-                                    {uniqueQuestions.map(item => (
-                                        <div className="input_box">
-                                            <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeQuestions(e, item)} checked={selectedLabelsQuestions.includes(item)}/>
-                                            <label htmlFor={item}>{item}</label>
-                                        </div>
-                                    ))}
-                                </>
-                            </div>
-                            <div className="fixed_btn_box">
-                                <button onClick={handleModalFilterClose4} type="button">취소</button>
-                                <button onClick={handleModalFilterSubmit4} type="button" className="co1">선택완료</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ProjectQuestionFilterModal
+                key="questionFilterModal"
+                handleModalFilterClose4={handleModalFilterClose4}
+                showFilterModal4={showFilterModal4}
+                handleCheckAll4={handleCheckAll4}
+                checkAll4={checkAll4}
+                uniqueQuestions={uniqueQuestions}
+                selectedLabelsQuestions={selectedLabelsQuestions}
+                handleModalFilterSubmit4={handleModalFilterSubmit4}
+                handleCheckboxChangeQuestions={handleCheckboxChangeQuestions}
+            />
 
             {/*  키워드 모달  */}
-            {
-                showFilterModal5 ? <ProjectKeywordFilterModal handleModalFilterClose5={handleModalFilterClose5} showFilterModal5={showFilterModal5} handleModalFilterSubmit5={handleModalFilterSubmit5}
-                                                              setSelectedDictR={setSelectedDictR}
-                                                              setDictDataR={setDictDataR}
-                                                              setSelectedDictDataR={setSelectedDictDataR}
-                                                              setDictAllR={setDictAllR}
-                                                              setDictDataAllR={setDictDataAllR}
-                                                              selectedDictR={selectedDictR}
-                                                              dictDataR={dictDataR}
-                                                              selectedDictDataR={selectedDictDataR}
-                                                              dictAllR={dictAllR}
-                                                              dictDataAllR={dictDataAllR}
-                                                              dictDataRaw={dictDataRaw}
-                                                              setDictDataRaw={setDictDataRaw}
-                /> : null
-            }
+            {showFilterModal5 && (
+                    <ProjectKeywordFilterModal
+                        handleModalFilterClose5={handleModalFilterClose5}
+                        showFilterModal5={showFilterModal5}
+                        handleModalFilterSubmit5={handleModalFilterSubmit5}
+                        setSelectedDictR={setSelectedDictR}
+                        setDictDataR={setDictDataR}
+                        setSelectedDictDataR={setSelectedDictDataR}
+                        setDictAllR={setDictAllR}
+                        setDictDataAllR={setDictDataAllR}
+                        selectedDictR={selectedDictR}
+                        dictDataR={dictDataR}
+                        selectedDictDataR={selectedDictDataR}
+                        dictAllR={dictAllR}
+                        dictDataAllR={dictDataAllR}
+                        dictDataRaw={dictDataRaw}
+                        setDictDataRaw={setDictDataRaw}
+                />
+            )}
         </>
     )
-
 }
 
 export default ProjectDetail;
