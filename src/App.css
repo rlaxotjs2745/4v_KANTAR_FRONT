@@ -483,3 +483,5 @@ input[type="radio"].input__on-off, input[type="checkbox"].input__on-off {display
 
 .reportSummaryBox {max-height: 480px; overflow: scroll;}
 .reportSummaryBox > div + div {margin-top: 20px;}
+
+.btn_top {position: fixed; bottom:10%; right:20%; z-index: 99}

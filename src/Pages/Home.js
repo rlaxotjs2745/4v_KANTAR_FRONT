@@ -232,6 +232,12 @@ const Home = () => {
     return (
         <>
             <div className="page">
+                <div className="search_section">
+                    <div className="input_box">
+                        <input type="text" placeholder="검색어를 입력하세요."/>
+                        <button type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                    </div>
+                </div>
                 <div className="title_section">
                     <div className="title_box">
                         <h3 className="title">프로젝트 원본 파일</h3>
