@@ -104,7 +104,6 @@ const Report = () => {
         } else {
             setCurrentPageNumber(currentPageNumber + 1)
         }
-
     };
 
     return (

@@ -1,11 +1,22 @@
 import ReactWordcloud from "react-wordcloud";
-import React from "react";
+import React, {useMemo} from "react";
+
+
+
 
 const ProjectWordCloudDetailModal = ({
                                          handleModalClose5,
                                          options,
-                                         words
+                                         words,
+                                         cloudFilter,
+                                         capture
                                      }) => {
+
+    const WordCloud = ({ options, words }) => {
+        return <ReactWordcloud options={options} words={words} />;
+    };
+    const MemoizedWordCloud = useMemo(() => WordCloud, [options, words]);
+
 
     return (
         <div className="word_cloud_detail">
@@ -19,48 +30,44 @@ const ProjectWordCloudDetailModal = ({
             </div>
             <div className="word_cloud_detail_content report_detail_area">
                 <div className="input_box">
-                    <label htmlFor="detail_filter">적용된 필터값</label>
-                    <div className="filter_area">
-                        <div className="filter_box">
-                            <strong className="tit">화자</strong>
-                            <span className="keyword">화자 A</span>
-                            <span className="keyword">화자 D</span>
-                            <span className="keyword">화자 E</span>
+
+                    {cloudFilter && cloudFilter.length ?
+                        <>
+                            <label htmlFor="detail_filter">적용된 필터값</label>
+                            <div className="filter_area">
+                            {
+                                cloudFilter.map(item =>(
+                                    <>
+                                        <div className="filter_box">
+                                            <strong className="tit">
+                                                {item.filter_type === 1 ? '화자' :
+                                                    item.filter_type === 2 ? '챕터' :
+                                                        item.filter_type === 3 ? '서브챕터' :
+                                                            item.filter_type === 4 ? '질문' :
+                                                                item.filter_type === 5 ? '키워드' : null
+                                                }
+                                            </strong>
+                                            {item.filterDataArray.map(item => (
+                                                <span className="keyword">{item.filter_data}</span>
+                                            ))}
+                                        </div>
+                                    </>
+                                ))
+                            }
                         </div>
-                        <div className="flex">
-                            <div className="filter_box">
-                                <strong className="tit">챕터</strong>
-                                <span className="keyword">챕터 A</span>
-                                <span className="keyword">챕터 C</span>
-                                <span className="keyword">챕터 R</span>
-                            </div>
-                            <div className="filter_box">
-                                <strong className="tit">서브챕터</strong>
-                                <span className="keyword">서브챕터 A-1</span>
-                                <span className="keyword">서브챕터 C-1</span>
-                            </div>
-                        </div>
-                        <div className="filter_box">
-                            <strong className="tit">질문</strong>
-                            <span className="keyword">질문 A-1-1</span>
-                            <span className="keyword">질문 A-1-2</span>
-                        </div>
-                        <div className="filter_box">
-                            <strong className="tit">키워드</strong>
-                            <span className="keyword">키워드 01</span>
-                            <span className="keyword">키워드 02</span>
-                            <span className="keyword">키워드 03</span>
-                            <span className="keyword">키워드 04</span>
-                            <span className="keyword">키워드 05</span>
-                        </div>
-                    </div>
+                        </>
+                     : <label htmlFor="detail_filter">적용된 필터가 없습니다.</label>
+                    }
                 </div>
-                <div className="word_cloud_img_box">
-                    <ReactWordcloud options={options} words={words} />
+                <div className="word_cloud_img_box" id="word_cloud_img_box">
+                    {/*<ReactWordcloud options={options} words={words} />*/}
+                    <MemoizedWordCloud options={options} words={words} />
+
                 </div>
                 <div className="btn_box">
-                    <a className="no_ico cds--btn" href="#none" download>이미지 다운로드</a>
+                    <button className="no_ico cds--btn" onClick={capture}>이미지 다운로드</button>
                 </div>
+
             </div>
 
         </div>
@@ -68,3 +75,4 @@ const ProjectWordCloudDetailModal = ({
 }
 
 export default ProjectWordCloudDetailModal;
+

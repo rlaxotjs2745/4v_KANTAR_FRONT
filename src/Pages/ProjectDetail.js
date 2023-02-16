@@ -22,6 +22,7 @@ import ProjectWordCloudDetailModal from "../Components/Cards/ProjectWordCloudDet
 import ProjectCreateWordCloudModal from "../Components/Cards/ProjectCreateWordCloudModal";
 import ProjectCreateReportModal from "../Components/Cards/ProjectCreateReportModal";
 import ProjectNewFilterPreset from "../Components/Cards/ProjectNewFilterPreset";
+import html2canvas from 'html2canvas';
 
 const ProjectDetail = () => {
 
@@ -34,515 +35,16 @@ const ProjectDetail = () => {
         toastNoticeWarning,
     } = useToastAlert();
 
-    const words = [
-        {
-            text: 'told',
-            value: 64,
-        },
-        {
-            text: 'mistake',
-            value: 11,
-        },
-        {
-            text: 'thought',
-            value: 16,
-        },
-        {
-            text: 'bad',
-            value: 17,
-        },
-        {
-            text: 'correct',
-            value: 10,
-        },
-        {
-            text: 'day',
-            value: 54,
-        },
-        {
-            text: 'prescription',
-            value: 12,
-        },
-        {
-            text: 'time',
-            value: 77,
-        },
-        {
-            text: 'thing',
-            value: 45,
-        },
-        {
-            text: 'left',
-            value: 19,
-        },
-        {
-            text: 'pay',
-            value: 13,
-        },
-        {
-            text: 'people',
-            value: 32,
-        },
-        {
-            text: 'month',
-            value: 22,
-        },
-        {
-            text: 'again',
-            value: 35,
-        },
-        {
-            text: 'review',
-            value: 24,
-        },
-        {
-            text: 'call',
-            value: 38,
-        },
-        {
-            text: 'doctor',
-            value: 70,
-        },
-        {
-            text: 'asked',
-            value: 26,
-        },
-        {
-            text: 'finally',
-            value: 14,
-        },
-        {
-            text: 'insurance',
-            value: 29,
-        },
-        {
-            text: 'week',
-            value: 41,
-        },
-        {
-            text: 'called',
-            value: 49,
-        },
-        {
-            text: 'problem',
-            value: 20,
-        },
-        {
-            text: 'going',
-            value: 59,
-        },
-        {
-            text: 'help',
-            value: 49,
-        },
-        {
-            text: 'felt',
-            value: 45,
-        },
-        {
-            text: 'discomfort',
-            value: 11,
-        },
-        {
-            text: 'lower',
-            value: 22,
-        },
-        {
-            text: 'severe',
-            value: 12,
-        },
-        {
-            text: 'free',
-            value: 38,
-        },
-        {
-            text: 'better',
-            value: 54,
-        },
-        {
-            text: 'muscle',
-            value: 14,
-        },
-        {
-            text: 'neck',
-            value: 41,
-        },
-        {
-            text: 'root',
-            value: 24,
-        },
-        {
-            text: 'adjustment',
-            value: 16,
-        },
-        {
-            text: 'therapy',
-            value: 29,
-        },
-        {
-            text: 'injury',
-            value: 20,
-        },
-        {
-            text: 'excruciating',
-            value: 10,
-        },
-        {
-            text: 'chronic',
-            value: 13,
-        },
-        {
-            text: 'chiropractor',
-            value: 35,
-        },
-        {
-            text: 'treatment',
-            value: 59,
-        },
-        {
-            text: 'tooth',
-            value: 32,
-        },
-        {
-            text: 'chiropractic',
-            value: 17,
-        },
-        {
-            text: 'dr',
-            value: 77,
-        },
-        {
-            text: 'relief',
-            value: 19,
-        },
-        {
-            text: 'shoulder',
-            value: 26,
-        },
-        {
-            text: 'nurse',
-            value: 17,
-        },
-        {
-            text: 'room',
-            value: 22,
-        },
-        {
-            text: 'hour',
-            value: 35,
-        },
-        {
-            text: 'wait',
-            value: 38,
-        },
-        {
-            text: 'hospital',
-            value: 11,
-        },
-        {
-            text: 'eye',
-            value: 13,
-        },
-        {
-            text: 'test',
-            value: 10,
-        },
-        {
-            text: 'appointment',
-            value: 49,
-        },
-        {
-            text: 'medical',
-            value: 19,
-        },
-        {
-            text: 'question',
-            value: 20,
-        },
-        {
-            text: 'office',
-            value: 64,
-        },
-        {
-            text: 'care',
-            value: 54,
-        },
-        {
-            text: 'minute',
-            value: 29,
-        },
-        {
-            text: 'waiting',
-            value: 16,
-        },
-        {
-            text: 'patient',
-            value: 59,
-        },
-        {
-            text: 'health',
-            value: 49,
-        },
-        {
-            text: 'alternative',
-            value: 24,
-        },
-        {
-            text: 'holistic',
-            value: 19,
-        },
-        {
-            text: 'traditional',
-            value: 20,
-        },
-        {
-            text: 'symptom',
-            value: 29,
-        },
-        {
-            text: 'internal',
-            value: 17,
-        },
-        {
-            text: 'prescribed',
-            value: 26,
-        },
-        {
-            text: 'acupuncturist',
-            value: 16,
-        },
-        {
-            text: 'pain',
-            value: 64,
-        },
-        {
-            text: 'integrative',
-            value: 10,
-        },
-        {
-            text: 'herb',
-            value: 13,
-        },
-        {
-            text: 'sport',
-            value: 22,
-        },
-        {
-            text: 'physician',
-            value: 41,
-        },
-        {
-            text: 'herbal',
-            value: 11,
-        },
-        {
-            text: 'eastern',
-            value: 12,
-        },
-        {
-            text: 'chinese',
-            value: 32,
-        },
-        {
-            text: 'acupuncture',
-            value: 45,
-        },
-        {
-            text: 'prescribe',
-            value: 14,
-        },
-        {
-            text: 'medication',
-            value: 38,
-        },
-        {
-            text: 'western',
-            value: 35,
-        },
-        {
-            text: 'sure',
-            value: 38,
-        },
-        {
-            text: 'work',
-            value: 64,
-        },
-        {
-            text: 'smile',
-            value: 17,
-        },
-        {
-            text: 'teeth',
-            value: 26,
-        },
-        {
-            text: 'pair',
-            value: 11,
-        },
-        {
-            text: 'wanted',
-            value: 20,
-        },
-        {
-            text: 'frame',
-            value: 13,
-        },
-        {
-            text: 'lasik',
-            value: 10,
-        },
-        {
-            text: 'amazing',
-            value: 41,
-        },
-        {
-            text: 'fit',
-            value: 14,
-        },
-        {
-            text: 'happy',
-            value: 22,
-        },
-        {
-            text: 'feel',
-            value: 49,
-        },
-        {
-            text: 'glasse',
-            value: 19,
-        },
-        {
-            text: 'vision',
-            value: 12,
-        },
-        {
-            text: 'pressure',
-            value: 16,
-        },
-        {
-            text: 'find',
-            value: 29,
-        },
-        {
-            text: 'experience',
-            value: 59,
-        },
-        {
-            text: 'year',
-            value: 70,
-        },
-        {
-            text: 'massage',
-            value: 35,
-        },
-        {
-            text: 'best',
-            value: 54,
-        },
-        {
-            text: 'mouth',
-            value: 20,
-        },
-        {
-            text: 'staff',
-            value: 64,
-        },
-        {
-            text: 'gum',
-            value: 10,
-        },
-        {
-            text: 'chair',
-            value: 12,
-        },
-        {
-            text: 'ray',
-            value: 22,
-        },
-        {
-            text: 'dentistry',
-            value: 11,
-        },
-        {
-            text: 'canal',
-            value: 13,
-        },
-        {
-            text: 'procedure',
-            value: 32,
-        },
-        {
-            text: 'filling',
-            value: 26,
-        },
-        {
-            text: 'gentle',
-            value: 19,
-        },
-        {
-            text: 'cavity',
-            value: 17,
-        },
-        {
-            text: 'crown',
-            value: 14,
-        },
-        {
-            text: 'cleaning',
-            value: 38,
-        },
-        {
-            text: 'hygienist',
-            value: 24,
-        },
-        {
-            text: 'dental',
-            value: 59,
-        },
-        {
-            text: 'charge',
-            value: 24,
-        },
-        {
-            text: 'cost',
-            value: 29,
-        },
-        {
-            text: 'charged',
-            value: 13,
-        },
-        {
-            text: 'spent',
-            value: 17,
-        },
-        {
-            text: 'paying',
-            value: 14,
-        },
-        {
-            text: 'pocket',
-            value: 12,
-        },
-        {
-            text: 'dollar',
-            value: 11,
-        },
-        {
-            text: 'business',
-            value: 32,
-        },
-        {
-            text: 'refund',
-            value: 10,
-        },
-    ]
+
+    const [cloudFilter, setCloudFilter] = useState([]);
+    const [words, setWords] = useState([]);
 
     const options = {
         colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"],
         enableTooltip: true,
         deterministic: false,
         fontFamily: "impact",
-        fontSizes: [5, 60],
+        fontSizes: [15, 60],
         fontStyle: "normal",
         fontWeight: "normal",
         padding: 1,
@@ -552,6 +54,8 @@ const ProjectDetail = () => {
         spiral: "archimedean",
         transitionDuration: 1000
     };
+
+    const [wordcloudDataList, setWordCloudDataList] = useState(null);
 
     const { pathname } = useLocation();
     const navigate = useNavigate()
@@ -617,6 +121,8 @@ const ProjectDetail = () => {
     useEffect(()=> {
         // console.log(projectDetailList, '바뀌나요?')
     },[projectDetailList])
+
+
 
     const DeleteFilterPreset = (but) => {
         // let idx = but.target.parentElement.previousElementSibling.id; // 클릭한 요소의 이전형제 요소
@@ -1497,7 +1003,8 @@ const ProjectDetail = () => {
     };
 
     // 워드 클라우드 생성 모달
-    const handleButtonClick4 = (newValue) => {
+    const handleButtonClick4 = (idx) => {
+
         setShowModal4(true);
         document.body.classList.add('fixed');
     };
@@ -1508,9 +1015,24 @@ const ProjectDetail = () => {
     };
 
     // 워드 클라우드 상세페이지 모달
-    const handleButtonClick5 = (newValue) => {
-        setShowModal5(true);
-        document.body.classList.add('fixed');
+    const handleButtonClick5 = (but) => {
+        let idx = Number(but.target.parentElement.parentElement.id); // 클릭한 요소의 부모의 부모의 id값
+        axios.post(SERVER_URL + 'word/wordcloud_view', {"idx_wordcloud" : idx} , AXIOS_OPTION).then(res => {
+
+            if(res.data.success === '1'){
+                setWords(res.data.data.keyword)
+                setCloudFilter(res.data.data.filter)
+                setShowModal5(true);
+                document.body.classList.add('fixed');
+            } else {
+
+            }
+        }).catch(err => {
+            console.log(err);
+            toastNoticeError('에러가 발생했습니다.', '', '')
+        })
+
+
     };
 
     const handleModalClose5 = () => {
@@ -1904,23 +1426,113 @@ const ProjectDetail = () => {
     }
     useEffect(() => {
         const handleShowButton = () => {
-            if (window.scrollY > 500) {
+            if (window.scrollY > 300) {
                 setShowButton(true)
             } else {
                 setShowButton(false)
             }
         }
 
-        console.log(window.scrollY)
         window.addEventListener("scroll", handleShowButton)
         return () => {
             window.removeEventListener("scroll", handleShowButton)
         }
     }, [])
+
+    const createWordCloud = () => {
+        const data = {
+            "idx_project_job_projectid" : projectInfo.idx_project_job_projectid,
+            "title":input2.value,
+            "tp1" : [...new Set(selectedLabelsPersons)].join("//") === '' ? null : [...new Set(selectedLabelsPersons)].join("//"),
+            "tp2" : [...new Set(selectedLabelsChapters)].join("//") === '' ? null : [...new Set(selectedLabelsChapters)].join("//"),
+            "tp3" : [...new Set(selectedLabelsSubchapters)].join("//") === '' ? null : [...new Set(selectedLabelsSubchapters)].join("//"),
+            "tp4" : [...new Set(selectedLabelsQuestions)].join("//") === '' ? null : [...new Set(selectedLabelsQuestions)].join("//"),
+            "tp5" : selectedDictDataR.join("//") === '' ? null : selectedDictDataR.join("//")
+        }
+
+        axios.post(SERVER_URL + 'word/save_word_cloud', data, AXIOS_OPTION).then(res => {
+            if(res.data.success === '1'){
+                toastNoticeSuccess(res.data.msg)
+                setShowModal4(false)
+            } else {
+                toastNoticeError(res.data.msg)
+            }
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    const [currentLastPage, setCurrentLastPage] = useState(1)
+    const [currentPageNumber, setCurrentPageNumber] = useState(1)
+
+    useEffect(()=> {
+        fetchData();
+        // const intervalId = setInterval(fetchData, 10000);
+        // return () => clearInterval(intervalId);
+    },[currentPageNumber, showModal4])
+
+    const fetchData = async () => {
+        axios.post(SERVER_URL + 'word/list_wordcloud', {"idx_project_job_projectid" : pathSplit, "currentPage" : currentPageNumber}, AXIOS_OPTION).then(res => {
+            console.log(res.data.data, '확인좀')
+            if(res.data.success === '1'){
+                setWordCloudDataList(res.data.data)
+                setCurrentLastPage(() => {
+                    if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
+                        return Math.floor(res.data.data.tcnt/10)
+                    } else {
+                        return Math.floor(res.data.data.tcnt/10)+1
+                    }
+                })
+            } else if(res.data.success === '0'){
+                // navigate('/');
+                // toastNoticeError(res.data.msg)
+            }
+        }).catch(err => {
+            toastNoticeError('에러가 발생했습니다.')
+            // navigate('/');
+        })
+    };
+
+    let handleLeftClick = () => {
+        if (currentPageNumber > 1) {
+            setCurrentPageNumber(currentPageNumber - 1);
+        } else {
+            toastNoticeWarning('첫번째 페이지 입니다.')
+            setCurrentPageNumber(1);
+        }
+    };
+
+    let handleRightClick = () => {
+        if(currentPageNumber === currentLastPage) {
+            toastNoticeWarning('마지막 페이지 입니다.')
+        } else {
+            setCurrentPageNumber(currentPageNumber + 1)
+        }
+    };
+
+    const [image, setImage] = useState(null);
+
+    const capture = () => {
+        const wordCloudBox = document.getElementById('word_cloud_img_box');
+        html2canvas(wordCloudBox, {
+            scrollX: 0, // 가로 스크롤 위치
+            scrollY: 0, // 세로 스크롤 위치
+        }).then(canvas => {
+            const imgData = canvas.toDataURL();
+            setImage(imgData);
+            const link = document.createElement('a');
+            link.download = 'word_cloud.png';
+            link.href = imgData;
+            link.click();
+        });
+    }
+
     return(
         <>
             <div className="page">
-                <button id="top" onClick={scrollToTop} className="btn_top"><img src={process.env.PUBLIC_URL + '/assets/image/btn_top.svg'} alt=""/></button>
+                {showButton &&
+                    <button id="top" onClick={scrollToTop} className="btn_top"><img src={process.env.PUBLIC_URL + '/assets/image/btn_top.svg'} alt=""/></button>
+                }
                 <form>
                     <div className="file_upload_area">
                         <div className="head">
@@ -2094,6 +1706,11 @@ const ProjectDetail = () => {
                     handleChange={handleChange}
                     setInput2={setInput2}
                     handleButtonClick5={handleButtonClick5}
+                    wordcloudDataList={wordcloudDataList}
+                    createWordCloud={createWordCloud}
+                    handleLeftClick={handleLeftClick}
+                    handleRightClick={handleRightClick}
+                    currentPageNumber={currentPageNumber}
                 />
             )}
 
@@ -2104,6 +1721,9 @@ const ProjectDetail = () => {
                     handleModalClose5={handleModalClose5}
                     options={options}
                     words={words}
+                    cloudFilter={cloudFilter}
+                    image={image}
+                    capture={capture}
                 />
             )}
 

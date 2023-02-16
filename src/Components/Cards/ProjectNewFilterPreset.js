@@ -5,6 +5,7 @@ const ProjectNewFilterPreset = ({
                                     handleModalClose,
                                     handleFilterTitle,
                                     CreateFilterPreset
+
                                 }) => {
     return (
         <Modal in_fixed_btn="in_fixed_btn" onClose={handleModalClose}>
