@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import { useCallback, useState } from 'react';
-
 import FileDropzone from "../Components/Cards/FileDropzone";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
@@ -152,6 +151,7 @@ const ReportDetail = () => {
             "summary_md": item.value
         }));
         const param = {
+            "title" : document.getElementById('report_title').value,
             "idx_report" : reportSummary[0].idx_report,
             "summary0": summary,
             "reportList" : substitutionData
@@ -165,7 +165,7 @@ const ReportDetail = () => {
             }
         }).catch(err => {
             console.log(err);
-            toastNoticeError('에러가 발생했습니다.', '', '')
+            toastNoticeError('에러가 발생했습니다.')
         })
     }
 
@@ -196,7 +196,7 @@ const ReportDetail = () => {
             <div className="page">
                 <div className="file_upload_area">
                     <div className="head type2">
-                        <h2>{reportProject && reportProject.title}</h2>
+                        <input id="report_title" name="report_title" type="text" defaultValue={reportProject && reportProject.title}/>
                         <button onClick={() => navigate('/report')}>
                             <img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
                         </button>

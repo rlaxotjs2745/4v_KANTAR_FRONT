@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import Modal from "../Components/Cards/Modal";
 import {Toggle} from "@carbon/react";
 
+import $ from 'jquery'
 import ReactWordcloud from 'react-wordcloud';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
@@ -583,8 +584,8 @@ const ProjectDetail = () => {
             const contentElement = document.querySelector('.filter_preset');
             if (!event.target.closest('.filter_preset') && !event.target.closest('.btn_select')) {
                 // console.log('Click outside');
-                // topElement.classList.remove('on');
-                // contentElement.classList.remove('on');
+                topElement.classList.remove('on');
+                contentElement.classList.remove('on');
             }
         };
         document.addEventListener('click', handleClick);
@@ -1892,9 +1893,34 @@ const ProjectDetail = () => {
         })
     }
 
+    const [showButton, setShowButton] = useState(false);
+
+    const scrollToTop = () => {
+        window.scroll({
+            top: 0,
+            behavior: 'smooth'
+        })
+
+    }
+    useEffect(() => {
+        const handleShowButton = () => {
+            if (window.scrollY > 500) {
+                setShowButton(true)
+            } else {
+                setShowButton(false)
+            }
+        }
+
+        console.log(window.scrollY)
+        window.addEventListener("scroll", handleShowButton)
+        return () => {
+            window.removeEventListener("scroll", handleShowButton)
+        }
+    }, [])
     return(
         <>
             <div className="page">
+                <button id="top" onClick={scrollToTop} className="btn_top"><img src={process.env.PUBLIC_URL + '/assets/image/btn_top.svg'} alt=""/></button>
                 <form>
                     <div className="file_upload_area">
                         <div className="head">

@@ -110,13 +110,18 @@ const Report = () => {
     return (
         <>
             <div className="page">
+                <div className="search_section">
+                    <div className="input_box">
+                        <input type="text" placeholder="검색어를 입력하세요."/>
+                        <button type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                    </div>
+                </div>
                 <div className="title_section">
                     <div className="title_box">
                         <h3 className="title">리포트 리스트</h3>
                         <p className="info">프로젝트 파일에서 생성된 리포트입니다.</p>
                     </div>
                 </div>
-
                 <div className="table_area">
                     <div className={checkedCount > 0 ? ' table_option_box' : 'hide table_option_box'}>
                         <div className="left">
