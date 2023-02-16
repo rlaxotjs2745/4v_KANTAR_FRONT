@@ -19,6 +19,7 @@ const DictionaryUpdate = () => {
     const [dictionaryTitle, setDictionaryTitle] = useState('');
     const [dictionaryData, setDictionaryData] = useState([]);
     const [loadingBool, setLoadingBool] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
 
     useEffect(() => {
         getDictionaryData();
@@ -138,8 +139,15 @@ const DictionaryUpdate = () => {
     }
 
     const handleDownload = () => {
-        axios.get(SERVER_URL + 'dict/download', {
-            params: { "idx_dictionary" : dictionaryIdx }
+        for(let dt of dictionaryData){
+            if(dt.keyword == null || dt.keyword == ''){
+                return toastNoticeError('비어있는 키워드가 있습니다.')
+            }
+        }
+
+        axios.post(SERVER_URL + 'dict/download', {
+                "idx_dictionary" : dictionaryIdx,
+                "dictionaryData" : dictionaryData
         }, AXIOS_OPTION).then(res => {
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
