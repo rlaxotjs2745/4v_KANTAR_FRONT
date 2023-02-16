@@ -149,6 +149,12 @@ const DictionaryUpdate = () => {
                 "idx_dictionary" : dictionaryIdx,
                 "dictionaryData" : dictionaryData
         }, AXIOS_OPTION).then(res => {
+            // const url = window.URL.createObjectURL(new Blob([res.data]));
+            // const link = document.createElement('a');
+            // link.href = url;
+            // link.setAttribute('download', `${dictionaryTitle}.csv`);
+            // document.body.appendChild(link);
+            // link.click();
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
