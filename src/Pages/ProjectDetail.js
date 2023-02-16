@@ -1108,7 +1108,7 @@ const ProjectDetail = () => {
     const [dictDataRaw, setDictDataRaw] = useState([]);
 
 
-    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([0, 0, 0, 0, 0]);
+    const [createReportCheckboxes, setCreateReportCheckboxes] = useState([0, 0, 0, 0, 3]);
 
     const handleCheckboxChange = (index, event, type) => {
         const newCheckboxes = [...createReportCheckboxes];
@@ -1345,6 +1345,9 @@ const ProjectDetail = () => {
                 selectedValue = radioButton.value;
                 break;
             }
+        }
+        if(createReportCheckboxes[4] < 1) {
+            return toastNoticeWarning('키워드 품사를 명사나 형용사중 한개를 필수로 선택해주세요.')
         }
         let param = {
             "idx_project" : projectInfo.idx_project,

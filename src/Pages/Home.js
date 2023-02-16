@@ -13,6 +13,7 @@ import {getCookie} from "../Util/cookie";
 
 const Home = () => {
     const [checkBoxListData, setCheckBoxListData] = useState(0)
+    const [searchQuery, setSearchQuery] = useState('');
 
     const navigate = useNavigate()
 
@@ -105,34 +106,38 @@ const Home = () => {
 
     useEffect(()=> {
         fetchData();
-        const intervalId = setInterval(fetchData, 10000);
-        if(stopInterval){
-            clearInterval(intervalId);
-        }
-        return () => clearInterval(intervalId);
-    },[currentPageNumber, stopInterval])
+        // const intervalId = setInterval(fetchData, 10000);
+        // if(stopInterval){
+        //     clearInterval(intervalId);
+        // }
+        // return () => clearInterval(intervalId);
+    },[])
 
-
-    const fetchData = async () => {
-        axios.post(SERVER_URL + 'project/list_project', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
-            if(res.data.success === '1'){
-                setProjectList(res.data.data.list) // idx_report 최대값 저장 해서 써야함. * 필수
-                setCurrentLastPage(() => {
-                    if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
-                        return Math.floor(res.data.data.tcnt/10)
-                    } else {
-                        return Math.floor(res.data.data.tcnt/10)+1
-                    }
-                })
-                setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid)
-                setUType(res.data.data.uType);
-            } else {
-               setStopInterval(true);
-            }
-        }).catch(err => {
-            console.log(err);
-            setStopInterval(true);
-        })
+    const fetchData = async (query, page) => {
+        axios.post(SERVER_URL + 'project/list_project', {
+            currentPage: page,
+            title: query || null
+        }, AXIOS_OPTION)
+            .then(res => {
+                if(res.data.success === '1') {
+                    setProjectList(res.data.data.list);
+                    setCurrentLastPage(() => {
+                        if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
+                            return Math.floor(res.data.data.tcnt/10)
+                        } else {
+                            return Math.floor(res.data.data.tcnt/10)+1
+                        }
+                    });
+                    setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid);
+                    setUType(res.data.data.uType);
+                } else {
+                    setStopInterval(true);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                setStopInterval(true);
+            });
     };
 
     const projectListArray = Object.values(projectList);
@@ -178,6 +183,7 @@ const Home = () => {
     const handleLeftClick = () => {
         if (currentPageNumber > 1) {
             setCurrentPageNumber(currentPageNumber - 1);
+            fetchData(searchQuery, currentPageNumber - 1);
         } else {
             toastNoticeWarning('첫번째 페이지 입니다.')
             setCurrentPageNumber(1);
@@ -188,9 +194,9 @@ const Home = () => {
         if(currentPageNumber === currentLastPage) {
             toastNoticeWarning('마지막 페이지 입니다.')
         } else {
-            setCurrentPageNumber(currentPageNumber + 1)
+            setCurrentPageNumber(currentPageNumber + 1);
+            fetchData(searchQuery, currentPageNumber + 1);
         }
-
     };
 
     const handleMerge = () => {
@@ -229,13 +235,26 @@ const Home = () => {
         }
     }
 
+    const handleSearch = () => {
+        const query = document.querySelector('#search_input').value;
+        setSearchQuery(query);
+        fetchData(query, 1);
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
+
     return (
         <>
             <div className="page">
                 <div className="search_section">
                     <div className="input_box">
-                        <input type="text" placeholder="검색어를 입력하세요."/>
-                        <button type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                        <input id="search_input" type="text" placeholder="검색어를 입력하세요." onKeyDown={handleKeyDown} />
+                        <button onClick={handleSearch} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                     </div>
                 </div>
                 <div className="title_section">
