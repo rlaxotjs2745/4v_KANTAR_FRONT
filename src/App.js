@@ -5,7 +5,7 @@ import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useToastAlert} from "./Util/toastAlert";
 import axios from "axios";
-import {AXIOS_OPTION, SERVER_URL} from "./Util/env";
+import {AXIOS_OPTION, SERVER_URL, WS_URL} from "./Util/env";
 import {getCookie} from "./Util/cookie";
 
 
@@ -25,14 +25,14 @@ function App(){
     const _chkToken = setInterval(function(){
       let token = getCookie('X-AUTH-TOKEN');
       // console.log('token:'+token)
-      if(token!==''){
+      if(token!=='' && token!=='undefined' && token!==undefined){
         setIsToken(token);
         clearInterval(_chkToken);
       }
     },1000)
   },[])
 
-  const webSocketUrl = 'ws://15.165.18.70:8000';
+  const webSocketUrl = WS_URL;
   let ws = useRef(null);
 
   // 소켓 객체 생성
@@ -54,7 +54,7 @@ function App(){
         };
         ws.current.onmessage = (evt) => {
           const data = JSON.parse(evt.data);
-          console.log(data);
+          // console.log(data);
           toastNoticeSuccess(data.msg, data.link)
         };
       }
