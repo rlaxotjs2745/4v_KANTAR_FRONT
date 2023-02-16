@@ -250,7 +250,9 @@ const Home = () => {
                             <p className="info">{checkedCount}개의 파일이 선택되었습니다.</p>
                         </div>
                         <div className="right">
-                            <button onClick={handleButtonClick} type="button">프로젝트 병합<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_plus.svg'}/></button>
+                            {
+                                uType === 11 ? null : <button onClick={handleButtonClick} type="button">프로젝트 병합<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_plus.svg'}/></button>
+                            }
                             <button onClick={handleDownload} type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
                             <button onClick={handleResetCheck} type="button" className="border_left">선택 취소</button>
                         </div>
