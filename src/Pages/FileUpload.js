@@ -114,7 +114,7 @@ const FileUpload = () => {
             if(res.data.success === '1'){
                 toastNoticeInfo('기본리포트 생성을 시작 하였습니다.')
                 navigate('/')
-                toastNoticeSuccess('기본 리포트가 생성되었습니다', `/report_detail/1`)
+                // toastNoticeSuccess('기본 리포트가 생성되었습니다', `/report_detail/1`)
             } else {
                 toastNoticeError('에러가 발생했습니다.')
             }

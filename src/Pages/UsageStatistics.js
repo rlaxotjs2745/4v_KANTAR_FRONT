@@ -177,14 +177,14 @@ const UsageStatistics = () => {
                                             placeholder="mm/dd/yyyy"
                                             labelText="시작 날짜"
                                             type="text"
-                                            disabled
+                                            // disabled
                                         />
                                         <DatePickerInput
                                             id="date-picker-range-end"
                                             placeholder="mm/dd/yyyy"
                                             labelText="종료 날짜"
                                             type="text"
-                                            disabled
+                                            // disabled
                                         />
                                     </DatePicker>
                                 </div>

@@ -218,6 +218,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 
 .file_upload_area .head {position: fixed; top: 0; left:0; display: flex; align-items: center; height: 48px; width: 100%; background: #0F62FE; color: #fff; font-size:14px; border-bottom:1px solid #393939; z-index: 99}
 .file_upload_area .head button {width:48px; height:48px; display: flex; align-items: center; justify-content: center;}
+.file_upload_area .head input[type="text"] {background: transparent; border:none; color:#fff; width: 500px;}
 
 .file_upload_area .head.type2 {padding-left:40px; justify-content: space-between;}
 
