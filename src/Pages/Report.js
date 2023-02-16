@@ -43,26 +43,45 @@ const Report = () => {
             return toastNoticeWarning('1개의 리포트만 선택하여 다운로드를 진행해주세요.')
         }
         const projectIdsAsNumbers = checkedIndexes.reduce((acc, cur) => acc + Number(cur), 0); // 배열에 담긴 숫자를 전체 합산
-
         axios.get(SERVER_URL + 'report/download', {
-            params: { "idx_report" : projectIdsAsNumbers }
-        }, AXIOS_OPTION).then(res => {
-            console.log(res)
-            const disposition = res.headers['Content-Disposition'];
-            console.log(disposition, '응답헤더값')
-            let filename = 'file.xls';
-            if (disposition) {
-                filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
-            }
-            const url = window.URL.createObjectURL(new Blob([res.data]));
-            const link = document.createElement('a');
+            params: { "idx_report" :projectIdsAsNumbers },
+            ...AXIOS_OPTION,
+            responseType: 'blob',
+        }).then(res => {
+            const url = window.URL.createObjectURL(
+                new Blob([res.data],
+                    { type: res.headers["content-type"] })
+            );
+            const link = document.createElement("a");
             link.href = url;
-            link.setAttribute('download', filename);
+            link.setAttribute(
+                "download",
+                `file.xls`
+            );
             document.body.appendChild(link);
             link.click();
         }).catch(err => {
             console.log(err);
-        })
+        });
+        // axios.get(SERVER_URL + 'report/download', {
+        //     params: { "idx_report" : projectIdsAsNumbers }
+        // }, AXIOS_OPTION).then(res => {
+        //     console.log(res)
+        //     const disposition = res.headers['Content-Disposition'];
+        //     console.log(disposition, '응답헤더값')
+        //     let filename = 'file.xls';
+        //     if (disposition) {
+        //         filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
+        //     }
+        //     const url = window.URL.createObjectURL(new Blob([res.data]));
+        //     const link = document.createElement('a');
+        //     link.href = url;
+        //     link.setAttribute('download', filename);
+        //     document.body.appendChild(link);
+        //     link.click();
+        // }).catch(err => {
+        //     console.log(err);
+        // })
 
     }
 

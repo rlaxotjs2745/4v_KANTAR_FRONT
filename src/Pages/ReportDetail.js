@@ -206,7 +206,7 @@ const ReportDetail = () => {
             link.href = url;
             link.setAttribute(
                 "download",
-                `생성하고 싶은 파일명.xls`
+                `file.xls`
             );
             document.body.appendChild(link);
             link.click();

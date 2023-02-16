@@ -1446,6 +1446,7 @@ const ProjectDetail = () => {
         const data = {
             "idx_project_job_projectid" : projectInfo.idx_project_job_projectid,
             "title":input2.value,
+            "keyType" : 3,
             "tp1" : [...new Set(selectedLabelsPersons)].join("//") === '' ? null : [...new Set(selectedLabelsPersons)].join("//"),
             "tp2" : [...new Set(selectedLabelsChapters)].join("//") === '' ? null : [...new Set(selectedLabelsChapters)].join("//"),
             "tp3" : [...new Set(selectedLabelsSubchapters)].join("//") === '' ? null : [...new Set(selectedLabelsSubchapters)].join("//"),
