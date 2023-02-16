@@ -238,6 +238,7 @@ const Home = () => {
     const handleSearch = () => {
         const query = document.querySelector('#search_input').value;
         setSearchQuery(query);
+        setCurrentPageNumber(1)
         fetchData(query, 1);
     };
 
