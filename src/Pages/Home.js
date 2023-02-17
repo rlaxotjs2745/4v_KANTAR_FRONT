@@ -120,6 +120,7 @@ const Home = () => {
         }, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1') {
+                    setUType(res.data.data.uType);
                     setProjectList(res.data.data.list);
                     setCurrentLastPage(() => {
                         if(Math.ceil(res.data.data.tcnt/10) * 10 - res.data.data.tcnt === 0) {
@@ -128,8 +129,9 @@ const Home = () => {
                             return Math.floor(res.data.data.tcnt/10)+1
                         }
                     });
-                    setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid);
-                    setUType(res.data.data.uType);
+                    if(res.data.data.list.length>0){
+                        setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid);
+                    }
                 } else {
                     setStopInterval(true);
                 }
