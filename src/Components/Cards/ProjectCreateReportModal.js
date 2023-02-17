@@ -80,6 +80,7 @@ const ProjectCreateReportModal = ({
                     <div className="label_box">
                         <div className="left">
                             <span>키워드 품사 형태를 선택하여 보겠습니까?</span>
+                            <p className="tip">(* 1개 이상의 품사 선택 필요)</p>
                         </div>
                         <div className="right">
                             <div className="input_box"><input id="chk11" type="checkbox" checked={createReportCheckboxes[4] === 1 || createReportCheckboxes[4] === 3} onChange={(event) => handleCheckboxChange(4, event, 'chk')}/><label htmlFor="chk11">명사</label></div>

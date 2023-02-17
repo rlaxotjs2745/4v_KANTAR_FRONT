@@ -388,6 +388,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .toggle_check_box .label_box {margin-top: 13px; display: flex; align-items: baseline; justify-content: space-between; min-width: 270px;}
 .toggle_check_box .label_box .input_box + .input_box {margin-top: 10px;}
 .toggle_check_box .label_box .input_box label {font-size:12px; color:#161616; margin-left:10px;}
+.toggle_check_box .label_box .tip {font-size:11px;}
 
 
 .filter_check_box {max-height: 220px; overflow-y: scroll;}
