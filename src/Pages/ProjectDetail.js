@@ -979,7 +979,7 @@ const ProjectDetail = () => {
             }
         }
         if(createReportCheckboxes[4] < 1) {
-            return toastNoticeWarning('키워드 품사를 명사나 형용사중 한개를 필수로 선택해주세요.')
+            return toastNoticeWarning('1개 이상의 품사를 선택해 주세요.')
         }
         let param = {
             "idx_project" : projectInfo.idx_project,
