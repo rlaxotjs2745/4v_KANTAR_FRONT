@@ -684,11 +684,13 @@ const ProjectDetail = () => {
     const uniqueQuestions = [...new Set(questions)];
 
     useEffect(()=> {
+        setProjectDetailList(projectDetailListOrigin) // 서버 데이터 파싱 안되는 경우 처리
         projectDetailListOrigin.forEach(item => {
             if (!persons.includes(item.person)) setPersons(prevPersons => [...prevPersons, item.person])
             if (!chapters.includes(item.chapter)) setChapters(prevChapters => [...prevChapters, item.chapter]) // 화자 필터와 챕터 필터는 언제나 서버에서 보내준 origin 데이터에서 필터 가능 하게 함
             // if (!answers.includes(item.answer)) setAnswers([...answers, item.answer])
         });
+
     },[projectDetailListOrigin])
 
     useEffect(()=> {
@@ -1162,6 +1164,9 @@ const ProjectDetail = () => {
             link.click();
         });
     }
+
+    console.log(projectDetailList, '넘기는 값')
+    console.log(projectDetailListOrigin, '서버에서 받은 값')
 
     return(
         <>
