@@ -1040,7 +1040,9 @@ const ProjectDetail = () => {
     const handleDownload = () => {
         axios.get(SERVER_URL + 'project/download', {
             params: { "idx_project_job_projectid" : pathSplit }
-        }, AXIOS_OPTION).then(res => {
+            ,...AXIOS_OPTION
+            ,responseType: 'blob'
+        }).then(res => {
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;

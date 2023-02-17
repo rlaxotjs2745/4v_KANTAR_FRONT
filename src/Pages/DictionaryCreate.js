@@ -54,9 +54,9 @@ const DictionaryCreate = () => {
     }
 
     const handleDownload = () => {
-        axios.get(SERVER_URL + 'dict/download', {
-            params: { "dic_type" : 11111 }
-        }, AXIOS_OPTION).then(res => {
+        axios.post(SERVER_URL + 'dict/download',
+            { "dic_type" : 11111 }
+        , AXIOS_OPTION).then(res => {
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
