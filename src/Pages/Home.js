@@ -82,11 +82,13 @@ const Home = () => {
 
         axios.get(SERVER_URL + 'project/download', {
             params: { "idx_project_job_projectid" : projectIdsAsNumbers }
-        }, AXIOS_OPTION).then(res => {
-            console.log(res)
+            ,...AXIOS_OPTION
+            ,responseType: 'blob'
+        }).then(res => {
+            // console.log(res)
             const disposition = res.headers['Content-Disposition'];
-            console.log(disposition, '응답헤더값')
-            let filename = 'file.csv';
+            // console.log(disposition, '응답헤더값')
+            let filename = 'project_file.csv';
             if (disposition) {
                 filename = disposition.split(';')[1].split('=')[1].replace(/"/g, '');
             }
