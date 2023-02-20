@@ -21,7 +21,7 @@ const CustomToastWithLink = (props) => {
     )
 }
 
-const FILE_SIZE_LIMIT = 500 * 1024;  // 500kb
+const FILE_SIZE_LIMIT = 5000 * 1024;  // 5mb
 
 class FileDropzone extends React.Component {
 
@@ -41,7 +41,7 @@ class FileDropzone extends React.Component {
             this.setState({ file: file });
             this.props.onFileDrop(file);
         } else if(file.size >= FILE_SIZE_LIMIT) {
-            toastNoticeError('파일 크기는 최대 500kb를 넘을 수 없습니다.')
+            toastNoticeError('파일 크기는 최대 5mb를 넘을 수 없습니다.')
             this.setState({ isDragging: false });
         } else {
             toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.')
@@ -62,7 +62,7 @@ class FileDropzone extends React.Component {
             this.setState({ file: file });
             this.props.onFileDrop(file);
         } else if(file.size >= FILE_SIZE_LIMIT) {
-            toastNoticeError('파일 크기는 최대 500kb를 넘을 수 없습니다.')
+            toastNoticeError('파일 크기는 최대 5mb를 넘을 수 없습니다.')
             this.setState({ isDragging: false });
         } else {
             toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.')
