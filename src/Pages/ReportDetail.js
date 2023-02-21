@@ -406,7 +406,7 @@ const ReportDetail = () => {
                                         reportKeyword.map(item => (
                                             <tr>
                                                 <td className={item.dic_yn === 1 ? 'co2' : ''}>{item.sum_keyword}</td>
-                                                <td>{item.keytype === 1 ? '명사' : item.key === 2 ? '형용사' : null}</td>
+                                                <td>{item.keytype === 1 ? '명사' : item.keytype === 2 ? '형용사' : null}</td>
                                                 <td>{item.keycount}</td>
                                             </tr>
                                         ))
