@@ -18,10 +18,10 @@ const DictionaryUpdateEntity = ({entity, deleteData, updateData, newData, isFirs
             <td className="absolute">
                 {
                     !isUpdate ?
-                        null : <button onClick={() => deleteData(entity.idx_dictionary_data)}><img src={process.env.PUBLIC_URL + '/assets/image/ico_table_delete.svg'}/></button>
+                        null : <button onClick={() => deleteData(entity.idx_dictionary_data)}><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_table_delete.svg'}/></button>
                 }
                 {
-                    isFirst ? <button onClick={newData}><img src={process.env.PUBLIC_URL + '/assets/image/ico_table_add.svg'}/></button> : null
+                    isFirst ? <button onClick={newData}><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_table_add.svg'}/></button> : null
                 }
             </td>
         </tr>

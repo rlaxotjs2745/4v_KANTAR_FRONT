@@ -4,7 +4,6 @@ import {useToastAlert} from "../Util/toastAlert";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import MemberManagementEntity from "../Components/Cards/MemberManagementEntity";
-import {getMouseEventProps} from "@testing-library/user-event/dist/keyboard/getEventProps";
 
 const MemberManagement = () => {
 
@@ -98,7 +97,7 @@ const MemberManagement = () => {
                 <div className="search_section">
                     <div className="input_box">
                         <input onChange={changeSearchWord} onKeyUp={addEnterEventListener} type="text" placeholder="검색어를 입력하세요."/>
-                        <button onClick={searchUser}><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                        <button onClick={searchUser}><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                     </div>
                 </div>
                 <div className="title_section">
@@ -139,8 +138,8 @@ const MemberManagement = () => {
                     </table>
                     <div className="table_pagination">
                         <span className="page_num">Page 1</span>
-                        <button onClick={() => movePage(0)} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                        <button onClick={() => movePage(1)} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                        <button onClick={() => movePage(0)} className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                        <button onClick={() => movePage(1)} className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                     </div>
                 </div>
             </div> : null

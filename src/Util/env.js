@@ -1,6 +1,6 @@
 
 import {getCookie} from "./cookie";
-import axios, { AxiosRequestConfig } from 'axios';
+import axios  from 'axios';
 
 export const SERVER_URL = "http://13.125.43.62:10000/api/";
 export const WS_URL = "ws://15.165.18.70:8000";

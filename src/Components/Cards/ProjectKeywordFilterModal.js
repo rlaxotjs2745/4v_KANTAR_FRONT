@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../../Util/env";
-import {calculateNewValue} from "@testing-library/user-event/dist/utils";
 
 const ProjectKeywordFilterModal = ({
                                        handleModalFilterClose5,

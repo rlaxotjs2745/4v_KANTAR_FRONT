@@ -5,17 +5,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
-import {useCookies} from "react-cookie";
 import { AXIOS_OPTION, SERVER_URL } from "../Util/env";
-import $ from "jquery";
 import {useToastAlert} from "../Util/toastAlert";
 
 const Profile = () => {
     const {
-        toastNoticeInfo,
         toastNoticeSuccess,
         toastNoticeError,
-        toastNoticeWarning,
     } = useToastAlert();
 
 
@@ -26,10 +22,6 @@ const Profile = () => {
     });
 
     const [userProfileData, setUserProfileData] = useState([])
-    const [initialValues, setInitialValues] = useState({
-        "user_name": "",
-        "user_phone": "",
-    });
 
     const handlePasswordType = inputId => {
         setPasswordTypes(prevState => {
@@ -96,9 +88,7 @@ const Profile = () => {
         register,
         handleSubmit,
         setValue,
-        watch,
-        reset,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         // isSubmitting 은 양식 제출 중 disabled 처리 하게 함.
     } = useForm({
         mode: 'onChange',

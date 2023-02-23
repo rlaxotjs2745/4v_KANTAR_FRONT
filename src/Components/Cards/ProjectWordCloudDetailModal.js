@@ -24,7 +24,7 @@ const ProjectWordCloudDetailModal = ({
                 <div className="head type2">
                     <h2>워드클라우드A02</h2>
                     <button onClick={handleModalClose5}>
-                        <img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
+                        <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
                     </button>
                 </div>
             </div>

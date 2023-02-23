@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {Link} from "react-router-dom";
 import {useCheckbox} from "../Util/useCheckbox";
 import axios from "axios";
@@ -12,9 +12,6 @@ const Report = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const {
-        toastNoticeInfo,
-        toastNoticeSuccess,
-        toastNoticeError,
         toastNoticeWarning,
     } = useToastAlert();
 
@@ -173,7 +170,7 @@ const Report = () => {
                 <div className="search_section">
                     <div className="input_box">
                         <input id="search_input" type="text" placeholder="검색어를 입력하세요." onKeyDown={handleKeyDown} />
-                        <button onClick={handleSearch} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                        <button onClick={handleSearch} type="button"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                     </div>
                     {/*<div className="input_box">*/}
                     {/*    <input type="text" placeholder="검색어를 입력하세요."/>*/}
@@ -192,7 +189,7 @@ const Report = () => {
                             <p className="info">{checkedCount}개의 파일이 선택되었습니다.</p>
                         </div>
                         <div className="right">
-                            <button onClick={handleDownload} type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
+                            <button onClick={handleDownload} type="button">다운로드<img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
                             <button onClick={handleResetCheck} type="button" className="border_left">선택 취소</button>
                         </div>
                     </div>
@@ -262,8 +259,8 @@ const Report = () => {
                     {!reportList || !reportList.length ? '' :
                         <div className="table_pagination">
                             <span className="page_num">Page {currentPageNumber}</span>
-                            <button type="button" onClick={handleLeftClick} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                            <button type="button" onClick={handleRightClick} className="right"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                            <button type="button" onClick={handleLeftClick} className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                            <button type="button" onClick={handleRightClick} className="right"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                         </div>
                     }
                 </div>

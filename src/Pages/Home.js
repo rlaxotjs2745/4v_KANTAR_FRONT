@@ -1,7 +1,6 @@
 
-import {Button, Checkbox, Toggle} from '@carbon/react';
 import React, {useEffect} from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useCheckbox} from "../Util/useCheckbox";
 import {useCheckbox2} from "../Util/useCheckbox";
@@ -9,7 +8,6 @@ import Modal from "../Components/Cards/Modal";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
-import {getCookie} from "../Util/cookie";
 
 const Home = () => {
     const [checkBoxListData, setCheckBoxListData] = useState(0)
@@ -18,9 +16,7 @@ const Home = () => {
     const navigate = useNavigate()
 
     const {
-        toastNoticeInfo,
         toastNoticeSuccess,
-        toastNoticeError,
         toastNoticeWarning,
     } = useToastAlert();
 
@@ -99,7 +95,7 @@ const Home = () => {
             document.body.appendChild(link);
             link.click();
         }).catch(err => {
-            console.log(err);
+            console.log(err, stopInterval);
         })
 
 
@@ -259,7 +255,7 @@ const Home = () => {
                 <div className="search_section">
                     <div className="input_box">
                         <input id="search_input" type="text" placeholder="검색어를 입력하세요." onKeyDown={handleKeyDown} />
-                        <button onClick={handleSearch} type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                        <button onClick={handleSearch} type="button"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                     </div>
                 </div>
                 <div className="title_section">
@@ -281,9 +277,9 @@ const Home = () => {
                         </div>
                         <div className="right">
                             {
-                                uType === 11 ? null : <button onClick={handleButtonClick} type="button">프로젝트 병합<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_plus.svg'}/></button>
+                                uType === 11 ? null : <button onClick={handleButtonClick} type="button">프로젝트 병합<img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_plus.svg'}/></button>
                             }
-                            <button onClick={handleDownload} type="button">다운로드<img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
+                            <button onClick={handleDownload} type="button">다운로드<img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_download.svg'}/></button>
                             <button onClick={handleResetCheck} type="button" className="border_left">선택 취소</button>
                         </div>
                     </div>
@@ -372,8 +368,8 @@ const Home = () => {
                     {!projectList || !projectList.length ? '' :
                         <div className="table_pagination">
                             <span className="page_num">Page {currentPageNumber}</span>
-                            <button type="button" onClick={handleLeftClick} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                            <button type="button" onClick={handleRightClick} className="right"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                            <button type="button" onClick={handleLeftClick} className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                            <button type="button" onClick={handleRightClick} className="right"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                         </div>
                     }
 

@@ -2,20 +2,17 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {SERVER_URL} from "../Util/env";
 import axios from 'axios';
 import {useCookies} from "react-cookie";
-import {Link, useNavigate} from "react-router-dom";
-import { useState, useEffect } from 'react';
+import {useNavigate} from "react-router-dom";
 import {useToastAlert} from "../Util/toastAlert";
 
 const Login = () => {
 
     const {
-        toastNoticeInfo,
         toastNoticeSuccess,
         toastNoticeError,
-        toastNoticeWarning,
     } = useToastAlert();
 
     const navigate = useNavigate()
@@ -69,10 +66,7 @@ const Login = () => {
     const {
         register,
         handleSubmit,
-        handleBlur,
-        setError,
-        watch,
-        formState: { errors, isSubmitted, isSubmitting, isDirty },
+        formState: { errors },
         // isSubmitting 은 양식 제출 중 disabled 처리 하게 함.
     } = useForm({
         mode: 'onChange',

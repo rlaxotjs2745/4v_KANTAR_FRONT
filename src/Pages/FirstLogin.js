@@ -3,7 +3,7 @@ import {useToastAlert} from "../Util/toastAlert";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
+import {SERVER_URL} from "../Util/env";
 
 const FirstLogin = () => {
     const {
@@ -19,7 +19,7 @@ const FirstLogin = () => {
     const fCode = window.location.pathname.split('/').reverse()[0];
 
     useEffect(() => {
-        axios.get(SERVER_URL + 'user/' + `first_login?fCode=${fCode}`)
+        axios.get(SERVER_URL + `user/first_login?fCode=${fCode}`)
             .then(res => {
                 if(res.data.success === '1'){
                     setUserInfo(res.data.data);
@@ -77,7 +77,7 @@ const FirstLogin = () => {
                         <div className="file_upload_area">
                             <div className="head">
                                 <button onClick={() => navigate('/login')}>
-                                    <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
+                                    <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                                 </button>
                                 <h2>회원 인증</h2>
                             </div>

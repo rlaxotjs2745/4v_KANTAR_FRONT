@@ -1,24 +1,20 @@
+// eslint-disable-next-line
 import './App.css';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Routers from "./Router/Router";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useToastAlert} from "./Util/toastAlert";
-import axios from "axios";
-import {AXIOS_OPTION, SERVER_URL, WS_URL} from "./Util/env";
+import {WS_URL} from "./Util/env";
 import {getCookie} from "./Util/cookie";
-
 
 function App(){
 
   const [socketConnected, setSocketConnected] = useState(false);
-  const [sendMsg, setSendMsg] = useState(false);
+  // const [sendMsg, setSendMsg] = useState(false);
   const [isToken, setIsToken] = useState('');
   const {
-    toastNoticeInfo,
-    toastNoticeSuccess,
-    toastNoticeError,
-    toastNoticeWarning,
+    toastNoticeSuccess
 } = useToastAlert();
 
   useEffect(() => {
@@ -60,7 +56,7 @@ function App(){
       }
 
       return () => {
-        console.log("clean up");
+        // console.log("clean up", sendMsg);
         // ws.current.close();
       };
     }
@@ -75,7 +71,7 @@ function App(){
         })
       );
 
-      setSendMsg(true);
+      // setSendMsg(true);
     }
   }, [socketConnected, isToken]);
 

@@ -1,5 +1,4 @@
 import React from "react";
-import {useToastAlert} from "../../Util/toastAlert";
 import {toast} from "react-toastify";
 
 const CustomToastWithLink = (props) => {
@@ -7,10 +6,10 @@ const CustomToastWithLink = (props) => {
         <div className='toast_flex'>
             <div>
                 {
-                    props.toastType === 'normal' ? <img src={process.env.PUBLIC_URL + '/assets/image/ico_notice_normal.svg'}/> :
-                        props.toastType === 'success' ? <img src={process.env.PUBLIC_URL + '/assets/image/ico_notice_success.svg'}/> :
-                            props.toastType === 'error' ? <img src={process.env.PUBLIC_URL + '/assets/image/ico_notice_error.svg'}/> :
-                                props.toastType === 'warning' ? <img src={process.env.PUBLIC_URL + '/assets/image/ico_notice_warning.svg'}/> : null
+                    props.toastType === 'normal' ? <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_notice_normal.svg'}/> :
+                        props.toastType === 'success' ? <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_notice_success.svg'}/> :
+                            props.toastType === 'error' ? <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_notice_error.svg'}/> :
+                                props.toastType === 'warning' ? <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_notice_warning.svg'}/> : null
                 }
                 <span> {props.text}</span>
             </div>

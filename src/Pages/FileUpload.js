@@ -1,7 +1,6 @@
 import React from "react";
 import {Link, useNavigate} from 'react-router-dom';
-import { useCallback, useState, useEffect } from 'react';
-import $ from 'jquery'
+import { useState } from 'react';
 import axios from 'axios';
 import { AXIOS_OPTION, SERVER_URL } from "../Util/env";
 
@@ -22,9 +21,7 @@ const FileUpload = () => {
 
     const {
         toastNoticeInfo,
-        toastNoticeSuccess,
         toastNoticeError,
-        toastNoticeWarning,
     } = useToastAlert();
 
     const navigate = useNavigate()
@@ -34,9 +31,9 @@ const FileUpload = () => {
     const handleFileDrop = (file) => {
         setFile(file);
     }
-    const submit = (data) => {
-        console.log(file, '전달받은 파일')
-    }
+    // const submit = (data) => {
+    //     console.log(file, '전달받은 파일')
+    // }
 
 
     const [input1, setInput1] = useState({ value: '', characters: 0 });
@@ -128,25 +125,25 @@ const FileUpload = () => {
         // toastNoticeInfo('기본리포트 생성을 시작하였습니다.', 'https://www.naver.com') 첫번째 인자로 텍스트, 두번째 인자로 링크를 전달하면됨, 링크를 '' 로 넣으면 바로가기 버튼이 사라짐.
 
     }
-
-    const reportSave = () => { // 프로젝트 저장 버튼
-
-        const form = document.querySelector('#fileUploadForm');
-
-        if (file === null) {
-            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.'))
-        }
-
-        if (form.job_no.value === '') {
-            return (toastNoticeError('필수 정보가 입력되지 않았습니다.'))
-        }
-
-        if (form.project_name.value === '') {
-            return (toastNoticeError('필수 정보가 입력되지 않았습니다.'))
-        }
-
-        toastNoticeInfo('프로젝트 설정이 저장되었습니다.')
-    }
+    //
+    // const reportSave = () => { // 프로젝트 저장 버튼
+    //
+    //     const form = document.querySelector('#fileUploadForm');
+    //
+    //     if (file === null) {
+    //         return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.'))
+    //     }
+    //
+    //     if (form.job_no.value === '') {
+    //         return (toastNoticeError('필수 정보가 입력되지 않았습니다.'))
+    //     }
+    //
+    //     if (form.project_name.value === '') {
+    //         return (toastNoticeError('필수 정보가 입력되지 않았습니다.'))
+    //     }
+    //
+    //     toastNoticeInfo('프로젝트 설정이 저장되었습니다.')
+    // }
 
     return(
         <>
@@ -155,7 +152,7 @@ const FileUpload = () => {
                     <div className="file_upload_area">
                         <div className="head">
                             <button onClick={() => navigate('/')}>
-                                <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
+                                <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                             </button>
                             <h2>파일 업로드</h2>
                         </div>

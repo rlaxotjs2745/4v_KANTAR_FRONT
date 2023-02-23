@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Link, Navigate, NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
-import $ from "jquery";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../../Util/env";
 
@@ -30,10 +29,10 @@ const Header = (props) => {
         window.location.reload();
     };
 
-    function get_cookie(name) {
-        let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-        return value? value[2] : null;
-    }
+    // function get_cookie(name) {
+    //     let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    //     return value? value[2] : null;
+    // }
 
     return (
 
@@ -59,7 +58,7 @@ const Header = (props) => {
                     </ul>
                 </div>
                 <div className="user_box select">
-                    <button ><img src={process.env.PUBLIC_URL + '/assets/image/ico_profile.svg'}/></button>
+                    <button ><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_profile.svg'}/></button>
                     <ul className="deps2">
                        <li><Link to="/profile">계정관리</Link></li>
                        <li><button onClick={logOut}>로그아웃</button></li>

@@ -10,7 +10,6 @@ import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 const DictionaryCreate = () => {
 
     const navigate = useNavigate()
-    const downloadSample = '';
     const {
         toastNoticeSuccess,
         toastNoticeError,
@@ -76,7 +75,7 @@ const DictionaryCreate = () => {
                     <div className="file_upload_area">
                         <div className="head">
                             <button onClick={() => navigate('/dictionary')}>
-                                <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
+                                <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                             </button>
                             <h2>사전 생성하기</h2>
                         </div>

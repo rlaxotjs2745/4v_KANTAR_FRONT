@@ -7,7 +7,6 @@ import {useToastAlert} from "../Util/toastAlert";
 
 const UsageStatistics = () => {
     const {
-        toastNoticeInfo,
         toastNoticeSuccess,
         toastNoticeError,
         toastNoticeWarning,

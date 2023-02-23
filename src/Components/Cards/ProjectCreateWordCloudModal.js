@@ -1,5 +1,5 @@
 import Modal from "./Modal";
-import React, {useState} from "react";
+import React from "react";
 
 const ProjectCreateWordCloudModal = ({
                                          handleModalClose4,
@@ -107,8 +107,8 @@ const ProjectCreateWordCloudModal = ({
                         </table>
                         <div className="table_pagination">
                             <span className="page_num">Page {currentPageNumber}</span>
-                            <button onClick={handleLeftClick} type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                            <button onClick={handleRightClick} type="button" className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                            <button onClick={handleLeftClick} type="button" className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                            <button onClick={handleRightClick} type="button" className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                         </div>
                     </div>
                 </div>

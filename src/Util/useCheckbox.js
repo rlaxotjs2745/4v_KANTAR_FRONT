@@ -104,12 +104,12 @@ export function useCheckbox2(dataCount) {
             index === position ? !item : item
         );
         setCheckedState2(updatedCheckedState);
-        const checkedLength = updatedCheckedState.reduce((sum, currentState) => {
-            if (currentState === true) {
-                return sum + 1;
-            }
-            return sum;
-        }, 0);
+        // const checkedLength = updatedCheckedState.reduce((sum, currentState) => {
+        //     if (currentState === true) {
+        //         return sum + 1;
+        //     }
+        //     return sum;
+        // }, 0);
         // setAllChecked2(checkedLength === updatedCheckedState.length);
     };
 

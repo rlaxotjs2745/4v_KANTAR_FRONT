@@ -91,7 +91,7 @@ const Dictionary = () => {
                 <div className="search_section">
                     <div className="input_box">
                         <input onChange={(e) => getSearchWord(e)} onKeyUp={addEnterEventListener} type="text" placeholder="검색어를 입력하세요."/>
-                        <button onClick={searchDictionary}><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                        <button onClick={searchDictionary}><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                     </div>
                 </div>
                 <div className="title_section">
@@ -132,8 +132,8 @@ const Dictionary = () => {
                     </table>
                     <div className="table_pagination">
                         <span className="page_num">Page {currentPage + 1}</span>
-                        <button onClick={() => movePage(0)} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
-                        <button onClick={() => movePage(1)} className="left"><img src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
+                        <button onClick={() => movePage(0)} className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
+                        <button onClick={() => movePage(1)} className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                     </div>
                 </div>
             </div>

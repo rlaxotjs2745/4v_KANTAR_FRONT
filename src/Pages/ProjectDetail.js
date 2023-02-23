@@ -1,18 +1,12 @@
-import React, {useEffect, useRef} from "react";
-import {Link, useLocation, useNavigate} from 'react-router-dom';
-import { useCallback, useState } from 'react';
-import Modal from "../Components/Cards/Modal";
-import {Toggle} from "@carbon/react";
-
-import $ from 'jquery'
-import ReactWordcloud from 'react-wordcloud';
+import React, {useEffect} from "react";
+import {useLocation, useNavigate} from 'react-router-dom';
+import { useState } from 'react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
 import InfiniteScroller from "../Components/Cards/InfiniteScroller";
-import Profile from "./Profile";
 import ProjectKeywordFilterModal from "../Components/Cards/ProjectKeywordFilterModal";
 import ProjectPersonFilterModal from "../Components/Cards/ProjectPersonFilterModal";
 import ProjectChapterFilterModal from "../Components/Cards/ProjectChapterFilterModal";
@@ -26,10 +20,7 @@ import html2canvas from 'html2canvas';
 
 const ProjectDetail = () => {
 
-    const [selectedToggle, setSelectedToggle] = useState(null);
-
     const {
-        toastNoticeInfo,
         toastNoticeSuccess,
         toastNoticeError,
         toastNoticeWarning,
@@ -1180,7 +1171,7 @@ const ProjectDetail = () => {
                     <div className="file_upload_area">
                         <div className="head">
                             <button onClick={() => navigate('/')}>
-                                <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
+                                <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                             </button>
                             <h2>{projectInfo ? projectInfo.project_name : ''}</h2>
                         </div>
@@ -1207,22 +1198,22 @@ const ProjectDetail = () => {
                         uType === 1|| uType === 99 ?
                             <div className="project_detail_area">
                                 <div className="filter_btn_box">
-                                    <button onClick={handleModalFilter1} type="button"><img
+                                    <button onClick={handleModalFilter1} type="button"><img alt=""
                                         src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>화자 {checkBoxCount > 0 ?
                                         <span className="count">{checkBoxCount}</span> : null}</button>
-                                    <button onClick={handleModalFilter2} type="button"><img
+                                    <button onClick={handleModalFilter2} type="button"><img alt=""
                                         src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>챕터 {checkBoxCount2 > 0 ?
                                         <span className="count">{checkBoxCount2}</span> : null}</button>
-                                    <button onClick={handleModalFilter3} type="button"><img
+                                    <button onClick={handleModalFilter3} type="button"><img alt=""
                                         src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>서브챕터 {checkBoxCount3 > 0 ?
                                         <span className="count">{checkBoxCount3}</span> : null}</button>
-                                    <button onClick={handleModalFilter4} type="button"><img
+                                    <button onClick={handleModalFilter4} type="button"><img alt=""
                                         src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>질문 {checkBoxCount4 > 0 ?
                                         <span className="count">{checkBoxCount4}</span> : null}</button>
-                                    <button onClick={handleModalFilter5} type="button"><img
+                                    <button onClick={handleModalFilter5} type="button"><img alt=""
                                         src={process.env.PUBLIC_URL + '/assets/image/ico_btn_filter.svg'}/>키워드 {checkBoxCount5 > 0 ?
                                         <span className="count">{checkBoxCount5}</span> : null}</button>
-                                    <button type="button" onClick={handleFilterReset} className="refresh"><img
+                                    <button type="button" onClick={handleFilterReset} className="refresh"><img alt=""
                                         src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh_blue.svg'}/>
                                     </button>
                                     <div className="btn_select_box">

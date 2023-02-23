@@ -12,7 +12,7 @@ const MemberUpdate = () => {
     } = useToastAlert();
     const navigate = useNavigate();
 
-    const [userIdx, setUserIdx] = useState(window.location.pathname.split('/').reverse()[0]);
+    const userIdx = window.location.pathname.split('/').reverse()[0];
     const [userData, setUserData] = useState({});
     const [modUserData, setModUserData] = useState({})
 
@@ -72,7 +72,7 @@ const MemberUpdate = () => {
                 <div className="file_upload_area">
                     <div className="head">
                         <button onClick={() => navigate('/member_management')}>
-                            <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
+                            <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                         </button>
                         <h2>멤버 상세보기</h2>
                     </div>

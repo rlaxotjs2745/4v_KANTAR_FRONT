@@ -20,7 +20,7 @@ const MemberCreate = () => {
 
 
     useEffect(() => {
-        axios.get(SERVER_URL + 'user/' + `member_detail?idx_user=${idx_user}`, AXIOS_OPTION)
+        axios.get(SERVER_URL + `user/member_detail?idx_user=${idx_user}`, AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
                     if(res.data.data.user_type === 99){
@@ -83,7 +83,7 @@ const MemberCreate = () => {
                 <div className="file_upload_area">
                     <div className="head">
                         <button onClick={() => navigate('/member_management')}>
-                            <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
+                            <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                         </button>
                         <h2>멤버 생성하기</h2>
                     </div>

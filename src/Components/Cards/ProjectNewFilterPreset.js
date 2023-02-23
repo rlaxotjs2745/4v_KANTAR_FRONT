@@ -17,12 +17,12 @@ const ProjectNewFilterPreset = ({
                 <strong className="sub_tit">새 필터 프리셋 이름</strong>
                 <div className="input_box">
                     <input type="text" placeholder="프리셋 이름을 입력해주세요.." name="filter_title" onChange={handleFilterTitle} />
-                    <button><img src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
+                    <button><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_search.svg'}/></button>
                 </div>
             </div>
             <div className="fixed_btn_box">
                 <button onClick={handleModalClose} type="button">취소</button>
-                <button type="button" onClick={CreateFilterPreset} type="button" className="co1">생성하기</button>
+                <button onClick={CreateFilterPreset} type="button" className="co1">생성하기</button>
             </div>
         </Modal>
     )

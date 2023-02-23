@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Route, Routes, useNavigate} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import LayoutType2 from "../Layout/LayoutType2";
 import LayoutType1 from "../Layout/LayoutType1";
 import Home from "../Pages/Home";
@@ -21,7 +21,6 @@ import UsageStatistics from "../Pages/UsageStatistics";
 import ProjectDetail from "../Pages/ProjectDetail";
 import FirstLogin from "../Pages/FirstLogin"
 import ScrollToTop from "../Components/Layout/ScrollToTop";
-import {useCookies} from "react-cookie";
 
 
 const Routers = () => {

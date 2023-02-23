@@ -1,15 +1,12 @@
 import React, {useEffect} from "react";
-import {Link, useNavigate, useLocation} from 'react-router-dom';
-import { useCallback, useState } from 'react';
-import FileDropzone from "../Components/Cards/FileDropzone";
+import {useNavigate, useLocation} from 'react-router-dom';
+import {useState } from 'react';
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
-import { writeFileXLSX } from 'xlsx';
 
 const ReportDetail = () => {
     const {
-        toastNoticeInfo,
         toastNoticeSuccess,
         toastNoticeError,
         toastNoticeWarning,
@@ -223,7 +220,7 @@ const ReportDetail = () => {
                     <div className="head type2">
                         <input id="report_title" name="report_title" type="text" defaultValue={reportProject && reportProject.title}/>
                         <button onClick={() => navigate('/report')}>
-                            <img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
+                            <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete.svg'}/>
                         </button>
                     </div>
 
@@ -369,9 +366,9 @@ const ReportDetail = () => {
                                             {
                                                 isOwn || uType === 99 ?
                                             <div className="edit_btn_box">
-                                                <button title="복사하기" onClick={copyToClipboard} className="copy" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
-                                                <button title="편집하기" onClick={e => toggleReadOnly(e, index)} className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
-                                                <button title="초기화" onClick={e => handleRefreshClick(e, index)} className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
+                                                <button title="복사하기" onClick={copyToClipboard} className="copy" type="button"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_copy.svg'}/></button>
+                                                <button title="편집하기" onClick={e => toggleReadOnly(e, index)} className="edit" type="button"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
+                                                <button title="초기화" onClick={e => handleRefreshClick(e, index)} className="refresh" type="button"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
                                             </div>
                                                     : null
                                             }
@@ -498,8 +495,8 @@ const ReportDetail = () => {
                                 {
                                     isOwn || uType === 99 ?
                                 <div className="edit_btn_box">
-                                    <button title="편집하기" onClick={toggleReadOnly2} className="edit" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
-                                    <button title="초기화" onClick={handleRefreshClick2} className="refresh" type="button"><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
+                                    <button title="편집하기" onClick={toggleReadOnly2} className="edit" type="button"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_edit.svg'}/></button>
+                                    <button title="초기화" onClick={handleRefreshClick2} className="refresh" type="button"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_btn_refresh.svg'}/></button>
                                 </div>
                                         : null
                                 }

@@ -5,7 +5,6 @@ function InfiniteScroller({ items, persons, subchapters, questions, answers}) {
 
     const [list, setList] = useState([]);
     const perPage = 10; // 스크롤 할때 몇개씩 불러올지
-    const [isLoading, setIsLoading] = useState(false); // 추가
     const [endReached, setEndReached] = useState(false);
 
     useEffect(() => {

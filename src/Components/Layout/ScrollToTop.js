@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../../Util/env";
@@ -8,9 +8,6 @@ import {getCookie} from "../../Util/cookie";
 
 export default function ScrollToTop() {
     const {
-        toastNoticeInfo,
-        toastNoticeSuccess,
-        toastNoticeError,
         toastNoticeWarning,
     } = useToastAlert();
     const {pathname} = useLocation();

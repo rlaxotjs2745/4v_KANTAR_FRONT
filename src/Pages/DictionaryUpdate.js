@@ -14,12 +14,11 @@ const DictionaryUpdate = () => {
     } = useToastAlert();
     const navigate = useNavigate();
 
-    const [dictionaryIdx, setDictionaryIdx] = useState(window.location.pathname.split('/').reverse()[0]);
-    const [typeofPage, setTypeofPage] = useState(window.location.pathname.split('/').reverse()[1]);
+    const dictionaryIdx = window.location.pathname.split('/').reverse()[0];
+    const typeofPage = window.location.pathname.split('/').reverse()[1];
     const [dictionaryTitle, setDictionaryTitle] = useState('');
     const [dictionaryData, setDictionaryData] = useState([]);
     const [loadingBool, setLoadingBool] = useState(false);
-    const [isSaved, setIsSaved] = useState(false);
 
     useEffect(() => {
         getDictionaryData();
@@ -58,7 +57,7 @@ const DictionaryUpdate = () => {
 
     const dictionarySave = () => { // 프로젝트 저장 버튼
         for(let dt of dictionaryData){
-            if(dt.keyword == null || dt.keyword == ''){
+            if(dt.keyword == null || dt.keyword === ''){
                 return toastNoticeError('비어있는 키워드가 있습니다.')
             }
         }
@@ -140,7 +139,7 @@ const DictionaryUpdate = () => {
 
     const handleDownload = () => {
         for(let dt of dictionaryData){
-            if(dt.keyword == null || dt.keyword == ''){
+            if(dt.keyword == null || dt.keyword === ''){
                 return toastNoticeError('비어있는 키워드가 있습니다.')
             }
         }
@@ -186,7 +185,7 @@ const DictionaryUpdate = () => {
                 <div className="file_upload_area">
                     <div className="head">
                         <button onClick={() => navigate('/dictionary')}>
-                            <img src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
+                            <img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_arrow_back.svg'}/>
                         </button>
                         {
                             typeofPage === 'dictionary_update' ? <h2>사전 수정하기</h2> : <h2>사전 상세정보</h2>
