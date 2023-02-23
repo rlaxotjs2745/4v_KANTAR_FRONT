@@ -1,4 +1,6 @@
 // eslint-disable-next-line
+// eslint-disable-next-line react-hooks/exhaustive-deps
+
 import './App.css';
 import React, { useState, useEffect, useRef } from 'react';
 import Routers from "./Router/Router";
@@ -7,6 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useToastAlert} from "./Util/toastAlert";
 import {WS_URL} from "./Util/env";
 import {getCookie} from "./Util/cookie";
+if (process.env.NODE_ENV === "production") {
+  console.log = function no_console() {};
+  console.warn = function no_console() {};
+}
+
 
 function App(){
 
