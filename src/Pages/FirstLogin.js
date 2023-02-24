@@ -16,10 +16,12 @@ const FirstLogin = () => {
     const [userInfo, setUserInfo] = useState({});
     const [pwcBool, setPwcBool] = useState(true);
     const [pwBool, setPwBool] = useState(true);
+
+    const uId = window.location.pathname.split('/').reverse()[1];
     const fCode = window.location.pathname.split('/').reverse()[0];
 
     useEffect(() => {
-        axios.get(SERVER_URL + `user/first_login?fCode=${fCode}`)
+        axios.get(SERVER_URL + `user/first_login?uid=${uId}&fCode=${fCode}`)
             .then(res => {
                 if(res.data.success === '1'){
                     setUserInfo(res.data.data);

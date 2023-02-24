@@ -60,7 +60,7 @@ const Routers = () => {
                     {/*<Route path="/signup" element={<SignUp/>}/>*/}
                     {/*<Route path="/find_pw" element={<FindPW/>}/>*/}
                     {/* 404 페이지 */}
-                    <Route path="/firstlogin/:fCode" element={<FirstLogin />} />
+                    <Route path="/firstlogin/:uId/:fCode" element={<FirstLogin />} />
                     <Route path="*" element={<Error/>}/>
                 </Route>
                 {/* type2 푸터 헤더 없는 버전 */}
