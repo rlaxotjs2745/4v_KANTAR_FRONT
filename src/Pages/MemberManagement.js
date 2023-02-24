@@ -87,8 +87,6 @@ const MemberManagement = () => {
         }
     }
 
-
-
     return (
         <>
             {
@@ -131,9 +129,7 @@ const MemberManagement = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {
-                            !notAdmin && userList && userList.length !== 0 ? userList.map(dt => dt.user_status == 0 ? <MemberManagementEntity user={dt} isConfirmUser={false} /> : <MemberManagementEntity user={dt} isConfirmUser={true} />) : null
-                        }
+                        {!notAdmin && userList && userList.length !== 0 ? userList.map(dt => dt.user_status == 0 ? <MemberManagementEntity key={dt.idx_user} user={dt} isConfirmUser={false} /> : <MemberManagementEntity key={dt.idx_user} user={dt} isConfirmUser={true} />) : null}
                         </tbody>
                     </table>
                     <div className="table_pagination">
