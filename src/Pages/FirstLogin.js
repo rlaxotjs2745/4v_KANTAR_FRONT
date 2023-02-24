@@ -30,6 +30,7 @@ const FirstLogin = () => {
                     setUserInfo(res.data.data);
                 }
             })
+        console.log('쿠키 제거됨')
     }, [])
 
     const changeInfo = (e) => {

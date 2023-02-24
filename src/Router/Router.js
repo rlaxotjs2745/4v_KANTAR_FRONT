@@ -56,7 +56,7 @@ const Routers = () => {
                     <Route path="/fileupload" element={<FileUpload/>} />
                 </Route>
                 {/* 로그인 되어 있으면 login 페이지가 아니라 /로 넘어가는 라우터 */}
-                <Route path="/" element={<PublickRoute><LayoutType1/></PublickRoute>}>
+                <Route path="/" element={<LayoutType1/>}>
                     {/*<Route path="/signup" element={<SignUp/>}/>*/}
                     {/*<Route path="/find_pw" element={<FindPW/>}/>*/}
                     {/* 404 페이지 */}
