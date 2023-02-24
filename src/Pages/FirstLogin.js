@@ -23,7 +23,6 @@ const FirstLogin = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
 
     useEffect(() => {
-        console.log(uId, '??')
         removeCookie("X-AUTH-TOKEN", {path: `/firstlogin/${uId}`, domain: window.location.hostname})
         axios.get(SERVER_URL + `user/first_login?uid=${uId}&fCode=${fCode}`)
             .then(res => {
