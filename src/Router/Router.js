@@ -21,6 +21,7 @@ import UsageStatistics from "../Pages/UsageStatistics";
 import ProjectDetail from "../Pages/ProjectDetail";
 import FirstLogin from "../Pages/FirstLogin"
 import ScrollToTop from "../Components/Layout/ScrollToTop";
+import LayoutType3 from "../Layout/LayoutType3";
 
 
 const Routers = () => {
@@ -56,16 +57,14 @@ const Routers = () => {
                     <Route path="/fileupload" element={<FileUpload/>} />
                 </Route>
                 {/* 로그인 되어 있으면 login 페이지가 아니라 /로 넘어가는 라우터 */}
-                <Route path="/" element={<LayoutType1/>}>
-                    {/*<Route path="/signup" element={<SignUp/>}/>*/}
-                    {/*<Route path="/find_pw" element={<FindPW/>}/>*/}
-                    {/* 404 페이지 */}
+                <Route path="/" element={<LayoutType3/>}>
                     <Route path="/firstlogin/:uId/:fCode" element={<FirstLogin />} />
-                    <Route path="*" element={<Error/>}/>
                 </Route>
                 {/* type2 푸터 헤더 없는 버전 */}
                 {/* 로그인 되어 있으면 login 페이지가 아니라 /로 넘어가는 라우터 */}
                 <Route path="/" element={<PublickRoute><LayoutType2/></PublickRoute>}>
+                    {/* 404 페이지 */}
+                    <Route path="*" element={<Error/>}/>
                     <Route path="/login" element={<Login/>}/>
                 </Route>
             </Routes>
