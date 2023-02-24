@@ -14,22 +14,25 @@ const MemberCreate = () => {
     const navigate = useNavigate();
 
     const [newUser, setNewUser] = useState({});
-    const [isSuper, setIsSuper] = useState(false);
+    const [isSuper, setIsSuper] = useState(0);
     const idx_user = 1;
     let isDoing = false;
-
+    const [radioDisabled, setRadioDisabled] = useState(false);
 
     useEffect(() => {
-        axios.get(SERVER_URL + `user/member_detail?idx_user=${idx_user}`, AXIOS_OPTION)
+        axios.get(SERVER_URL + 'user/header_info', AXIOS_OPTION)
             .then(res => {
                 if(res.data.success === '1'){
                     if(res.data.data.user_type === 99){
-                        setIsSuper(true);
+                        setIsSuper(1);
+                    }else if(res.data.data.user_type === 11){
+                        setIsSuper(2);
+                        setRadioDisabled(true);
+                    }else{
+                        setRadioDisabled(true);
                     }
-                } else {
-                    toastNoticeError(res.data.msg);
                 }
-            });
+            })
     }, [])
 
     const refreshForm = () => {
@@ -52,7 +55,7 @@ const MemberCreate = () => {
         if(!/^([\w._-])*[a-zA-Z0-9]+([\w._-])*([a-zA-Z0-9])+([\w._-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/.test(newUser.user_id)){
             return toastNoticeError('이메일 형식에 맞지 않습니다.', '');
         }
-        if(!isSuper || !newUser.user_type){
+        if(isSuper == 0 || !newUser.user_type){
             newUser.user_type = 1;
         }
 
@@ -100,12 +103,12 @@ const MemberCreate = () => {
                             <input onChange={(e) => fillUserInfo(e)} id="user_id" type="email" placeholder="아이디로 사용할 이메일을 작성해주세요."/>
                         </div>
                         {
-                            isSuper ?
+                            isSuper !== 0 ?
                             <div className="input_box">
                                 <label>멤버 권한</label>
                                 <div className="flex">
                                     <div className="radio_box">
-                                        <input onChange={(e) => setUserType(e)} name="grade" id="admin" type="radio"/>
+                                        <input onChange={(e) => setUserType(e)} name="grade" id="admin" type="radio" disabled={radioDisabled} />
                                         <label htmlFor="admin">관리자</label>
                                     </div>
                                     <div className="radio_box">
