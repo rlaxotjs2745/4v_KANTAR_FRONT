@@ -107,7 +107,7 @@ const MemberCreate = () => {
                             <div className="input_box">
                                 <label>멤버 권한</label>
                                 <div className="flex">
-                                    <div className="radio_box">
+                                    <div className={radioDisabled ? "disabled radio_box" : "radio_box"}>
                                         <input onChange={(e) => setUserType(e)} name="grade" id="admin" type="radio" disabled={radioDisabled} />
                                         <label htmlFor="admin">관리자</label>
                                     </div>
