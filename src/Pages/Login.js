@@ -20,17 +20,9 @@ const Login = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
 
     const loginSubmit = (data) => {
-
-        // navigate('/')
-
-        console.log(data.user_id , '유저 아이디값')
-        console.log(data.user_pw , '유저 비밀번호값')
-
         axios.post(SERVER_URL + 'user/login', {'user_id' : data.user_id, 'user_pw' : data.user_pw}).then(res => {
             console.log(res)
             if(res.data.success === "0"){
-                // 로그인 정보를 다시 확인해주세요.
-                // setloginMessage(res.data.result_str)
                 toastNoticeError(res.data.msg)
             } else if(res.data.success === '1') {
                 setCookie('X-AUTH-TOKEN', res.data.data.token);
@@ -47,7 +39,6 @@ const Login = () => {
         user_id: yup
             .string()
             .required('아이디를 입력해주세요.')
-            // .email('이메일 형식이 아닙니다.'),
             .matches(
                 /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
                 '이메일 형식으로 입력해주세요.'
@@ -56,25 +47,14 @@ const Login = () => {
         user_pw: yup
             .string()
             .required('비밀번호를 입력해주세요.')
-            // .min(10, '10자 이상의 비밀번호만 사용할 수 있습니다')
-            // .max(15, '최대 15자 까지만 가능합니다')
-            // .matches(
-            //     /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{10,20}$/,
-            //     '영어, 숫자, 특수문자로 조합된 비밀번호만 사용가능합니다.'
-            // )
     });
     const {
         register,
         handleSubmit,
         formState: { errors },
-        // isSubmitting 은 양식 제출 중 disabled 처리 하게 함.
     } = useForm({
         mode: 'onChange',
-        resolver: yupResolver(formSchema),
-        defaultValues: { // 초기값 설정
-            // id: '',
-            // age: '',
-        }
+        resolver: yupResolver(formSchema)
     });
 
     const onError = (errors) => {
