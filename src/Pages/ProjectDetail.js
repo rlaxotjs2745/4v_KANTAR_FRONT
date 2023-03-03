@@ -221,7 +221,7 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
         } else if (checkBoxCount > 0) {
-            setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            // setProjectDetailListFilterOrigin(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
         } else if(checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
