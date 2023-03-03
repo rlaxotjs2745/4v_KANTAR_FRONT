@@ -189,12 +189,20 @@ const ProjectDetail = () => {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin)
+            }
             toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
         } else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+            }
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBo화xCount3 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
@@ -287,12 +295,20 @@ const ProjectDetail = () => {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin)
+            }
             toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
         } else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+            }
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
@@ -383,7 +399,11 @@ const ProjectDetail = () => {
         } else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+            }
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
@@ -463,12 +483,20 @@ const ProjectDetail = () => {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin)
+            }
             toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
         } else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+            }
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
@@ -532,12 +560,20 @@ const ProjectDetail = () => {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin)
+            }
             toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
         } else if ( checkBoxCount4 > 0 && checkBoxCount3 === 0) {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            if(checkBoxCount > 0) {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
+            } else {
+                setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
+            }
             toastNoticeWarning('질문이 초기화 됩니다.')
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
