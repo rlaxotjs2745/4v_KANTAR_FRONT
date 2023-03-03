@@ -196,7 +196,7 @@ const ProjectDetail = () => {
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter)))
             toastNoticeWarning('질문이 초기화 됩니다.')
-        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBo화xCount3 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
@@ -263,7 +263,7 @@ const ProjectDetail = () => {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin([]) // 서브챕터 라벨 리스트 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
+            // toastNoticeWarning('서브챕터와 질문이 초기화 됩니다.')
         }
         //
         // if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
@@ -365,7 +365,7 @@ const ProjectDetail = () => {
         if (JSON.stringify(selectedLabelsSubchapters) !== JSON.stringify(subchaptersFilterModalOrigin)) {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
-            toastNoticeWarning('질문이 초기화 됩니다.')
+            // toastNoticeWarning('질문이 초기화 됩니다.')
         }
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
@@ -593,11 +593,9 @@ const ProjectDetail = () => {
     }
 
 
-    const [input, setInput] = useState({ value: '', characters: 0 }); // 리포트 생성 리포트 이름 0/50 글자 개수제한
-    const [input2, setInput2] = useState({ value: '', characters: 0 }); // 워드 클라우드 이름 0/20 글자 개수제한
-
+    const [input, setInput] = useState('')
     function handleChange(setInputNumber, event) { // 리포트 생성 리포트 이름 0/50 글자 개수제한
-        setInputNumber({ value: event.target.value, characters: event.target.value.length });
+        setInputNumber({value: event.target.value, characters: event.target.value.length});
     }
 
     // 필터 프리셋 만들기
@@ -605,6 +603,7 @@ const ProjectDetail = () => {
         // if(checkBoxCount4 === 0) {
         //     return toastNoticeWarning('필터를 전부 설정해주세요.')
         // }
+
         setShowModal(true);
         document.body.classList.add('fixed');
     };
@@ -627,7 +626,6 @@ const ProjectDetail = () => {
 
     // 워드 클라우드 생성 모달
     const handleButtonClick4 = (idx) => {
-
         setShowModal4(true);
         document.body.classList.add('fixed');
     };

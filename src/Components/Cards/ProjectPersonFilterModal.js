@@ -25,16 +25,15 @@ const ProjectPersonFilterModal = ({
                         </div>
                         <div className="filter_check_box">
                             <div className="input_box end">
-                                <input type="checkbox" id="filter1" onChange={handleCheckAll1} checked={checkAll}/>
-                                <label htmlFor="filter1">전체선택</label>
+
+                                <label><input type="checkbox" id="filter1" onChange={handleCheckAll1} checked={checkAll}/>전체선택</label>
                             </div>
                             <>
                                 {uniquePersons.map(item => (
                                     <div className="input_box">
-                                        <input id={item} type="checkbox"
-                                               onChange={(e) => handleCheckboxChangePersons(e, item)}
-                                               checked={selectedLabelsPersons.includes(item)}/>
-                                        <label htmlFor={item}>{item}</label>
+                                        <label><input id={item} type="checkbox"
+                                                      onChange={(e) => handleCheckboxChangePersons(e, item)}
+                                                      checked={selectedLabelsPersons.includes(item)}/>{item}</label>
                                     </div>
                                 ))}
                             </>

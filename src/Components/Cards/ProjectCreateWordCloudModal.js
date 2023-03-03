@@ -13,7 +13,14 @@ const ProjectCreateWordCloudModal = ({
                                          handleLeftClick,
                                          currentPageNumber
                                      }) => {
+    function handleKeyDown(event) {
+        const maxLength = 20;
+        const inputText = event.target.value;
 
+        if (inputText.length >= maxLength && event.key !== "Backspace" && event.key !== "Delete") {
+            event.preventDefault();
+        }
+    }
 
 
     return (

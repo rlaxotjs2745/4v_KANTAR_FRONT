@@ -25,14 +25,12 @@ const ProjectChapterFilterModal = ({
                         </div>
                         <div className="filter_check_box">
                             <div className="input_box end">
-                                <input type="checkbox" id="filter2" onChange={handleCheckAll2} checked={checkAll2}/>
-                                <label htmlFor="filter2">전체선택</label>
+                                <label><input type="checkbox" id="filter2" onChange={handleCheckAll2} checked={checkAll2}/>전체선택</label>
                             </div>
                             <>
                                 {uniqueChapters.map(item => (
                                     <div className="input_box">
-                                        <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeChapters(e, item)} checked={selectedLabelsChapters.includes(item)}/>
-                                        <label htmlFor={item}>{item}</label>
+                                        <label><input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeChapters(e, item)} checked={selectedLabelsChapters.includes(item)}/>{item}</label>
                                     </div>
                                 ))}
                             </>

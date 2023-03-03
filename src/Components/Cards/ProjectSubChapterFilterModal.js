@@ -25,14 +25,12 @@ const ProjectSubChapterFilterModal = ({
                         </div>
                         <div className="filter_check_box">
                             <div className="input_box end">
-                                <input type="checkbox" id="filter3" onChange={handleCheckAll3} checked={checkAll3}/>
-                                <label htmlFor="filter3">전체선택</label>
+                                <label><input type="checkbox" id="filter3" onChange={handleCheckAll3} checked={checkAll3}/>전체선택</label>
                             </div>
                             <>
                                 {uniqueSubchapters.map(item => (
                                     <div className="input_box">
-                                        <input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeSubchapters(e, item)} checked={selectedLabelsSubchapters.includes(item)}/>
-                                        <label htmlFor={item}>{item}</label>
+                                        <label><input id={item} type="checkbox" onChange={(e) => handleCheckboxChangeSubchapters(e, item)} checked={selectedLabelsSubchapters.includes(item)}/>{item}</label>
                                     </div>
                                 ))}
                             </>
