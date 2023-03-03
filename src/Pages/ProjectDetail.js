@@ -17,6 +17,7 @@ import ProjectCreateWordCloudModal from "../Components/Cards/ProjectCreateWordCl
 import ProjectCreateReportModal from "../Components/Cards/ProjectCreateReportModal";
 import ProjectNewFilterPreset from "../Components/Cards/ProjectNewFilterPreset";
 import html2canvas from 'html2canvas';
+import $ from 'jquery'
 
 const ProjectDetail = () => {
 
@@ -157,12 +158,16 @@ const ProjectDetail = () => {
 
     // 화자 필터 모달 관련 시작
     const handleModalFilter1 = () => {
+        $('#myModal').on('shown.bs.modal', function() {
+            $('.scrollable').scrollTop(0);
+        });
         setShowFilterModal1(true)
         setPersonsFilterModalOrigin([...selectedLabelsPersons])
         document.body.classList.add('fixed');
     };
     const handleModalFilterClose1 = () => {
         setShowFilterModal1(false)
+        $('.filter_check_box').scrollTop(0);
         setSelectedLabelsPersons([...personsFilterModalOrigin])
         document.body.classList.remove('fixed');
     };
@@ -177,7 +182,7 @@ const ProjectDetail = () => {
     }
 
     const handleModalFilterSubmit1 = () => {
-
+        $('.filter_check_box').scrollTop(0);
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -250,6 +255,7 @@ const ProjectDetail = () => {
     };
 
     const handleModalFilterClose2 = () => {
+        $('.filter_check_box').scrollTop(0);
         setSelectedLabelsChapters([...chaptersFilterModalOrigin])
         setShowFilterModal2(false)
         document.body.classList.remove('fixed');
@@ -265,6 +271,7 @@ const ProjectDetail = () => {
     }
 
     const handleModalFilterSubmit2 = () => {
+        $('.filter_check_box').scrollTop(0);
         setShowFilterModal2(false)
         if (JSON.stringify(selectedLabelsChapters) !== JSON.stringify(chaptersFilterModalOrigin)) {
             setSelectedLabelsSubchapters([]); // 서브챕터 필터 라벨 초기화
@@ -363,6 +370,7 @@ const ProjectDetail = () => {
     };
 
     const handleModalFilterClose3 = () => {
+        $('.filter_check_box').scrollTop(0);
         setShowFilterModal3(false)
         setSelectedLabelsSubchapters([...subchaptersFilterModalOrigin])
         document.body.classList.remove('fixed');
@@ -378,6 +386,7 @@ const ProjectDetail = () => {
     }
 
     const handleModalFilterSubmit3 = () => {
+        $('.filter_check_box').scrollTop(0);
         if (JSON.stringify(selectedLabelsSubchapters) !== JSON.stringify(subchaptersFilterModalOrigin)) {
             setSelectedLabelsQuestions([]); // 질문 필터 라벨 초기화
             setProjectDetailListFilterOrigin2([]) // 질문 필터 라벨 리스트 초기화
@@ -457,6 +466,7 @@ const ProjectDetail = () => {
 
 
     const handleModalFilterClose4 = () => {
+        $('.filter_check_box').scrollTop(0);
         setShowFilterModal4(false)
         setSelectedLabelsQuestions([...questionsFilterModalOrigin])
         document.body.classList.remove('fixed');
@@ -472,6 +482,7 @@ const ProjectDetail = () => {
     }
 
     const handleModalFilterSubmit4 = () => {
+        $('.filter_check_box').scrollTop(0);
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -543,12 +554,14 @@ const ProjectDetail = () => {
     }; // 키워드 필터 오픈
 
     const handleModalFilterClose5 = () => {
+        $('.keyword_check_box').scrollTop(0);
         setShowFilterModal5(false)
         setSelectedDictDataR([...keywordsFilterModalOrigin])
         document.body.classList.remove('fixed');
     }; // 키워드 필터 닫힘
 
     const handleModalFilterSubmit5 = () => {
+        $('.keyword_check_box').scrollTop(0);
         if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedLabelsQuestions.includes(item.question) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
         } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount4 > 0) {
@@ -628,10 +641,22 @@ const ProjectDetail = () => {
         toastNoticeSuccess('필터를 초기화 하였습니다.')
     }
 
+    const [input, setInput] = useState({ value: '', characters: 0 }); // 리포트 생성 리포트 이름 0/50 글자 개수제한
+    const [input2, setInput2] = useState({ value: '', characters: 0 }); // 워드 클라우드 이름 0/20 글자 개수제한
 
-    const [input, setInput] = useState('')
-    function handleChange(setInputNumber, event) { // 리포트 생성 리포트 이름 0/50 글자 개수제한
-        setInputNumber({value: event.target.value, characters: event.target.value.length});
+    // function handleChange(setInputNumber, event) { // 리포트 생성 리포트 이름 0/50 글자 개수제한
+    //     setInputNumber({value: event.target.value, characters: event.target.value.length});
+    // }
+
+    function handleChange(setInputNumber, event) {
+        const maxLength = event.target.maxLength; // 최대 글자 수
+        const value = event.target.value;
+
+        if (value.length <= maxLength) { // 입력 글자 수가 최대 글자 수 이하일 경우
+            setInputNumber({ value: value, characters: value.length });
+        } else { // 입력 글자 수가 최대 글자 수를 초과한 경우
+            setInputNumber({ value: value.slice(0, maxLength), characters: maxLength });
+        }
     }
 
     // 필터 프리셋 만들기
@@ -1190,6 +1215,7 @@ const ProjectDetail = () => {
             link.click();
         });
     }
+
 
 
     return(
