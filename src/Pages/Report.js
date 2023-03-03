@@ -36,8 +36,8 @@ const Report = () => {
 
 
     const handleDownload = () => {
-        console.log(filteredProjects, '선택된 리스트')
-        console.log(checkedIndexes, '선택된 리스트 값')
+        // console.log(filteredProjects, '선택된 리스트')
+        // console.log(checkedIndexes, '선택된 리스트 값')
         if(checkedIndexes.length > 1) {
             return toastNoticeWarning('1개의 리포트만 선택하여 다운로드를 진행해주세요.')
         }

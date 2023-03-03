@@ -1104,7 +1104,6 @@ const ProjectDetail = () => {
 
     const fetchData = async () => {
         axios.post(SERVER_URL + 'word/list_wordcloud', {"idx_project_job_projectid" : pathSplit, "currentPage" : currentPageNumber}, AXIOS_OPTION).then(res => {
-            console.log(res.data.data, '확인좀')
             if(res.data.success === '1'){
                 setWordCloudDataList(res.data.data)
                 setCurrentLastPage(() => {
@@ -1158,8 +1157,6 @@ const ProjectDetail = () => {
         });
     }
 
-    console.log(projectDetailList, '넘기는 값')
-    console.log(projectDetailListOrigin, '서버에서 받은 값')
 
     return(
         <>

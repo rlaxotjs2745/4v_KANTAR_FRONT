@@ -26,7 +26,7 @@ const ProjectCreateWordCloudModal = ({
                 <div className="flex word_cloud">
                     <div className="input_box">
                         <label htmlFor="project_name required"><em className="title required">새 워드 클라우드 이름</em><span>{input2.characters}/20</span></label>
-                        <input onChange={(event) => handleChange(setInput2, event)} type="text" maxLength="20"/>
+                        <input onInput={(event) => handleChange(setInput2, event)} type="text" maxLength="20"/>
                     </div>
                     <button onClick={createWordCloud} type="button" className="plus cds--btn">생성하기</button>
                 </div>

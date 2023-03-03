@@ -21,7 +21,7 @@ const Login = () => {
 
     const loginSubmit = (data) => {
         axios.post(SERVER_URL + 'user/login', {'user_id' : data.user_id, 'user_pw' : data.user_pw}).then(res => {
-            console.log(res)
+            // console.log(res)
             if(res.data.success === "0"){
                 toastNoticeError(res.data.msg)
             } else if(res.data.success === '1') {
@@ -63,11 +63,11 @@ const Login = () => {
 
     const findPw = (data) => {
         let loginForm = document.querySelector("#loginForm")
-
-        console.log(loginForm.user_id.value, '클릭 시 데이터')
+        //
+        // console.log(loginForm.user_id.value, '클릭 시 데이터')
 
         axios.post(SERVER_URL + 'user/find_pw', {'user_id' : loginForm.user_id.value}).then(res => {
-            console.log(res)
+            // console.log(res)
             if(res.data.success === "0"){
                 toastNoticeError(res.data.msg)
             } else if(res.data.success === '1') {

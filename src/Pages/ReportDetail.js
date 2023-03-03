@@ -43,17 +43,6 @@ const ReportDetail = () => {
         setSummary(reportProject && reportProject.summary)
     }, [reportProject])
 
-    // console.log(reportFilter, '필터 데이터')
-    // console.log(reportKeyword, '키워드 데이터')
-    // console.log(reportProject, '프로젝트 내용')
-    // console.log(reportSummary, '요약문 데이터')
-    // console.log(reportMetaChapter, '챕터별 메타 데이터')
-    // console.log(reportMetaSpeaker, '응답자별 메타 데이터')
-
-
-    // useEffect(()=>{
-    //     console.log(editedReports, '값 확인')
-    // },[editedReports])
 
     useEffect(()=> {
         axios.post(SERVER_URL + 'report/report_view', {'idx':pathSplit}, AXIOS_OPTION).then(res => {

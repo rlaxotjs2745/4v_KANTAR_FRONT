@@ -27,11 +27,11 @@ export default function ScrollToTop() {
                 // console.log('토큰이 있을때만 실행')
                 axios.get(SERVER_URL + 'user/loginchk', AXIOS_OPTION).then(res => {
                     if(res.data.success === '0'){
-                        console.log('여기 실행중')
+                        // console.log('여기 실행중')
                         toastNoticeWarning('토큰이 만료되어 로그아웃됩니다. 다시 로그인해주세요.')
                         logOut()
                     } else {
-                        console.log('로그인 유지중입니다')
+                        // console.log('로그인 유지중입니다')
                     }
                 }).catch(err => {
                     console.log(err);

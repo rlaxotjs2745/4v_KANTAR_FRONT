@@ -22,7 +22,7 @@ const ProjectCreateReportModal = ({
                 <div className="flex">
                     <div className="input_box">
                         <label htmlFor="project_name required"><em className="title required">프로젝트 이름</em><span>{input.characters}/50</span></label>
-                        <input onChange={(event) => handleChange(setInput, event)} type="text" id="project_name" maxLength="50"/>
+                        <input onInput={(event) => handleChange(setInput, event)} type="text" id="project_name" maxLength="50"/>
                     </div>
                 </div>
             </div>

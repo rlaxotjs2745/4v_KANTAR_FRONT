@@ -171,16 +171,16 @@ const FileUpload = () => {
                             <div className="flex">
                                 <div className="input_box fb30">
                                     <label htmlFor="job_no"><em className="title required">Job No</em><span>{input1.characters}/10</span></label>
-                                    <input name="job_no" onChange={(event) => handleChange(setInput1, event)} type="text" id="job_no" maxLength="10"/>
+                                    <input name="job_no" onInput={(event) => handleChange(setInput1, event)} type="text" id="job_no" maxLength="10"/>
                                 </div>
                                 <div className="input_box">
                                     <label htmlFor="project_name required"><em className="title required">프로젝트 이름</em><span>{input2.characters}/50</span></label>
-                                    <input name="project_name" onChange={(event) => handleChange(setInput2, event)} type="text" id="project_name" maxLength="50"/>
+                                    <input name="project_name" onInput={(event) => handleChange(setInput2, event)} type="text" id="project_name" maxLength="50"/>
                                 </div>
                             </div>
                             <div className="input_box">
                                 <label htmlFor="project_info"><em className="title">프로젝트 내용 (선택사항)</em><span>{input3.characters}/200</span></label>
-                                <textarea name="project_content" onChange={(event) => handleChange(setInput3, event)} id="project_info" placeholder="프로젝트 세부정보를 입력해 주세요." maxLength="200"/>
+                                <textarea name="project_content" onInput={(event) => handleChange(setInput3, event)} id="project_info" placeholder="프로젝트 세부정보를 입력해 주세요." maxLength="200"/>
                             </div>
                         </div>
                         <div className="btn_box">

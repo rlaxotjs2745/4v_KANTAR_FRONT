@@ -168,9 +168,9 @@ const Home = () => {
     const handleButtonClick3 = (but) => {
         let idx = Number(but.target.parentElement.parentElement.id);
         let filteredList = reportList[reportList.findIndex(item => item.some(report => report.idx_project_job_projectid === idx))]
-        console.log(idx, '클릭된 값')
-        console.log(reportList, '필터 리스트')
-        console.log(reportList[reportList.findIndex(item => item.some(report => report.idx_project_job_projectid === idx))], '필터된 리스트')
+        // console.log(idx, '클릭된 값')
+        // console.log(reportList, '필터 리스트')
+        // console.log(reportList[reportList.findIndex(item => item.some(report => report.idx_project_job_projectid === idx))], '필터된 리스트')
         setFilteredList(filteredList)
         setShowModal2(true);
     };
