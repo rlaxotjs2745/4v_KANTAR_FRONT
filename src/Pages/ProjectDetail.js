@@ -650,13 +650,13 @@ const ProjectDetail = () => {
 
     function handleChange(setInputNumber, event) {
         const maxLength = event.target.maxLength; // 최대 글자 수
-        const value = event.target.value.slice(0, maxLength); // 최대 글자 수만큼 자름
+        const value = event.target.value.substr(0, maxLength); // 최대 글자 수만큼 자름
         event.target.value = value;
 
         if (value.length <= maxLength) { // 입력 글자 수가 최대 글자 수 이하일 경우
             setInputNumber({ value: value, characters: value.length });
         } else { // 입력 글자 수가 최대 글자 수를 초과한 경우
-            setInputNumber({ value: value.slice(0, maxLength), characters: maxLength });
+            setInputNumber({ value: value.substr(0, maxLength), characters: maxLength });
         }
     }
 
