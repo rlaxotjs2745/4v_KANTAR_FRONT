@@ -64,11 +64,11 @@ const FileUpload = () => {
 
         axios.post(SERVER_URL + 'project/csv_view', formData, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                setValidationData(res.data.data)
+                setValidationData(res.data)
                 setShowModal(true);
                 document.body.classList.add('fixed');
             } else {
-                toastNoticeError(res.data.data.msg)
+                toastNoticeError(res.data.msg)
             }
         }).catch(err => {
             console.log(err);
