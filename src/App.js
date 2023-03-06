@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === "production") {
 function App(){
 
   const [socketConnected, setSocketConnected] = useState(false);
-  const [sendMsg, setSendMsg] = useState('');
+  // const [sendMsg, setSendMsg] = useState(false);
   const [isToken, setIsToken] = useState('');
   const {
     toastNoticeSuccess
@@ -58,7 +58,6 @@ function App(){
         ws.current.onmessage = (evt) => {
           const data = JSON.parse(evt.data);
           // console.log(data);
-          setSendMsg(data.msg)
           toastNoticeSuccess(data.msg, data.link)
         };
       }
@@ -85,7 +84,7 @@ function App(){
 
     return(
       <>
-        <Routers sendMsg={sendMsg}/>
+        <Routers/>
         <ToastContainer
             closeButton={<img src={process.env.PUBLIC_URL + '/assets/image/ico_toast_delete.svg'} alt="Custom close icon" />}
             position="bottom-left"

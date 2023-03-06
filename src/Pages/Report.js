@@ -86,8 +86,8 @@ const Report = () => {
 
     useEffect(()=> {
         fetchData();
-        // const intervalId = setInterval(fetchData, 10000);
-        // return () => clearInterval(intervalId);
+        const intervalId = setInterval(fetchData, 1500);
+        return () => clearInterval(intervalId);
     },[currentPageNumber])
 
     const fetchData = async (query, page) => {

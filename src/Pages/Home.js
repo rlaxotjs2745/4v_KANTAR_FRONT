@@ -9,9 +9,7 @@ import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
 
-const Home = (sendMsg) => {
-
-    // console.log(sendMsg, '메세지 잘 받아지나요?')
+const Home = () => {
     const [checkBoxListData, setCheckBoxListData] = useState(0)
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -106,12 +104,12 @@ const Home = (sendMsg) => {
 
     useEffect(()=> {
         fetchData();
-        // const intervalId = setInterval(fetchData, 10000);
-        // if(stopInterval){
-        //     clearInterval(intervalId);
-        // }
-        // return () => clearInterval(intervalId);
-    },[sendMsg])
+        const intervalId = setInterval(fetchData, 1500);
+        if(stopInterval){
+            clearInterval(intervalId);
+        }
+        return () => clearInterval(intervalId);
+    },[])
 
     const fetchData = async (query, page) => {
         axios.post(SERVER_URL + 'project/list_project', {
