@@ -24,9 +24,7 @@ import ScrollToTop from "../Components/Layout/ScrollToTop";
 import LayoutType3 from "../Layout/LayoutType3";
 
 
-const Routers = () => {
-
-
+const Routers = (sendMsg) => {
     return (
         <Router>
             <ScrollToTop/>
@@ -34,7 +32,7 @@ const Routers = () => {
                 {/* type1 푸터 헤더 있는 버전 */}
                 {/* PrivateRoute 안에는 로그인 해야 접근 가능, 로그인 안되어 있으면 /login으로 이동*/}
                 <Route path="/" element={<PrivateRoute><LayoutType1/></PrivateRoute>}>
-                    <Route index element={<Home/>}/>
+                    <Route index element={<Home sendMsg={sendMsg}/>}/>
                     <Route path="/project_detail/:idx" element={<ProjectDetail/>} />
                     {/*<Route path="/project_detail/:idx" element={<ProjectDetail2/>} />*/}
                     <Route path="/profile" element={<Profile/>} />
