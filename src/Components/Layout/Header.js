@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Link, NavLink} from "react-router-dom";
-import {useCookies} from "react-cookie";
+// import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../../Util/env";
+import {removeCookie} from "../../Util/cookie";
+
 
 const Header = (props) => {
-    const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
+    // const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
     const navigate = useNavigate();
     const [role, setRole] = useState(1);
 
@@ -24,15 +26,10 @@ const Header = (props) => {
     }
 
     const logOut = () => {
-        removeCookie("X-AUTH-TOKEN", {path: "/", domain: window.location.hostname}) // path랑 domain 입력 해야
+        removeCookie("X-AUTH-TOKEN") // path랑 domain 입력 해야
         navigate('/login'); // 로그인 페이지로 이동
         window.location.reload();
     };
-
-    // function get_cookie(name) {
-    //     let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    //     return value? value[2] : null;
-    // }
 
     return (
 
