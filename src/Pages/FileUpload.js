@@ -47,8 +47,6 @@ const FileUpload = () => {
         target.nextElementSibling.classList.toggle("on");
     }
 
-    console.log(validationDataReverse)
-
     function handleChange(setInputNumber, event) {
         setInputNumber({ value: event.target.value, characters: event.target.value.length });
     }
@@ -64,7 +62,7 @@ const FileUpload = () => {
 
         axios.post(SERVER_URL + 'project/csv_view', formData, AXIOS_OPTION).then(res => {
             if(res.data.success === '1'){
-                setValidationData(res.data)
+                setValidationData(res.data.data)
                 setShowModal(true);
                 document.body.classList.add('fixed');
             } else {
