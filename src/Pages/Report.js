@@ -86,20 +86,17 @@ const Report = () => {
 
     }
 
-    const [setCookie] = useCookies(['rememberText']);
-
+    const [cookies, setCookie] = useCookies(['rememberText']);
     useEffect(()=> {
+        setCookie('report_detail', 'false');
+        fetchData();
+
         const interval = setInterval(() => {
             if (getCookie('report_detail') === 'true') {
                 setCookie('report_detail', 'false');
                 fetchData();
             }
         }, 100);
-        return () => clearInterval(interval);
-    },[])
-
-    useEffect(()=> {
-        fetchData();
     },[currentPageNumber])
 
     const fetchData = async (query, page) => {
