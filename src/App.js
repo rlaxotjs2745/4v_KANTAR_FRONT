@@ -81,6 +81,13 @@ function App(){
         })
       );
 
+      setInterval(function(){
+        ws.current.send(
+          JSON.stringify({
+            message: '{"roomId":"'+ isToken +'"}',
+          })
+        );
+      }, 1500);
       // setSendMsg(true);
     }
   }, [socketConnected, isToken]);

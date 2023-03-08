@@ -4,7 +4,8 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {SERVER_URL} from "../Util/env";
-import {useCookies} from "react-cookie";
+import {removeCookie} from "../Util/cookie";
+// import {useCookies} from "react-cookie";
 
 const FirstLogin = () => {
     const {
@@ -20,10 +21,10 @@ const FirstLogin = () => {
 
     const uId = window.location.pathname.split('/').reverse()[1];
     const fCode = window.location.pathname.split('/').reverse()[0];
-    const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
+    // const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
 
     useEffect(() => {
-        removeCookie("X-AUTH-TOKEN", {path: `/firstlogin/${uId}`, domain: window.location.hostname})
+        removeCookie("X-AUTH-TOKEN")
         axios.get(SERVER_URL + `user/first_login?uid=${uId}&fCode=${fCode}`)
             .then(res => {
                 if(res.data.success === '1'){
