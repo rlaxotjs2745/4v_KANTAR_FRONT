@@ -46,7 +46,6 @@ const Home = () => {
     const [projectList, setProjectList] = useState('')
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
-    const [stopInterval, setStopInterval] = useState(false);
 
     const [filteredList, setFilteredList] = useState([]) // const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]) // console.log(checkedState, '체크 스테이트 확인')
     const checkedIndexes = Object.keys(checkedState).filter(i => checkedState[i]).map(i => parseInt(i, 10)); // console.log(checkedIndexes, '체크된 배열값')
@@ -97,7 +96,7 @@ const Home = () => {
             document.body.appendChild(link);
             link.click();
         }).catch(err => {
-            console.log(err, stopInterval);
+            console.log(err);
         })
 
 
@@ -107,20 +106,13 @@ const Home = () => {
 
     useEffect(()=> {
         const interval = setInterval(() => {
-            const listChk = getCookie('report_detail');
-            if (listChk === 'true') {
+            if (getCookie('report_detail') === 'true') {
                 setCookie('report_detail', 'false');
                 fetchData();
             }
         }, 100);
 
         return () => clearInterval(interval);
-
-        // const intervalId = setInterval(fetchData, 1500);
-        // if(stopInterval){
-        //     clearInterval(intervalId);
-        // }
-        // return () => clearInterval(intervalId);
     },[])
 
     useEffect(()=> {
@@ -146,13 +138,10 @@ const Home = () => {
                     if(res.data.data.list.length>0){
                         setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid);
                     }
-                } else {
-                    setStopInterval(true);
                 }
             })
             .catch(err => {
                 console.log(err);
-                setStopInterval(true);
             });
     };
 

@@ -64,7 +64,6 @@ function App(){
           if(data.link.includes('report_detail')) {
             setCookie('report_detail', 'true');
           }
-
         };
       }
 
