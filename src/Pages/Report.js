@@ -86,24 +86,16 @@ const Report = () => {
 
     }
 
-    const [, setCookie] = useCookies(['rememberText']);
+    const [setCookie] = useCookies(['rememberText']);
 
     useEffect(()=> {
         const interval = setInterval(() => {
-            const listChk = getCookie('report_detail');
-            if (listChk === 'true') {
+            if (getCookie('report_detail') === 'true') {
                 setCookie('report_detail', 'false');
                 fetchData();
             }
         }, 100);
-
         return () => clearInterval(interval);
-
-        // const intervalId = setInterval(fetchData, 1500);
-        // if(stopInterval){
-        //     clearInterval(intervalId);
-        // }
-        // return () => clearInterval(intervalId);
     },[])
 
     useEffect(()=> {
@@ -127,13 +119,10 @@ const Report = () => {
                         }
                     })
                     setUType(res.data.data.uType);
-                } else {
-                    // setStopInterval(true);
                 }
             })
             .catch(err => {
                 console.log(err);
-                // setStopInterval(true);
             });
 
         // axios.post(SERVER_URL + 'report/list_report', {currentPage : currentPageNumber}, AXIOS_OPTION).then(res => {
