@@ -103,18 +103,16 @@ const Home = () => {
 
     }
 
-    const [cookieChk, setCookieChk] = useState(getCookie('list'))
     const [cookies, setCookie] = useCookies(['rememberText']);
-
 
     useEffect(()=> {
         const interval = setInterval(() => {
-            const listChk = getCookie('list');
-            if (cookieChk !== listChk) {
-                setCookieChk(listChk);
+            const listChk = getCookie('report_detail');
+            if (listChk === 'true') {
+                setCookie('report_detail', 'false');
                 fetchData();
             }
-        }, 1000);
+        }, 100);
 
         return () => clearInterval(interval);
 
@@ -123,7 +121,7 @@ const Home = () => {
         //     clearInterval(intervalId);
         // }
         // return () => clearInterval(intervalId);
-    },[cookieChk])
+    },[])
 
     useEffect(()=> {
         fetchData();
@@ -148,7 +146,6 @@ const Home = () => {
                     if(res.data.data.list.length>0){
                         setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid);
                     }
-                    setCookie('list', 'false');
                 } else {
                     setStopInterval(true);
                 }

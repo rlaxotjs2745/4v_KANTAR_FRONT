@@ -61,7 +61,10 @@ function App(){
           const data = JSON.parse(evt.data);
           // console.log(data);
           toastNoticeSuccess(data.msg, data.link)
-          setCookie('list', 'true');
+          if(data.link.includes('report_detail')) {
+            setCookie('report_detail', 'true');
+          }
+
         };
       }
 
