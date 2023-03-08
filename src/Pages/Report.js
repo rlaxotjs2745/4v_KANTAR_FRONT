@@ -5,6 +5,8 @@ import {useCheckbox} from "../Util/useCheckbox";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
+import {getCookie} from "../Util/cookie";
+import {useCookies} from "react-cookie";
 
 const Report = () => {
 
@@ -84,10 +86,29 @@ const Report = () => {
 
     }
 
+    const [cookieChk, setCookieChk] = useState(getCookie('list'))
+    const [, setCookie] = useCookies(['rememberText']);
+
+
+    useEffect(()=> {
+        const interval = setInterval(() => {
+            const listChk = getCookie('list');
+            if (cookieChk !== listChk) {
+                setCookieChk(listChk);
+                fetchData();
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+
+        // const intervalId = setInterval(fetchData, 1500);
+        // if(stopInterval){
+        //     clearInterval(intervalId);
+        // }
+        // return () => clearInterval(intervalId);
+    },[cookieChk])
+
     useEffect(()=> {
         fetchData();
-        const intervalId = setInterval(fetchData, 1500);
-        return () => clearInterval(intervalId);
     },[currentPageNumber])
 
     const fetchData = async (query, page) => {
@@ -107,6 +128,7 @@ const Report = () => {
                         }
                     })
                     setUType(res.data.data.uType);
+                    setCookie('list', 'false');
                 } else {
                     // setStopInterval(true);
                 }

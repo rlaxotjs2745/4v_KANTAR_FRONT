@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useToastAlert} from "./Util/toastAlert";
 import {WS_URL} from "./Util/env";
 import {getCookie} from "./Util/cookie";
+import {useCookies} from "react-cookie";
 if (process.env.NODE_ENV === "production") {
   console.log = function no_console() {};
   console.warn = function no_console() {};
@@ -19,6 +20,7 @@ function App(){
 
   const [socketConnected, setSocketConnected] = useState(false);
   // const [sendMsg, setSendMsg] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
   const [isToken, setIsToken] = useState('');
   const {
     toastNoticeSuccess
@@ -59,6 +61,7 @@ function App(){
           const data = JSON.parse(evt.data);
           // console.log(data);
           toastNoticeSuccess(data.msg, data.link)
+          setCookie('list', 'true');
         };
       }
 

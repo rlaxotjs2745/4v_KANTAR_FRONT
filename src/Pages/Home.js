@@ -8,6 +8,8 @@ import Modal from "../Components/Cards/Modal";
 import axios from "axios";
 import {AXIOS_OPTION, SERVER_URL} from "../Util/env";
 import {useToastAlert} from "../Util/toastAlert";
+import {getCookie} from "../Util/cookie";
+import {useCookies} from "react-cookie";
 
 const Home = () => {
     const [checkBoxListData, setCheckBoxListData] = useState(0)
@@ -101,14 +103,30 @@ const Home = () => {
 
     }
 
+    const [cookieChk, setCookieChk] = useState(getCookie('list'))
+    const [cookies, setCookie] = useCookies(['rememberText']);
+
+
+    useEffect(()=> {
+        const interval = setInterval(() => {
+            const listChk = getCookie('list');
+            if (cookieChk !== listChk) {
+                setCookieChk(listChk);
+                fetchData();
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+
+        // const intervalId = setInterval(fetchData, 1500);
+        // if(stopInterval){
+        //     clearInterval(intervalId);
+        // }
+        // return () => clearInterval(intervalId);
+    },[cookieChk])
 
     useEffect(()=> {
         fetchData();
-        const intervalId = setInterval(fetchData, 1500);
-        if(stopInterval){
-            clearInterval(intervalId);
-        }
-        return () => clearInterval(intervalId);
     },[])
 
     const fetchData = async (query, page) => {
@@ -130,6 +148,7 @@ const Home = () => {
                     if(res.data.data.list.length>0){
                         setCheckBoxListData(res.data.data.list[0].idx_project_job_projectid);
                     }
+                    setCookie('list', 'false');
                 } else {
                     setStopInterval(true);
                 }
