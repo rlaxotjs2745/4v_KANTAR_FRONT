@@ -94,10 +94,10 @@ const Report = () => {
         const interval = setInterval(() => {
             if (getCookie('report_detail') === 'true') {
                 setCookie('report_detail', 'false');
-                fetchData();
+                fetchData(searchQuery, currentPageNumber);
             }
         }, 100);
-    },[currentPageNumber])
+    },[])
 
     const fetchData = async (query, page) => {
         axios.post(SERVER_URL + 'report/list_report', {

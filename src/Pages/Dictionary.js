@@ -14,6 +14,7 @@ const Dictionary = () => {
 
     const [tableData, setTableData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [viewPage, setViewPage] = useState(0);
     const [searchWord, setSearchWord] = useState('');
     const [isSearched, setIsSearched] = useState(false);
     const [idx_user, setIdx_user] = useState(null);
@@ -38,6 +39,8 @@ const Dictionary = () => {
                     if(res.data.data.dictList.length === 0 && currentPage !== 0){
                         setCurrentPage(currentPage - 1);
                         return toastNoticeInfo('마지막 페이지입니다.');
+                    }else{
+                        setViewPage(currentPage);
                     }
                     setTableData(res.data.data.dictList);
                     setIdx_user(res.data.data.idx_user);
@@ -126,12 +129,12 @@ const Dictionary = () => {
                         </thead>
                         <tbody>
                         {
-                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(currentPage+1) * 10 - (9 - idx)} deleteDictionary={modalDictionaryDelete} entity={dt} isOwn={idx_user === dt.idx_user} userType={userType} />)
+                            tableData.map((dt,idx) => <DictionaryEntity key={dt.idx_dictionary} num={(viewPage+1) * 10 - (9 - idx)} deleteDictionary={modalDictionaryDelete} entity={dt} isOwn={idx_user === dt.idx_user} userType={userType} />)
                         }
                         </tbody>
                     </table>
                     <div className="table_pagination">
-                        <span className="page_num">Page {currentPage + 1}</span>
+                        <span className="page_num">Page {viewPage + 1}</span>
                         <button onClick={() => movePage(0)} className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_left.svg'}/></button>
                         <button onClick={() => movePage(1)} className="left"><img alt="" src={process.env.PUBLIC_URL + '/assets/image/ico_pagi_right.svg'}/></button>
                     </div>

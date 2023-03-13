@@ -209,7 +209,7 @@ const ProjectDetail = () => {
                 setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsChapters.includes(item.chapter)))
             }
             toastNoticeWarning('질문이 초기화 됩니다.')
-        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBo화xCount3 > 0 && checkBoxCount5 > 0) {
+        } else if(checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0 && checkBoxCount5 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter) && selectedDictDataR.some(dictWord => (item.answer.includes(dictWord)))))
         } else if (checkBoxCount > 0 && checkBoxCount2 > 0 && checkBoxCount3 > 0) {
             setProjectDetailList(projectDetailListOrigin.filter(item => selectedLabelsPersons.includes(item.person) && selectedLabelsChapters.includes(item.chapter) && selectedLabelsSubchapters.includes(item.subchapter)))
@@ -843,13 +843,25 @@ const ProjectDetail = () => {
     // }, [questions]);
 
     useEffect(()=> {
-        // setCheckAll(persons.every(item => selectedLabelsPersons.includes(item))) 화자 기본 전체선택 체크되게
+        // setCheckAll(persons.every(item => selectedLabelsPersons.includes(item))) // 화자 기본 전체선택 체크되게
+        let checkedBoxCount_total = 0;
         let checkedBoxCount = 0;
         uniquePersons.map(item => {
+            checkedBoxCount_total++;
             if(selectedLabelsPersons.includes(item)){
                 checkedBoxCount++;
             }
         });
+
+        if(checkedBoxCount_total===checkedBoxCount){
+            if(checkedBoxCount > 0){
+                setCheckAll(true)
+            }else{
+                setCheckAll(false)
+            }
+        }else{
+            setCheckAll(false)
+        }
         setCheckBoxCount(checkedBoxCount)
     },[selectedLabelsPersons]) // 체크박스 전체 선택 되어있는지 안되어있는지 ture false 반환해서 setCheckAll State 관리
 
@@ -866,12 +878,24 @@ const ProjectDetail = () => {
 
     useEffect(()=> {
         // setCheckAll2(chapters.every(item => selectedLabelsChapters.includes(item)))
+        let checkedBoxCount_total = 0;
         let checkedBoxCount = 0;
         uniqueChapters.map(item => {
+            checkedBoxCount_total++;
             if(selectedLabelsChapters.includes(item)){
                 checkedBoxCount++;
             }
         });
+
+        if(checkedBoxCount_total===checkedBoxCount){
+            if(checkedBoxCount > 0){
+                setCheckAll2(true)
+            }else{
+                setCheckAll2(false)
+            }
+        }else{
+            setCheckAll2(false)
+        }
         setCheckBoxCount2(checkedBoxCount)
     },[selectedLabelsChapters])
 
@@ -885,12 +909,24 @@ const ProjectDetail = () => {
 
     useEffect(()=> {
         // setCheckAll3(subchapters.every(item => selectedLabelsSubchapters.includes(item)))
+        let checkedBoxCount_total = 0;
         let checkedBoxCount = 0;
         uniqueSubchapters.map(item => {
+            checkedBoxCount_total++;
             if(selectedLabelsSubchapters.includes(item)){
                 checkedBoxCount++;
             }
         });
+
+        if(checkedBoxCount_total===checkedBoxCount){
+            if(checkedBoxCount > 0){
+                setCheckAll3(true)
+            }else{
+                setCheckAll3(false)
+            }
+        }else{
+            setCheckAll3(false)
+        }
         setCheckBoxCount3(checkedBoxCount)
     },[selectedLabelsSubchapters])
 
@@ -904,12 +940,24 @@ const ProjectDetail = () => {
 
     useEffect(()=> {
         // setCheckAll4(questions.every(item => selectedLabelsQuestions.includes(item)))
+        let checkedBoxCount_total = 0;
         let checkedBoxCount = 0;
         uniqueQuestions.map(item => {
+            checkedBoxCount_total++;
             if(selectedLabelsQuestions.includes(item)){
                 checkedBoxCount++;
             }
         });
+
+        if(checkedBoxCount_total===checkedBoxCount){
+            if(checkedBoxCount > 0){
+                setCheckAll4(true)
+            }else{
+                setCheckAll4(false)
+            }
+        }else{
+            setCheckAll4(false)
+        }
         setCheckBoxCount4(checkedBoxCount)
     },[selectedLabelsQuestions])
 

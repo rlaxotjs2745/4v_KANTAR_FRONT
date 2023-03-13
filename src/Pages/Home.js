@@ -110,7 +110,7 @@ const Home = () => {
         const interval = setInterval(() => {
             if (getCookie('report_detail') === 'true') {
                 setCookie('report_detail', 'false');
-                fetchData();
+                fetchData(searchQuery, currentPageNumber);
             }
         }, 100);
     },[])

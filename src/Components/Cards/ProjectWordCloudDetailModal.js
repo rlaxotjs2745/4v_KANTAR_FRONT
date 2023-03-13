@@ -47,9 +47,11 @@ const ProjectWordCloudDetailModal = ({
                                                                 item.filter_type === 5 ? '키워드' : null
                                                 }
                                             </strong>
+                                            <div className="keyword_box">
                                             {item.filterDataArray.map(item => (
                                                 <span className="keyword">{item.filter_data}</span>
                                             ))}
+                                            </div>
                                         </div>
                                     </>
                                 ))
