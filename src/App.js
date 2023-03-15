@@ -17,10 +17,13 @@ if (process.env.NODE_ENV === "production") {
 
 
 function App(){
+  const [cookies, setCookie] = useCookies(['reportDetail']);
+  if(!getCookie('report_detail')){
+    setCookie('report_detail', 'false');
+  }
 
   const [socketConnected, setSocketConnected] = useState(false);
   // const [sendMsg, setSendMsg] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['rememberText']);
   const [isToken, setIsToken] = useState('');
   const {
     toastNoticeSuccess
@@ -59,11 +62,10 @@ function App(){
         };
         ws.current.onmessage = (evt) => {
           const data = JSON.parse(evt.data);
-          // console.log(data);
-          toastNoticeSuccess(data.msg, data.link)
-          if(data.link.includes('report_detail')) {
+          if(data.link.indexOf('report_detail')>-1) {
             setCookie('report_detail', 'true');
           }
+          toastNoticeSuccess(data.msg, data.link)
         };
       }
 
@@ -89,6 +91,9 @@ function App(){
             message: '{"roomId":"'+ isToken +'"}',
           })
         );
+        if(!getCookie('report_detail')){
+          setCookie('report_detail', 'false');
+        }
       }, 1500);
       // setSendMsg(true);
     }

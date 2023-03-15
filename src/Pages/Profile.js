@@ -78,7 +78,7 @@ const Profile = () => {
         user_phone: yup
             .string()
             .matches(
-                /^\d{3}\d{3,4}\d{4}$/,
+                /^\d{3}\d{4}\d{4}$/,
                 {excludeEmptyString:true, message:'형식에 맞게 입력해주세요. 예) 01012345678'}
             )
             .nullable(),

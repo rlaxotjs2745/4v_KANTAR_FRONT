@@ -19,7 +19,7 @@ const ProjectPersonFilterModal = ({
                         <div className="modal_title_box baseline">
                             <div className="title_box">
                                 <h3 className="tit">화자 필터</h3>
-                                <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
+                                <p className="info">선택한 화자는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
                             </div>
                             <button onClick={handleModalFilterClose1}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
                         </div>

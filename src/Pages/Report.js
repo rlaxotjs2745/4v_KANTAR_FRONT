@@ -26,6 +26,7 @@ const Report = () => {
         handleResetCheck,
     } = useCheckbox(checkBoxListData + 1);
 
+    const [listRefresh, setListRefresh] = useState(false);
     const [reportList, setReportList] = useState('')
     const [currentLastPage, setCurrentLastPage] = useState(1)
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
@@ -86,18 +87,24 @@ const Report = () => {
 
     }
 
-    const [cookies, setCookie] = useCookies(['rememberText']);
+    const [cookies, setCookie] = useCookies(['reportDetail']);
     useEffect(()=> {
         setCookie('report_detail', 'false');
         fetchData();
 
         const interval = setInterval(() => {
-            if (getCookie('report_detail') === 'true') {
-                setCookie('report_detail', 'false');
-                fetchData(searchQuery, currentPageNumber);
+            if (getCookie('report_detail') === 'true' && !listRefresh) {
+                setListRefresh(true);
             }
-        }, 100);
+        }, 250);
     },[])
+
+    useEffect(()=> {
+        if(listRefresh){
+            setListRefresh(false);
+            fetchData(searchQuery, currentPageNumber);
+        }
+    },[listRefresh])
 
     const fetchData = async (query, page) => {
         axios.post(SERVER_URL + 'report/list_report', {
@@ -117,6 +124,7 @@ const Report = () => {
                     })
                     setUType(res.data.data.uType);
                 }
+                setCookie('report_detail', 'false');
             })
             .catch(err => {
                 console.log(err);

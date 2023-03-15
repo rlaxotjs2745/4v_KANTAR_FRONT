@@ -134,14 +134,14 @@ const ProjectKeywordFilterModal = ({
                         <div className="modal_title_box baseline">
                             <div className="title_box">
                                 <h3 className="tit">키워드 필터</h3>
-                                <p className="info">선택한 챕터는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
+                                <p className="info">선택한 키워드는 리포트 생성시 요약문 및 키워드 추출에 반영됩니다,</p>
                             </div>
                             <button onClick={handleModalFilterClose5}><img src={process.env.PUBLIC_URL + '/assets/image/ico_btn_delete_black.svg'} alt=""/></button>
                         </div>
                         <div className="keyword_filter_area">
                             <div className="keyword_filter_box">
                                 <strong className="tit">사용할 사전 선택</strong>
-                                <p className="info">선택한 사전의 대표 키워드들로 묶인 상태로 키워드가 포함/제외 필터에 노출됩니다.</p>
+                                <p className="info">선택한 사전의 대표 키워드가 하단의 적용할 키워드 선택에 노출됩니다.</p>
                                 <div className="keyword_check_box type2">
                                     <div className="all_chk_box">
                                         <label><input id="dict" type="checkbox" onChange={checkAllDict} checked={dictAll}/>전체선택</label>
