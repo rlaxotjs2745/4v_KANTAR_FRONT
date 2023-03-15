@@ -64,7 +64,7 @@ const ProjectCreateWordCloudModal = ({
                                             <td>{item.filter_title}</td>
                                             <td>
                                                 <div className="word_filter_list_area">
-                                                    {item.filterDataList.map(item=>(
+                                                    {item.filterDataList && item.filterDataList.length > 0 && item.filterDataList.map(item=>(
                                                       <>
                                                           <div className="word_filter_list_box">
                                                               <div className="hover_count">
