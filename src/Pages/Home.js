@@ -327,7 +327,7 @@ const Home = () => {
                                         </td>
                                         <td>{item.job_no}</td>
                                         <td>{item.project_id}</td>
-                                        <td>{item.filename.length > 15 ? item.filename.substring(0, 7) + "..." + item.filename.substring(item.filename.length - 5) : item.filename}</td>
+                                        <td className="textOverflow">{item.filename}</td>
                                         <td>{item.user_name}</td>
                                         <td>{item.create_dt}</td>
                                         <td>{item.project_type_str}</td>

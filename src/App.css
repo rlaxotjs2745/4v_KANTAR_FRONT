@@ -6,6 +6,7 @@ body {height:100%;background:transparent;-webkit-font-smoothing:antialiased; -we
 #root:after {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); right:0; top:0;}
 .word_cloud_detail:before {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); left:0; top:0;}
 .word_cloud_detail:after {content:''; position: absolute; z-index: -1; display: block; width: 16px; height:100%; background: rgba(0,0,0,0.1); right:0; top:0;}
+.textOverflow{text-overflow: ellipsis;white-space : nowrap;overflow : hidden; width: 210px; max-width: 210px;}
 
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {margin:0; padding:0; letter-spacing: 0.16px}
 body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family:'IBM Plex Sans', 'sans-serif'; }
