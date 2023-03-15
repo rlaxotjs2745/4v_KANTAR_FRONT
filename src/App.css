@@ -417,7 +417,7 @@ legend {position:absolute;top:0;left:-1000000000px;height:0;font-size:0;}
 .keyword_check_box label {font-size:14px; color:#161616; margin-left:8px;}
 
 
-.word_cloud_detail {position: fixed; top:0; left:0; width:100%; height:100%; background: #fff; z-index: 9999;}
+.word_cloud_detail {position: fixed; top:0; left:0; width:100%; height:100vh; overflow: scroll; background: #fff; z-index: 9999;}
 .word_cloud_detail_content {max-width: 1000px; margin:80px auto 0;}
 
 .word_cloud_detail_content.report_detail_area > * > * + * {margin-top: 0;}
