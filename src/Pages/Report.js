@@ -242,7 +242,11 @@ const Report = () => {
                                         <td>{item.report_id}</td>
                                         <td>{item.title}</td>
                                         <td>{item.create_dt}</td>
-                                        <td><Link to={`/report_detail/${item.idx_report}`}>상세보기</Link> </td>
+                                        <td>{item.status_str === '생성중' ?
+                                                <span class="no_email">상세보기</span>
+                                                :
+                                                <Link to={`/report_detail/${item.idx_report}`}>상세보기</Link>
+                                            }</td>
                                         <td>
                                             {item.status_str === '생성중' ?
                                                 <button className="co1 no_cursor">

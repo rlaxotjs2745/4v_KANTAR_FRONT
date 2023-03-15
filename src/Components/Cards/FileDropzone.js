@@ -43,7 +43,7 @@ class FileDropzone extends React.Component {
             toastNoticeError('파일 크기는 최대 5mb를 넘을 수 없습니다.')
             this.setState({ isDragging: false });
         } else {
-            toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.')
+            toastNoticeError('.csv (UTF-8 형식) 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.')
             this.setState({ isDragging: false });
         }
     }
@@ -64,7 +64,7 @@ class FileDropzone extends React.Component {
             toastNoticeError('파일 크기는 최대 5mb를 넘을 수 없습니다.')
             this.setState({ isDragging: false });
         } else {
-            toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.')
+            toastNoticeError('.csv (UTF-8 형식) 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.')
             this.setState({ isDragging: false });
         }
     }

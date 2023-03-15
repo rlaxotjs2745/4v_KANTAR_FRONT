@@ -34,7 +34,7 @@ const DictionaryCreate = () => {
         }
 
         if(file.type !== 'text/csv'){
-            return toastNoticeError('.csv 파일만 업로드 가능합니다. 확인 후 다시 시도해주세요.')
+            return toastNoticeError('.csv (UTF-8 형식) 파일만 업로드 가능합니다. 확인 후 다시 시도해주세요.')
         }
 
         formData.append('file', file);
@@ -83,7 +83,7 @@ const DictionaryCreate = () => {
                             <div className="title_box">
                                 <h2 className="title_b">사전 파일 올리기</h2>
                                 <h3 className="title">내 PC에서 첨부하거나 파일을 드래그하여 넣어주세요.</h3>
-                                <p className="info">.csv 파일만 업로드 가능합니다. 용량은 최대 500kb까지 가능합니다.</p>
+                                <p className="info">.csv (UTF-8 형식) 파일만 업로드 가능합니다. 용량은 최대 500kb까지 가능합니다.</p>
                             </div>
                             <div className="btn_box">
                                 <a onClick={handleDownload} download className="cds--btn download2">샘플파일 다운로드</a>
@@ -99,7 +99,7 @@ const DictionaryCreate = () => {
                         </div>
                         <div className="title_section">
                             <div className="title_box">
-                                <h3 className="title">샘플파일(.csv) 이용 예시</h3>
+                                <h3 className="title">샘플파일(.csv UTF-8 형식) 이용 예시</h3>
                                 <p className="info">첫번째 행은 항목 코드가 입력됩니다. 각 항목에 대한 내용을 해당 열에 입력해주세요.</p>
                                 <img className="sample" src={process.env.PUBLIC_URL + '/assets/image/img_csv_sample.svg'} alt=""/>
                             </div>

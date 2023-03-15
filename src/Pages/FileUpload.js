@@ -54,7 +54,7 @@ const FileUpload = () => {
     // 프로젝트 병합
     const checkValidation = () => {
         if (file === null) {
-            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.'))
+            return (toastNoticeError('.csv (UTF-8 형식) 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.'))
         }
         let formData = new FormData();
 
@@ -86,7 +86,7 @@ const FileUpload = () => {
         let form = document.querySelector('#fileUploadForm');
 
         if (file === null) {
-            return (toastNoticeError('.csv 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.'))
+            return (toastNoticeError('.csv (UTF-8 형식) 포맷 파일이 맞는지 확인 후 다시 업로드를 시도해주세요.'))
         }
 
         if (form.job_no.value === '') {
@@ -157,7 +157,7 @@ const FileUpload = () => {
                         <div className="title_section">
                             <div className="title_box">
                                 <h3 className="title">내 PC에서 첨부하거나 파일을 드래그하여 넣어주세요.</h3>
-                                <p className="info">.csv 파일만 업로드 가능합니다. 용량은 최대 500kb까지 가능합니다.</p>
+                                <p className="info">.csv (UTF-8 형식) 파일만 업로드 가능합니다. 용량은 최대 500kb까지 가능합니다.</p>
                             </div>
                             <div className="btn_box">
                                 <button onClick={checkValidation} type="button" className="cds--btn cds--btn--tertiary">chapter validation</button>

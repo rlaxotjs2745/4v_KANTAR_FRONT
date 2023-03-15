@@ -39,7 +39,7 @@ const MemberUpdate = () => {
     }
 
     const submitModifyInfo = () => {
-        if(!modUserData.user_phone.match(/^\d+$/)){
+        if(modUserData.user_phone !=='' && !modUserData.user_phone.match(/^\d+$/)){
             return toastNoticeError('유효하지 않은 전화번호입니다.');
         }
 
@@ -90,7 +90,7 @@ const MemberUpdate = () => {
                         </div>
                         <div className="input_box">
                             <label htmlFor="user_tel">전화번호</label>
-                            <input onChange={(e) => infoChange(e)} id="user_phone" type="tel" maxLength="11" defaultValue={userData.user_phone} />
+                            <input onChange={(e) => infoChange(e)} onInput={(e) => infoChange(e)} id="user_phone" type="tel" maxLength="11" defaultValue={userData.user_phone} />
                         </div>
                     </div>
                     <div className="btn_box">
